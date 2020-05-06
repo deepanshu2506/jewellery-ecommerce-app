@@ -35,6 +35,7 @@ export default class ItemCard extends React.Component {
           onPress={this.toggleWishList}
           color={this.state.wishListed ? Colors.red500 : Colors.black}
         />
+        <Text style={styles.itemDescription}>Long hanging earring</Text>
       </Surface>
     );
   }
@@ -95,5 +96,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "green",
     paddingLeft: 10,
+  },
+  itemDescription: {
+    marginTop: 10,
+    alignSelf: "flex-start",
+    fontSize: 17,
+    color: "#555",
   },
 });

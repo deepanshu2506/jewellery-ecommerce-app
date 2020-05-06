@@ -12,13 +12,17 @@ import { Constants } from "expo";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { Surface } from "react-native-paper";
 
+import { useNavigation } from "@react-navigation/native";
+
 import ItemCard from "../Components/itemCard";
 
 class HomeScreen extends React.Component {
   render() {
+    const params = this.props.route.params || {};
     return (
       <View style={styles.container}>
         <ScrollView>
+          {/* <Text>{params.search || " "}</Text> */}
           <View style={styles.cardContainer}>
             <ItemCard />
             <ItemCard />
@@ -68,7 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: "100%",
     flex: 1,
-    marginTop: 30,
+    // marginTop: 30,
   },
   cardContainer: {
     // paddingHorizontal: 10,

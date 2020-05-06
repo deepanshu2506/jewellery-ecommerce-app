@@ -23,7 +23,7 @@ const CustomDrawerComponent = (props) => {
           <DrawerItem
             label="Rings"
             onPress={() => {
-              navigation.navigate("Home");
+              navigation.push("Home", { search: "rings" });
             }}
             style={styles.navItem}
             labelStyle={styles.navText}
@@ -31,7 +31,7 @@ const CustomDrawerComponent = (props) => {
           <DrawerItem
             label="Pendants"
             onPress={() => {
-              navigation.navigate("Home");
+              navigation.push("Home", { search: "Pendants" });
             }}
             style={styles.navItem}
             labelStyle={styles.navText}
@@ -39,7 +39,7 @@ const CustomDrawerComponent = (props) => {
           <DrawerItem
             label="Bracelets"
             onPress={() => {
-              navigation.navigate("Home");
+              navigation.push("Home", { search: "Bracelets" });
             }}
             style={styles.navItem}
             labelStyle={styles.navText}
@@ -47,7 +47,7 @@ const CustomDrawerComponent = (props) => {
           <DrawerItem
             label="jewellery"
             onPress={() => {
-              navigation.navigate("Home");
+              navigation.push("Home", { search: "jewellery" });
             }}
             style={styles.navItem}
             labelStyle={styles.navText}
