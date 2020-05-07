@@ -6,7 +6,7 @@ import {
   DrawerItem,
 } from "@react-navigation/drawer";
 
-import { Drawer } from "react-native-paper";
+import { Drawer, IconButton, Avatar } from "react-native-paper";
 
 import { View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
@@ -17,14 +17,42 @@ const CustomDrawerComponent = (props) => {
     <DrawerContentScrollView {...props}>
       <View style={styles.drawerContent}>
         <View
-          style={{ height: 100, backgroundColor: "black", marginBottom: 20 }}
-        ></View>
+          style={{
+            height: 120,
+            backgroundColor: "#ffa600",
+            marginBottom: 10,
+            paddingHorizontal: 0,
+          }}
+        >
+          <IconButton
+            style={{}}
+            icon="keyboard-backspace"
+            onPress={navigation.closeDrawer}
+          />
+          <View
+            style={{
+              justifyContent: "flex-end",
+              flex: 1,
+              paddingBottom: 10,
+              paddingLeft: 10,
+            }}
+          >
+            <Avatar.Text
+              label="DV"
+              style={{ backgroundColor: "black" }}
+              size={40}
+            />
+          </View>
+        </View>
         <Drawer.Section style={styles.drawerSection}>
           <DrawerItem
             label="Rings"
             onPress={() => {
               navigation.push("Home", { search: "rings" });
             }}
+            icon={({ color, size }) => (
+              <MaterialCommunityIcons name="ring" color={color} size={size} />
+            )}
             style={styles.navItem}
             labelStyle={styles.navText}
           />
@@ -33,6 +61,9 @@ const CustomDrawerComponent = (props) => {
             onPress={() => {
               navigation.push("Home", { search: "Pendants" });
             }}
+            icon={({ color, size }) => (
+              <MaterialCommunityIcons name="ring" color={color} size={size} />
+            )}
             style={styles.navItem}
             labelStyle={styles.navText}
           />
@@ -41,6 +72,9 @@ const CustomDrawerComponent = (props) => {
             onPress={() => {
               navigation.push("Home", { search: "Bracelets" });
             }}
+            icon={({ color, size }) => (
+              <MaterialCommunityIcons name="ring" color={color} size={size} />
+            )}
             style={styles.navItem}
             labelStyle={styles.navText}
           />
@@ -49,6 +83,57 @@ const CustomDrawerComponent = (props) => {
             onPress={() => {
               navigation.push("Home", { search: "jewellery" });
             }}
+            icon={({ color, size }) => (
+              <MaterialCommunityIcons name="ring" color={color} size={size} />
+            )}
+            style={styles.navItem}
+            labelStyle={styles.navText}
+          />
+        </Drawer.Section>
+
+        <Drawer.Section style={styles.drawerSection}>
+          <DrawerItem
+            label="Custom Jewellery"
+            onPress={() => {
+              navigation.push("Home", { search: "rings" });
+            }}
+            icon={({ color, size }) => (
+              <MaterialCommunityIcons
+                name="image-filter-center-focus"
+                color={color}
+                size={size}
+              />
+            )}
+            style={styles.navItem}
+            labelStyle={styles.navText}
+          />
+          <DrawerItem
+            label="My orders"
+            onPress={() => {
+              navigation.push("Home", { search: "Pendants" });
+            }}
+            icon={({ color, size }) => (
+              <MaterialCommunityIcons
+                name="package-variant-closed"
+                color={color}
+                size={size}
+              />
+            )}
+            style={styles.navItem}
+            labelStyle={styles.navText}
+          />
+          <DrawerItem
+            label="Contact Us"
+            onPress={() => {
+              navigation.push("Home", { search: "Bracelets" });
+            }}
+            icon={({ color, size }) => (
+              <MaterialCommunityIcons
+                name="email-outline"
+                color={color}
+                size={size}
+              />
+            )}
             style={styles.navItem}
             labelStyle={styles.navText}
           />
@@ -74,7 +159,7 @@ const styles = StyleSheet.create({
     lineHeight: 14,
   },
   navItem: {
-    paddingLeft: 20,
+    // paddingLeft: 20,
   },
   navText: { fontSize: 17 },
   row: {
@@ -92,7 +177,7 @@ const styles = StyleSheet.create({
     marginRight: 3,
   },
   drawerSection: {
-    marginTop: 15,
+    marginTop: 5,
   },
   preference: {
     flexDirection: "row",

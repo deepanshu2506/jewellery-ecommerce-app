@@ -8,14 +8,20 @@ const Header = ({ scene, previous, navigation }) => {
     <Appbar.Header style={{ backgroundColor: "#ffa600" }}>
       <TouchableOpacity
         onPress={() => {
-          console.log(navigation);
           navigation.openDrawer();
         }}
       >
         <MaterialCommunityIcons name="menu" size={30} />
       </TouchableOpacity>
       <Appbar.Content title="Jewellery Store" />
-      <Appbar.Action icon="magnify" style={{ marginRight: 20 }} />
+      <Appbar.Action icon="magnify" />
+      <Appbar.Action
+        icon="cart-outline"
+        style={{ marginRight: 10 }}
+        onPress={() => {
+          console.log("cart");
+        }}
+      />
     </Appbar.Header>
   );
 };
