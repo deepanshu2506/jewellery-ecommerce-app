@@ -16,7 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import ItemCard from "../Components/itemCard";
 
-class HomeScreen extends React.Component {
+class searchResultsScreen extends React.Component {
   render() {
     const params = this.props.route.params || {};
     return (
@@ -24,22 +24,22 @@ class HomeScreen extends React.Component {
         <ScrollView>
           {/* <Text>{params.search || " "}</Text> */}
           <View style={styles.cardContainer}>
-            <ItemCard />
-            <ItemCard />
-            <ItemCard />
-            <ItemCard />
-            <ItemCard />
-            <ItemCard />
-            <ItemCard />
-            <ItemCard />
-            <ItemCard />
-            <ItemCard />
-            <ItemCard />
-            <ItemCard />
-            <ItemCard />
-            <ItemCard />
-            <ItemCard />
-            <ItemCard />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
+            <ItemCard navigation={this.props.navigation} />
           </View>
         </ScrollView>
         <Surface style={styles.filterBar}>
@@ -104,4 +104,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default searchResultsScreen;

@@ -2,15 +2,17 @@ import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Button } from "react-native";
 
-import HomeScreen from "../screens/Home";
+import SearchScreen from "../screens/SearchResults";
+import itemDetailsScreen from "../screens/ItemDetails";
 import CustomAppBar from "./CustomSearchAppBar";
+import ItemDetailsScreen from "../screens/ItemDetails";
 
 const Stack = createStackNavigator();
 
-function MainStackNavigator() {
+function searchStackNavigator() {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="search"
       screenOptions={{
         header: ({ scene, previous, navigation }) => (
           <CustomAppBar
@@ -21,9 +23,10 @@ function MainStackNavigator() {
         ),
       }}
     >
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="search" component={SearchScreen} />
+      <Stack.Screen name="itemDetails" component={ItemDetailsScreen} />
     </Stack.Navigator>
   );
 }
 
-export default MainStackNavigator;
+export default searchStackNavigator;

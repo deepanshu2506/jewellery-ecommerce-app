@@ -48,7 +48,8 @@ const CustomDrawerComponent = (props) => {
           <DrawerItem
             label="Rings"
             onPress={() => {
-              navigation.push("Home", { search: "rings" });
+              navigation.push("search", { search: "rings" });
+              navigation.closeDrawer();
             }}
             icon={({ color, size }) => (
               <MaterialCommunityIcons name="ring" color={color} size={size} />
@@ -59,7 +60,8 @@ const CustomDrawerComponent = (props) => {
           <DrawerItem
             label="Pendants"
             onPress={() => {
-              navigation.push("Home", { search: "Pendants" });
+              navigation.push("search", { search: "Pendants" });
+              navigation.closeDrawer();
             }}
             icon={({ color, size }) => (
               <MaterialCommunityIcons name="ring" color={color} size={size} />
@@ -70,7 +72,7 @@ const CustomDrawerComponent = (props) => {
           <DrawerItem
             label="Bracelets"
             onPress={() => {
-              navigation.push("Home", { search: "Bracelets" });
+              navigation.push("search", { search: "Bracelets" });
             }}
             icon={({ color, size }) => (
               <MaterialCommunityIcons name="ring" color={color} size={size} />
@@ -81,7 +83,8 @@ const CustomDrawerComponent = (props) => {
           <DrawerItem
             label="jewellery"
             onPress={() => {
-              navigation.push("Home", { search: "jewellery" });
+              navigation.push("search", { search: "jewellery" });
+              navigation.closeDrawer();
             }}
             icon={({ color, size }) => (
               <MaterialCommunityIcons name="ring" color={color} size={size} />
@@ -95,7 +98,8 @@ const CustomDrawerComponent = (props) => {
           <DrawerItem
             label="Custom Jewellery"
             onPress={() => {
-              navigation.push("Home", { search: "rings" });
+              navigation.push("search", { search: "rings" });
+              navigation.closeDrawer();
             }}
             icon={({ color, size }) => (
               <MaterialCommunityIcons
@@ -110,7 +114,8 @@ const CustomDrawerComponent = (props) => {
           <DrawerItem
             label="My orders"
             onPress={() => {
-              navigation.push("Home", { search: "Pendants" });
+              navigation.push("search", { search: "Pendants" });
+              navigation.closeDrawer();
             }}
             icon={({ color, size }) => (
               <MaterialCommunityIcons
@@ -125,7 +130,8 @@ const CustomDrawerComponent = (props) => {
           <DrawerItem
             label="Contact Us"
             onPress={() => {
-              navigation.push("Home", { search: "Bracelets" });
+              navigation.push("search", { search: "Bracelets" });
+              navigation.closeDrawer();
             }}
             icon={({ color, size }) => (
               <MaterialCommunityIcons
