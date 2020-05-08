@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Button } from "react-native";
+import { Button, View } from "react-native";
 
 import SearchScreen from "../screens/SearchResults";
 import itemDetailsScreen from "../screens/ItemDetails";

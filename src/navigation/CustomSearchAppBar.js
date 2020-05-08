@@ -14,7 +14,12 @@ const Header = ({ scene, previous, navigation }) => {
         <MaterialCommunityIcons name="menu" size={30} />
       </TouchableOpacity>
       <Appbar.Content title="Jewellery Store" />
-      <Appbar.Action icon="magnify" />
+      <Appbar.Action
+        icon="magnify"
+        onPress={() => {
+          navigation.navigate("searchbar-screen");
+        }}
+      />
       <Appbar.Action
         icon="cart-outline"
         style={{ marginRight: 10 }}

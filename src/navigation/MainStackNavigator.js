@@ -4,6 +4,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import Drawer from "./DrawerNavigator";
 import Login from "./LoginNavigator";
+import SearchBarScreen from "../screens/searchBarScreen";
+
 const Stack = createStackNavigator();
 
 function MainStackNavigator() {
@@ -20,6 +22,7 @@ function MainStackNavigator() {
       >
         <Stack.Screen name="Drawer" component={Drawer} />
         <Stack.Screen name="login" component={Login} />
+        <Stack.Screen name="searchbar-screen" component={SearchBarScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
