@@ -190,9 +190,7 @@ export default class ItemDetailsScreen extends React.Component {
             </View>
             <View style={styles.card}>
               <DataTable theme={{ justifyContent: "center" }}>
-                <DataTable.Header
-                  style={{ borderWidth: 1, justifyContent: "center" }}
-                >
+                <DataTable.Header style={{ justifyContent: "center" }}>
                   <DataTable.Title style={styles.tableHeaders}>
                     COMPONENT
                   </DataTable.Title>

@@ -7,10 +7,10 @@ import {
   TouchableNativeFeedback,
 } from "react-native";
 import Constants from "expo-constants";
-import { Surface } from "react-native-paper";
+import { Surface, TextInput } from "react-native-paper";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 
-import VectorArt from "../res/loginIntroArt.png";
+import VectorArt from "../res/signupArt.png";
 import GoogleLogo from "../res/googleLogo.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -25,42 +25,35 @@ export default class LoginIntroScreen extends React.Component {
           />
         </View>
         <View>
+          <TextInput
+            mode="flat"
+            label="Name"
+            underlineColor="#3f3d56"
+            style={{ backgroundColor: "white", marginHorizontal: 20 }}
+          />
+          <TextInput
+            mode="flat"
+            keyboardType="numeric"
+            label="Mobile Number"
+            underlineColor="#3f3d56"
+            style={{ backgroundColor: "white", marginHorizontal: 20 }}
+          />
+          <TextInput
+            mode="flat"
+            label="password"
+            secureTextEntry
+            underlineColor="#3f3d56"
+            style={{ backgroundColor: "white", marginHorizontal: 20 }}
+          />
+        </View>
+        <View style={{ alignItems: "center" }}>
           <TouchableNativeFeedback
             background={TouchableNativeFeedback.Ripple("#ffffff")}
-            onPress={() => {
-              this.props.navigation.navigate("login-screen");
-            }}
           >
             <Surface style={styles.loginButton}>
-              <Text style={styles.loginButtonText}>Login To Your Account</Text>
+              <Text style={styles.loginButtonText}>Sign Up</Text>
             </Surface>
           </TouchableNativeFeedback>
-          <TouchableNativeFeedback>
-            <Surface style={[styles.loginButton, styles.googleLoginButton]}>
-              <Image source={GoogleLogo} style={{ height: 22, width: 22 }} />
-              <Text
-                style={[styles.loginButtonText, styles.googleLoginButtonText]}
-              >
-                Connect With Google
-              </Text>
-            </Surface>
-          </TouchableNativeFeedback>
-          <TouchableOpacity
-            style={{ alignItems: "center" }}
-            onPress={() => {
-              this.props.navigation.navigate("signup-screen");
-            }}
-          >
-            <Text
-              style={{
-                marginTop: 20,
-                textDecorationLine: "underline",
-                fontSize: 16,
-              }}
-            >
-              Sign up here
-            </Text>
-          </TouchableOpacity>
         </View>
       </View>
     );
@@ -72,13 +65,13 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Constants.statusBarHeight,
     backgroundColor: "white",
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "space-around",
   },
   imgContainer: {
-    width: "100%",
-    height: 400,
-    // marginBottom: 130,
+    width: "75%",
+    height: 190,
+    alignSelf: "center",
   },
   loginButton: {
     // borderWidth: 1,
@@ -88,6 +81,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: "#3f3d56",
     borderRadius: 2,
+    marginBottom: 50,
   },
   loginButtonText: {
     color: "white",
@@ -95,10 +89,4 @@ const styles = StyleSheet.create({
     letterSpacing: 1.1,
     fontSize: 15,
   },
-  googleLoginButton: {
-    backgroundColor: "white",
-    justifyContent: "center",
-    flexDirection: "row",
-  },
-  googleLoginButtonText: { color: "#333", marginLeft: 10 },
 });
