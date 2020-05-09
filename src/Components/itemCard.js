@@ -4,6 +4,9 @@ import { IconButton, Colors, Surface } from "react-native-paper";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import img1 from "../res/earring1.jpg";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
+
+import { primaryColor, secondaryColor } from "../appStyles";
+
 const screenWidth = Dimensions.get("window").width;
 export default class ItemCard extends React.Component {
   state = { wishListed: false };
@@ -102,7 +105,7 @@ const styles = StyleSheet.create({
     width: 90,
     height: 25,
     justifyContent: "center",
-    backgroundColor: "green",
+    backgroundColor: secondaryColor,
     paddingLeft: 10,
   },
   itemDescription: {

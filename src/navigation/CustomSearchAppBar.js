@@ -5,13 +5,13 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 
 const Header = ({ scene, previous, navigation }) => {
   return (
-    <Appbar.Header style={{ backgroundColor: "#ffa600" }}>
+    <Appbar.Header style={{ backgroundColor: "#3f3d56" }}>
       <TouchableOpacity
         onPress={() => {
           navigation.openDrawer();
         }}
       >
-        <MaterialCommunityIcons name="menu" size={30} />
+        <MaterialCommunityIcons name="menu" size={30} color="white" />
       </TouchableOpacity>
       <Appbar.Content title="Jewellery Store" />
       <Appbar.Action

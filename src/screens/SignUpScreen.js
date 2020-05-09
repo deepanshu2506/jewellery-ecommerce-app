@@ -10,6 +10,8 @@ import Constants from "expo-constants";
 import { Surface, TextInput } from "react-native-paper";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 
+import { primaryColor, secondaryColor } from "../appStyles";
+
 import VectorArt from "../res/signupArt.png";
 import GoogleLogo from "../res/googleLogo.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     marginTop: 20,
     elevation: 3,
-    backgroundColor: "#3f3d56",
+    backgroundColor: secondaryColor,
     borderRadius: 2,
     marginBottom: 50,
   },

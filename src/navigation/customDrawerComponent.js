@@ -11,6 +11,8 @@ import { Drawer, IconButton, Avatar } from "react-native-paper";
 import { View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 
+import { primaryColor, secondaryColor } from "../appStyles";
+
 const CustomDrawerComponent = (props) => {
   const { navigation } = props;
   return (
@@ -19,7 +21,7 @@ const CustomDrawerComponent = (props) => {
         <View
           style={{
             height: 120,
-            backgroundColor: "#ffa600",
+            backgroundColor: primaryColor,
             marginBottom: 10,
             paddingHorizontal: 0,
           }}
@@ -27,6 +29,7 @@ const CustomDrawerComponent = (props) => {
           <IconButton
             style={{}}
             icon="keyboard-backspace"
+            color="white"
             onPress={navigation.closeDrawer}
           />
           <View
@@ -39,8 +42,9 @@ const CustomDrawerComponent = (props) => {
           >
             <Avatar.Text
               label="DV"
-              style={{ backgroundColor: "black" }}
+              style={{ backgroundColor: secondaryColor }}
               size={40}
+              color="white"
             />
           </View>
         </View>
@@ -52,10 +56,15 @@ const CustomDrawerComponent = (props) => {
               navigation.closeDrawer();
             }}
             icon={({ color, size }) => (
-              <MaterialCommunityIcons name="ring" color={color} size={size} />
+              <MaterialCommunityIcons
+                name="ring"
+                color={secondaryColor}
+                size={size}
+              />
             )}
             style={styles.navItem}
             labelStyle={styles.navText}
+            activeTintColor={secondaryColor}
           />
           <DrawerItem
             label="Pendants"
@@ -64,7 +73,12 @@ const CustomDrawerComponent = (props) => {
               navigation.closeDrawer();
             }}
             icon={({ color, size }) => (
-              <MaterialCommunityIcons name="ring" color={color} size={size} />
+              <MaterialCommunityIcons
+                name="ring"
+                color={secondaryColor}
+                size={size}
+                activeTintColor={secondaryColor}
+              />
             )}
             style={styles.navItem}
             labelStyle={styles.navText}
@@ -75,7 +89,12 @@ const CustomDrawerComponent = (props) => {
               navigation.push("search", { search: "Bracelets" });
             }}
             icon={({ color, size }) => (
-              <MaterialCommunityIcons name="ring" color={color} size={size} />
+              <MaterialCommunityIcons
+                name="ring"
+                color={secondaryColor}
+                size={size}
+                activeTintColor={secondaryColor}
+              />
             )}
             style={styles.navItem}
             labelStyle={styles.navText}
@@ -87,7 +106,12 @@ const CustomDrawerComponent = (props) => {
               navigation.closeDrawer();
             }}
             icon={({ color, size }) => (
-              <MaterialCommunityIcons name="ring" color={color} size={size} />
+              <MaterialCommunityIcons
+                name="ring"
+                color={secondaryColor}
+                size={size}
+                activeTintColor={secondaryColor}
+              />
             )}
             style={styles.navItem}
             labelStyle={styles.navText}
@@ -104,12 +128,13 @@ const CustomDrawerComponent = (props) => {
             icon={({ color, size }) => (
               <MaterialCommunityIcons
                 name="image-filter-center-focus"
-                color={color}
+                color={secondaryColor}
                 size={size}
               />
             )}
             style={styles.navItem}
             labelStyle={styles.navText}
+            activeTintColor={secondaryColor}
           />
           <DrawerItem
             label="My orders"
@@ -120,12 +145,13 @@ const CustomDrawerComponent = (props) => {
             icon={({ color, size }) => (
               <MaterialCommunityIcons
                 name="package-variant-closed"
-                color={color}
+                color={secondaryColor}
                 size={size}
               />
             )}
             style={styles.navItem}
             labelStyle={styles.navText}
+            activeTintColor={secondaryColor}
           />
           <DrawerItem
             label="Contact Us"
@@ -136,12 +162,13 @@ const CustomDrawerComponent = (props) => {
             icon={({ color, size }) => (
               <MaterialCommunityIcons
                 name="email-outline"
-                color={color}
+                color={secondaryColor}
                 size={size}
               />
             )}
             style={styles.navItem}
             labelStyle={styles.navText}
+            activeTintColor={secondaryColor}
           />
         </Drawer.Section>
       </View>

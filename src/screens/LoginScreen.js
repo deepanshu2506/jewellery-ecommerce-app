@@ -14,6 +14,8 @@ import VectorArt from "../res/loginVector.png";
 import GoogleLogo from "../res/googleLogo.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
+import { primaryColor, secondaryColor } from "../appStyles";
+
 export default class LoginIntroScreen extends React.Component {
   render() {
     return (
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     marginTop: 20,
     elevation: 3,
-    backgroundColor: "#3f3d56",
+    backgroundColor: secondaryColor,
     borderRadius: 2,
   },
   loginButtonText: {

@@ -9,10 +9,12 @@ import {
 import Constants from "expo-constants";
 import { Surface } from "react-native-paper";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
+
+import { primaryColor, secondaryColor } from "../appStyles";
 
 import VectorArt from "../res/loginIntroArt.png";
 import GoogleLogo from "../res/googleLogo.png";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class LoginIntroScreen extends React.Component {
   render() {
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     marginTop: 20,
     elevation: 3,
-    backgroundColor: "#3f3d56",
+    backgroundColor: secondaryColor,
     borderRadius: 2,
   },
   loginButtonText: {

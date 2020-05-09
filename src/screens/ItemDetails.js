@@ -11,9 +11,11 @@ import { Surface, IconButton, DataTable } from "react-native-paper";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { Rating } from "react-native-ratings";
 import { MaterialCommunityIcons as Icons } from "react-native-vector-icons";
+import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
 import img from "../res/earring1.jpg";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import { primaryColor, secondaryColor } from "../appStyles";
+
 const screenWidth = Math.round(Dimensions.get("window").width);
 export default class ItemDetailsScreen extends React.Component {
   state = {
@@ -102,7 +104,7 @@ export default class ItemDetailsScreen extends React.Component {
               type={"custom"}
               showRating={false}
               readonly
-              ratingColor="red"
+              ratingColor={secondaryColor}
               imageSize={20}
               style={{ width: 120, height: 30, marginTop: 10 }}
             />
@@ -115,8 +117,8 @@ export default class ItemDetailsScreen extends React.Component {
                 justifyContent: "flex-end",
               }}
             >
-              <IconButton icon="share" color="#555" />
-              <IconButton icon="heart-outline" color="#555" />
+              <IconButton icon="share" color={primaryColor} />
+              <IconButton icon="heart-outline" color={primaryColor} />
             </View>
           </View>
           <Text style={styles.productTitle}>Amber Cut Drop Earrings</Text>
@@ -269,7 +271,7 @@ export default class ItemDetailsScreen extends React.Component {
 
 const styles = StyleSheet.create({
   paginationDotStyle: {
-    backgroundColor: "#ffa600",
+    backgroundColor: primaryColor,
   },
   carouselContainer: {
     // borderWidth: 1,
@@ -286,15 +288,15 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
     paddingHorizontal: 20,
     height: 50,
-    backgroundColor: "#ffa600",
+    backgroundColor: primaryColor,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     elevation: 10,
   },
-  price: { fontSize: 25, fontWeight: "bold", color: "#011627" },
+  price: { fontSize: 25, color: "white" },
   actualPrice: {
-    color: "#3A3042",
+    color: "#eee",
     textDecorationLine: "line-through",
     alignSelf: "flex-end",
     // marginBottom: 5,
@@ -302,7 +304,7 @@ const styles = StyleSheet.create({
   },
   addToCartButton: {
     flexDirection: "row",
-    backgroundColor: "#688E26",
+    backgroundColor: secondaryColor,
     paddingVertical: 7,
     paddingHorizontal: 15,
     alignItems: "center",
