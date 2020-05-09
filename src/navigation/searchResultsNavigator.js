@@ -2,10 +2,11 @@ import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Button, View } from "react-native";
 
-import SearchScreen from "../screens/SearchResults";
-import itemDetailsScreen from "../screens/ItemDetails";
 import CustomAppBar from "./CustomSearchAppBar";
+
+import SearchScreen from "../screens/SearchResults";
 import ItemDetailsScreen from "../screens/ItemDetails";
+import filterScreen from "../screens/filterScreen";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ function searchStackNavigator() {
     >
       <Stack.Screen name="search" component={SearchScreen} />
       <Stack.Screen name="itemDetails" component={ItemDetailsScreen} />
+      <Stack.Screen name="filterScreen" component={filterScreen} />
     </Stack.Navigator>
   );
 }

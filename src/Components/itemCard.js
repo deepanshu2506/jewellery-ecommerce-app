@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
   },
   imageView: {
     marginTop: 30,
-    width: "100%",
-    height: 150,
+    width: "80%",
+    height: 130,
   },
   wishListButton: {
     position: "absolute",
@@ -113,5 +113,6 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     fontSize: 17,
     color: "#555",
+    marginBottom: 10,
   },
 });

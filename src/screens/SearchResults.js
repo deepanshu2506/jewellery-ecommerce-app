@@ -67,7 +67,7 @@ class searchResultsScreen extends React.Component {
             </Surface>
           </TouchableNativeFeedback>
           <TouchableNativeFeedback
-            onPress={() => console.log("Pressed")}
+            onPress={() => this.props.navigation.navigate("filterScreen")}
             background={TouchableNativeFeedback.Ripple("#79B473")}
           >
             <Surface style={styles.bottomBarButtons}>
