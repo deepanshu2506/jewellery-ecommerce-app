@@ -106,6 +106,7 @@ class searchResultsScreen extends React.Component {
                   labelStyle={{ marginLeft: 10 }}
                   value="0"
                   status="checked"
+                  theme={{ color: "black" }}
                 />
                 <RadioButton.Item
                   label="Price: low to High"

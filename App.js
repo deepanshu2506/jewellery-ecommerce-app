@@ -1,13 +1,24 @@
 import React from "react";
 // import { StyleSheet, Text, View } from "react-native";
-import { Provider } from "react-native-paper";
+import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+
+import { primaryColor, secondaryColor } from "./src/appStyles";
 
 import MainStackNavigator from "./src/navigation/MainStackNavigator";
 
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: primaryColor,
+    accent: secondaryColor,
+  },
+};
+
 export default function App() {
   return (
-    <Provider>
+    <PaperProvider theme={theme}>
       <MainStackNavigator />
-    </Provider>
+    </PaperProvider>
   );
 }
