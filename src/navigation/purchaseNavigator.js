@@ -4,6 +4,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import cartScreen from "../screens/cartScreen";
 import AddressSelectorScreen from "../screens/addressSelectorScreen";
+import NewAddressScreen from "../screens/newAddressScreen";
+import paymentMethodScreen from "../screens/paymentMethodScreen";
 
 import Header from "./purchaseCustomHeader";
 
@@ -28,6 +30,16 @@ function PurchaseStackNavigator() {
         name="address-selector-screen"
         options={{ headerTitle: "Select Delivery Address" }}
         component={AddressSelectorScreen}
+      />
+      <Stack.Screen
+        name="add-new-address-screen"
+        options={{ headerTitle: "Add Address" }}
+        component={NewAddressScreen}
+      />
+      <Stack.Screen
+        name="payment-selector-screen"
+        options={{ headerTitle: "Select Payment Method" }}
+        component={paymentMethodScreen}
       />
     </Stack.Navigator>
   );
