@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 
 const Header = ({ scene, previous, navigation }) => {
   return (
-    <Appbar.Header style={{ backgroundColor: "#3f3d56" }}>
+    <Appbar.Header>
       <TouchableOpacity
         onPress={() => {
           navigation.openDrawer();
@@ -24,7 +24,7 @@ const Header = ({ scene, previous, navigation }) => {
         icon="cart-outline"
         style={{ marginRight: 10 }}
         onPress={() => {
-          console.log("cart");
+          navigation.navigate("purchase");
         }}
       />
     </Appbar.Header>

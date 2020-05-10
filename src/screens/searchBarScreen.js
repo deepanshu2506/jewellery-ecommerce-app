@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, StatusBar } from "react-native";
 import { Searchbar } from "react-native-paper";
 import Constants from "expo-constants";
 
