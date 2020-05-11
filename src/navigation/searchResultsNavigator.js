@@ -2,7 +2,7 @@ import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Button, View } from "react-native";
 
-import CustomAppBar from "./CustomSearchAppBar";
+import CustomAppBar from "../Components/navigation-custom-components/CustomSearchAppBar";
 
 import SearchScreen from "../screens/SearchResults";
 import ItemDetailsScreen from "../screens/ItemDetails";

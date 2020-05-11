@@ -15,9 +15,6 @@ function MainStackNavigator() {
       <Stack.Navigator
         initialRouteName="login"
         screenOptions={{
-          // header: ({ scene, previous, navigation }) => (
-          //   <Header scene={scene} previous={previous} navigation={navigation} />
-          // ),
           headerShown: false,
         }}
       >

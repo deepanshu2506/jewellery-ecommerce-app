@@ -2,7 +2,7 @@ import * as React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 
-import DrawerComponent from "./customDrawerComponent";
+import DrawerComponent from "../Components/navigation-custom-components/customDrawerComponent";
 
 import SearchResultsNavigator from "./searchResultsNavigator";
 import DetailScreen from "../screens/details";

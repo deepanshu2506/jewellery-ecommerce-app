@@ -7,7 +7,7 @@ import AddressSelectorScreen from "../screens/addressSelectorScreen";
 import NewAddressScreen from "../screens/newAddressScreen";
 import paymentMethodScreen from "../screens/paymentMethodScreen";
 
-import Header from "./purchaseCustomHeader";
+import Header from "../Components/navigation-custom-components/purchaseCustomHeader";
 
 const Stack = createStackNavigator();
 
