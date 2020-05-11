@@ -1,3 +1,13 @@
+/**
+ * in progress extend UI
+ *
+ * todo:
+ * 1. pass the product details and the price breakup as props to details switcher
+ *
+ *
+ *
+ */
+
 import React from "react";
 import {
   View,
@@ -8,96 +18,51 @@ import {
   Dimensions,
 } from "react-native";
 import { Surface, IconButton, DataTable } from "react-native-paper";
-import Carousel, { Pagination } from "react-native-snap-carousel";
 import { Rating } from "react-native-ratings";
 import { MaterialCommunityIcons as Icons } from "react-native-vector-icons";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
-import img from "../res/earring1.jpg";
 import { primaryColor, secondaryColor } from "../appStyles";
 
+import Carousel from "../Components/itemDetailsScreen/imageCarousel";
+import DetailsSwitcher from "../Components/itemDetailsScreen/detailsSwitcher";
+
 const screenWidth = Math.round(Dimensions.get("window").width);
+
+const carouselItems = [
+  {
+    title: "Item 1",
+    text: "Text 1",
+  },
+  {
+    title: "Item 2",
+    text: "Text 2",
+  },
+  {
+    title: "Item 3",
+    text: "Text 3",
+  },
+  {
+    title: "Item 4",
+    text: "Text 4",
+  },
+  {
+    title: "Item 5",
+    text: "Text 5",
+  },
+];
 export default class ItemDetailsScreen extends React.Component {
-  state = {
-    activeIndex: 0,
-    swipeCurrentPage: 0,
-    carouselItems: [
-      {
-        title: "Item 1",
-        text: "Text 1",
-      },
-      {
-        title: "Item 2",
-        text: "Text 2",
-      },
-      {
-        title: "Item 3",
-        text: "Text 3",
-      },
-      {
-        title: "Item 4",
-        text: "Text 4",
-      },
-      {
-        title: "Item 5",
-        text: "Text 5",
-      },
-    ],
-  };
-  _renderItem = ({ item, index }, parallexProps) => {
-    return (
-      <View style={{ height: "100%" }}>
-        <Image source={img} style={{ width: "100%", height: "100%" }} />
-      </View>
-    );
-  };
-
-  snapPage = (event) => {
-    if (!event) return;
-
-    const xOffset = event.nativeEvent.contentOffset.x + 10;
-
-    const currentPage = Math.floor(xOffset / screenWidth);
-    this.setState(
-      (prevState) =>
-        currentPage != prevState.swipeCurrentPage && {
-          swipeCurrentPage: currentPage,
-        }
-    );
-  };
-
   render() {
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={{ backgroundColor: "white" }}>
-          <Surface style={styles.carouselContainer}>
-            <Carousel
-              ref={(c) => {
-                this._carousel = c;
-              }}
-              containerCustomStyle={styles.carousel}
-              data={this.state.carouselItems}
-              renderItem={this._renderItem}
-              sliderWidth={300}
-              loop={true}
-              itemWidth={300}
-              onBeforeSnapToItem={(index) =>
-                this.setState({ activeIndex: index })
-              }
-              lockScrollWhileSnapping
-              autoplay
-              autoplayDelay={1000}
-            />
-            <Pagination
-              dotsLength={this.state.carouselItems.length}
-              activeDotIndex={this.state.activeIndex}
-              dotStyle={styles.paginationDotStyle}
-              inactiveDotOpacity={0.4}
-              inactiveDotScale={0.6}
-            />
-          </Surface>
+          <Carousel carouselItems={carouselItems} />
           <View
-            style={{ padding: 10, flexDirection: "row", alignItems: "center" }}
+            style={{
+              padding: 10,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
           >
             <Text>User Ratings</Text>
             <Rating
@@ -122,131 +87,8 @@ export default class ItemDetailsScreen extends React.Component {
             </View>
           </View>
           <Text style={styles.productTitle}>Amber Cut Drop Earrings</Text>
-          <View
-            style={{
-              marginTop: 20,
-              flexDirection: "row",
-              alignItems: "center",
-              width: "100%",
-              //   borderWidth: 1,
-              height: 40,
-            }}
-          >
-            <TouchableNativeFeedback
-              onPress={() => {
-                this.descriptionSwitcher.scrollTo({ x: 0 });
-              }}
-            >
-              <View
-                style={[
-                  styles.descriptionSwitcherHeader,
-                  this.state.swipeCurrentPage == 0 && {
-                    borderBottomColor: "#011627",
-                  },
-                ]}
-              >
-                <Text>Product Information</Text>
-              </View>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback
-              onPress={() => {
-                this.descriptionSwitcher.scrollTo({ x: screenWidth });
-              }}
-            >
-              <View
-                style={[
-                  styles.descriptionSwitcherHeader,
-                  this.state.swipeCurrentPage == 1 && {
-                    borderBottomColor: "#011627",
-                  },
-                ]}
-              >
-                <Text> Price Breakup</Text>
-              </View>
-            </TouchableNativeFeedback>
-          </View>
-          <ScrollView
-            onScroll={this.snapPage}
-            decelerationRate={10}
-            snapToInterval={screenWidth}
-            snapToAlignment={"center"}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            ref={(node) => (this.descriptionSwitcher = node)}
-          >
-            <View style={styles.card}>
-              <DataTable style={{ alignContent: "center" }}>
-                <DataTable.Row>
-                  <DataTable.Cell>Height</DataTable.Cell>
-                  <DataTable.Cell>1.25cm</DataTable.Cell>
-                </DataTable.Row>
-                <DataTable.Row>
-                  <DataTable.Cell>Height</DataTable.Cell>
-                  <DataTable.Cell>1.25cm</DataTable.Cell>
-                </DataTable.Row>
-                <DataTable.Row>
-                  <DataTable.Cell>Height</DataTable.Cell>
-                  <DataTable.Cell>1.25cm</DataTable.Cell>
-                </DataTable.Row>
-              </DataTable>
-            </View>
-            <View style={styles.card}>
-              <DataTable theme={{ justifyContent: "center" }}>
-                <DataTable.Header style={{ justifyContent: "center" }}>
-                  <DataTable.Title style={styles.tableHeaders}>
-                    COMPONENT
-                  </DataTable.Title>
-                  <DataTable.Title style={styles.tableHeaders}>
-                    RATE
-                  </DataTable.Title>
-                  <DataTable.Title style={styles.tableHeaders}>
-                    WEIGHT
-                  </DataTable.Title>
-                  <DataTable.Title style={styles.tableHeaders}>
-                    DISCOUNT
-                  </DataTable.Title>
-                  <DataTable.Title style={styles.tableHeaders}>
-                    VALUE
-                  </DataTable.Title>
-                </DataTable.Header>
-                <DataTable.Row>
-                  <DataTable.Cell>Gold</DataTable.Cell>
-                  <DataTable.Cell>Rs.3433.00</DataTable.Cell>
-                  <DataTable.Cell>5.63 gms</DataTable.Cell>
-                  <DataTable.Cell>-</DataTable.Cell>
-                  <DataTable.Cell>18201.25</DataTable.Cell>
-                </DataTable.Row>
-                <DataTable.Row>
-                  <DataTable.Cell>Gold</DataTable.Cell>
-                  <DataTable.Cell>Rs.3433.00</DataTable.Cell>
-                  <DataTable.Cell>5.63 gms</DataTable.Cell>
-                  <DataTable.Cell>-</DataTable.Cell>
-                  <DataTable.Cell>18201.25</DataTable.Cell>
-                </DataTable.Row>
-                <DataTable.Row>
-                  <DataTable.Cell>Gold</DataTable.Cell>
-                  <DataTable.Cell>Rs.3433.00</DataTable.Cell>
-                  <DataTable.Cell>5.63 gms</DataTable.Cell>
-                  <DataTable.Cell>-</DataTable.Cell>
-                  <DataTable.Cell>18201.25</DataTable.Cell>
-                </DataTable.Row>
-                <DataTable.Row>
-                  <DataTable.Cell>Gold</DataTable.Cell>
-                  <DataTable.Cell>Rs.3433.00</DataTable.Cell>
-                  <DataTable.Cell>5.63 gms</DataTable.Cell>
-                  <DataTable.Cell>-</DataTable.Cell>
-                  <DataTable.Cell>18201.25</DataTable.Cell>
-                </DataTable.Row>
-                <DataTable.Row>
-                  <DataTable.Cell>Gold</DataTable.Cell>
-                  <DataTable.Cell>Rs.3433.00</DataTable.Cell>
-                  <DataTable.Cell>5.63 gms</DataTable.Cell>
-                  <DataTable.Cell>-</DataTable.Cell>
-                  <DataTable.Cell>18201.25</DataTable.Cell>
-                </DataTable.Row>
-              </DataTable>
-            </View>
-          </ScrollView>
+
+          <DetailsSwitcher />
         </ScrollView>
         <Surface style={styles.priceView}>
           <View style={{ flexDirection: "row" }}>
@@ -258,7 +100,13 @@ export default class ItemDetailsScreen extends React.Component {
           >
             <Surface style={styles.addToCartButton}>
               <Icons name="cart" color="white" size={24} />
-              <Text style={{ color: "white", marginLeft: 10, fontSize: 15 }}>
+              <Text
+                style={{
+                  color: "white",
+                  marginLeft: 10,
+                  fontSize: 15,
+                }}
+              >
                 Add To Cart
               </Text>
             </Surface>
@@ -270,19 +118,6 @@ export default class ItemDetailsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  paginationDotStyle: {
-    backgroundColor: primaryColor,
-  },
-  carouselContainer: {
-    // borderWidth: 1,
-    elevation: 2,
-    height: 350,
-    alignItems: "center",
-  },
-  carousel: {
-    marginTop: 30,
-  },
-
   productTitle: { fontSize: 24, paddingLeft: 10, color: "#011627" },
   priceView: {
     paddingLeft: 30,

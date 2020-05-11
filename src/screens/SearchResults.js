@@ -1,4 +1,10 @@
-// src/screens/Home.js
+/**
+ * todo:
+ * 1. fetch products from API
+ * 2. render item cards
+ * 3. sorting functions
+ *
+ */
 
 import React from "react";
 import {
@@ -11,11 +17,13 @@ import {
 import { Constants } from "expo";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { Surface, Portal, Dialog, RadioButton } from "react-native-paper";
-
 import { useNavigation } from "@react-navigation/native";
 
-import ItemCard from "../Components/itemCard";
-import { secondaryColor } from "../appStyles";
+import { secondaryColor, primaryColor } from "../appStyles";
+
+import ItemCard from "../Components/searchScreen/itemCard";
+import FilterBar from "../Components/searchScreen/FilterBar";
+import SortDialog from "../Components/searchScreen/SortDialog";
 
 class searchResultsScreen extends React.Component {
   state = {
@@ -24,6 +32,13 @@ class searchResultsScreen extends React.Component {
   };
 
   sort = () => {};
+
+  _openSortDialog = () => this.setState({ sortDialogVisible: true });
+  _closeSortDialog = () => this.setState({ sortDialogVisible: false });
+
+  _changeSortType = (value) => this.setState({ sortType: value }, this.sort());
+
+  _openFilters = () => this.props.navigation.navigate("filterScreen");
 
   render() {
     const params = this.props.route.params || {};
@@ -50,80 +65,19 @@ class searchResultsScreen extends React.Component {
             <ItemCard navigation={this.props.navigation} />
           </View>
         </ScrollView>
-        <Surface style={styles.filterBar}>
-          <TouchableNativeFeedback
-            onPress={() => this.setState({ sortDialogVisible: true })}
-            background={TouchableNativeFeedback.Ripple("#00000")}
-          >
-            <Surface style={styles.bottomBarButtons}>
-              <MaterialCommunityIcons
-                name="sort-variant"
-                size={30}
-                color="white"
-              />
-              <Text style={{ fontSize: 18, marginLeft: 10, color: "white" }}>
-                Sort
-              </Text>
-            </Surface>
-          </TouchableNativeFeedback>
-          <TouchableNativeFeedback
-            onPress={() => this.props.navigation.navigate("filterScreen")}
-            background={TouchableNativeFeedback.Ripple("#79B473")}
-          >
-            <Surface style={styles.bottomBarButtons}>
-              <MaterialCommunityIcons
-                name="filter-variant"
-                size={30}
-                color="white"
-              />
-              <Text style={{ fontSize: 18, marginLeft: 10, color: "white" }}>
-                Filter
-              </Text>
-            </Surface>
-          </TouchableNativeFeedback>
-        </Surface>
-        <Portal>
-          <Dialog
-            visible={this.state.sortDialogVisible}
-            onDismiss={() => {
-              this.setState({ sortDialogVisible: false });
-            }}
-          >
-            <Dialog.Title>Sort</Dialog.Title>
-            <Dialog.Content>
-              <RadioButton.Group
-                onValueChange={(value) => {
-                  this.setState(
-                    { sortType: value, sortDialogVisible: false },
-                    this.sort()
-                  );
-                }}
-                value={this.state.sortType}
-              >
-                <RadioButton.Item
-                  label="popularity"
-                  style={styles.sortDialogRadioButtonView}
-                  labelStyle={{ marginLeft: 10 }}
-                  value="0"
-                  status="checked"
-                  theme={{ color: "black" }}
-                />
-                <RadioButton.Item
-                  label="Price: low to High"
-                  style={styles.sortDialogRadioButtonView}
-                  labelStyle={{ marginLeft: 10 }}
-                  value={1}
-                />
-                <RadioButton.Item
-                  label="Price: High to Low"
-                  style={styles.sortDialogRadioButtonView}
-                  value={2}
-                  labelStyle={{ marginLeft: 10 }}
-                />
-              </RadioButton.Group>
-            </Dialog.Content>
-          </Dialog>
-        </Portal>
+
+        <FilterBar
+          openSortDialog={this._openSortDialog}
+          openFiltersScreen={this._openFilters}
+        />
+
+        <SortDialog
+          onDismiss={this._closeSortDialog}
+          visible={this.state.sortDialogVisible}
+          onSortSelect={this._changeSortType}
+          currentType={this.state.sortType}
+          options={["popularity", "Price:Low to high", "Price:High To Low "]}
+        />
       </View>
     );
   }
@@ -134,41 +88,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: "100%",
     flex: 1,
-    // marginTop: 30,
   },
   cardContainer: {
-    // paddingHorizontal: 10,
     flexDirection: "row",
     flexWrap: "wrap",
-  },
-  filterBar: {
-    width: "100%",
-    height: 60,
-    elevation: 10,
-
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "space-around",
-    flexDirection: "row",
-
-    // alignItems: "center",
-  },
-  bottomBarButtons: {
-    opacity: 1,
-    backgroundColor: "white",
-    width: "40%",
-    height: "75%",
-    flexDirection: "row",
-    justifyContent: "center",
-    backgroundColor: "#3F3D56",
-    alignItems: "center",
-    elevation: 3,
-    borderRadius: 5,
-    // marginLeft: 25,
-  },
-  sortDialogRadioButtonView: {
-    flexDirection: "row-reverse",
-    justifyContent: "flex-end",
   },
 });
 

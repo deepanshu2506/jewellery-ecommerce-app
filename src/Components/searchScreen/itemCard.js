@@ -1,13 +1,25 @@
+/**
+ * todo:
+ * 1. accept a boolean flag for bestseller tag
+ * 2. accept the image , name,prices from props
+ * 3. handle logic to save the item if wishlisted and remove it (in redux)
+ *
+ * bugs:
+ * 1. click on the heart icon results in a navigation to item details screen
+ */
+
 import React from "react";
 import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import { IconButton, Colors, Surface } from "react-native-paper";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
-import img1 from "../res/earring1.jpg";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
-import { primaryColor, secondaryColor } from "../appStyles";
+import { primaryColor, secondaryColor } from "../../appStyles";
+
+import img1 from "../../res/earring1.jpg";
 
 const screenWidth = Dimensions.get("window").width;
+
 export default class ItemCard extends React.Component {
   state = { wishListed: false };
   toggleWishList = () => {
@@ -28,10 +40,7 @@ export default class ItemCard extends React.Component {
             </Text>
           </View>
           <View style={styles.imageView}>
-            <Image
-              style={{ width: "100%", height: "100%" }}
-              source={require("../res/earring1.jpg")}
-            />
+            <Image style={{ width: "100%", height: "100%" }} source={img1} />
           </View>
           <View style={styles.pricePane}>
             <Text style={styles.offerPrice}>{"\u20B9"} 35,000/-</Text>
@@ -56,14 +65,10 @@ const styles = StyleSheet.create({
   card: {
     borderWidth: 0.8,
     borderColor: "#eee",
-    // height: 300,
     padding: 10,
     width: screenWidth / 2 - 10,
-
-    // aspectRatio: 0.55,
     alignItems: "center",
     elevation: 4,
-    // margin: 5,
   },
   imageView: {
     marginTop: 30,
@@ -78,13 +83,10 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
   },
   pricePane: {
-    // borderWidth: 1,
     alignSelf: "flex-start",
     marginTop: 15,
     justifyContent: "flex-start",
     alignItems: "center",
-
-    // flexDirection: "row",
   },
   offerPrice: {
     fontSize: 20,
@@ -98,7 +100,6 @@ const styles = StyleSheet.create({
     textDecorationLine: "line-through",
   },
   bestSellerTag: {
-    // borderWidth: 1,
     position: "absolute",
     right: 0,
     top: "5%",

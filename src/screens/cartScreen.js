@@ -1,140 +1,47 @@
+/**
+ * todo:
+ * 1. fetch cart from server/ app state
+ * 2.  populate the cart
+ * 3. calculate total and display accordingly also save to order state
+ * 4. fetch address if available
+ * 5. if address not available then navigate to the address selection screen on clicking buy now
+ * 6. implement the remove from cart and save to wishlist functions
+ * 7. if multiple addresses the select the default address or if default
+ *    not available the first address
+ */
+
 import React, { Component } from "react";
-import {
-  View,
-  ScrollView,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableNativeFeedback,
-} from "react-native";
+import { View, ScrollView, Text, StyleSheet } from "react-native";
 import { Surface, Button } from "react-native-paper";
+
 import { secondaryColor, primaryColor } from "../appStyles";
 
-import Img from "../res/loginIntroArt.png";
-
-const Card = (props) => (
-  <Surface
-    style={{
-      marginBottom: 10,
-      borderTopWidth: 1,
-      borderBottomWidth: 1,
-      borderColor: "#ddd",
-      elevation: 1,
-      marginHorizontal: 5,
-      borderRadius: 3,
-    }}
-  >
-    <View style={{ flexDirection: "row" }}>
-      <View
-        style={{
-          width: "40%",
-          height: 160,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <View
-          style={{
-            width: "80%",
-            height: "80%",
-            borderWidth: 0.5,
-            borderColor: "#bbb",
-          }}
-        >
-          <Image source={Img} style={{ width: "100%", height: "100%" }} />
-        </View>
-      </View>
-      <View style={{ width: "60%", justifyContent: "center" }}>
-        <Text style={{ fontSize: 17 }}>Mens Cluster Ring</Text>
-        <Text style={{ fontSize: 12, color: "#999", marginBottom: 10 }}>
-          KJKJ33-JFMR54
-        </Text>
-        <Text>Size : 12</Text>
-        <Text>Quantity : 1</Text>
-        <Text style={{ marginTop: 10, fontSize: 18, color: secondaryColor }}>
-          {`\u20b9`}14,867
-          <Text
-            style={{
-              fontSize: 12,
-              textDecorationLine: "line-through",
-              color: "#999",
-              paddingLeft: 10,
-            }}
-          >
-            {`\t \u20b9`}17,367
-          </Text>
-        </Text>
-      </View>
-    </View>
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "space-around",
-        paddingVertical: 5,
-      }}
-    >
-      <Button mode="outlined" color={secondaryColor} style={{ width: "35%" }}>
-        Remove
-      </Button>
-      <Button mode="outlined" style={{ width: "45%" }}>
-        Save to wishlist
-      </Button>
-    </View>
-  </Surface>
-);
+import AddressCard from "../Components/cartScreen/deliveryAddressHeader";
+import CartItem from "../Components/cartScreen/cartItemCard";
 
 export default class cartScreen extends Component {
+  _onAddressChange = () =>
+    this.props.navigation.navigate("address-selector-screen");
   render() {
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1, borderWidth: 1 }}>
-          <Surface
-            style={{
-              flexDirection: "row",
-              // height: 60,
-              alignItems: "center",
-              justifyContent: "space-around",
-              padding: 10,
+          <AddressCard onChangeClick={this._onAddressChange} />
 
-              elevation: 4,
-              borderBottomWidth: 1,
-              borderColor: "#ddd",
-              paddingTop: 15,
-            }}
-          >
-            <View style={{ width: "70%" }}>
-              <Text style={{ fontSize: 17 }}>
-                Deliver To{" "}
-                <Text style={{ fontWeight: "bold" }}>Tom Holland</Text>
-              </Text>
-              <Text> 445 Mount Eden Road, Mount Eden...</Text>
-            </View>
-            <View style={{ justifyContent: "center" }}>
-              <Button
-                mode="outlined"
-                labelStyle={{ textTransform: "capitalize" }}
-              >
-                Change
-              </Button>
-            </View>
-          </Surface>
-          <Text
-            style={{ fontSize: 18, marginVertical: 10, paddingHorizontal: 10 }}
-          >
+          <Text style={styles.totalAmount}>
             Total (3 Item): {`  \u20B9 `}44,601.00
           </Text>
-          <Card />
-          <Card />
-          <Card />
+
+          <CartItem />
+          <CartItem />
+          <CartItem />
         </ScrollView>
+
+        {/* Bottom strip starts */}
         <Surface style={styles.priceView}>
           <View style={{ flexDirection: "row" }}>
             <Text style={styles.price}>{"\u20B9"}44,601</Text>
-            <Text
-              style={{ color: "white", alignSelf: "flex-end", marginLeft: 10 }}
-            >
-              pay Securely
-            </Text>
+            <Text style={styles.paysecurely}>pay Securely</Text>
           </View>
           <Button
             mode="contained"
@@ -142,18 +49,24 @@ export default class cartScreen extends Component {
             labelStyle={{ color: "white" }}
             color={secondaryColor}
             onPress={() => {
-              this.props.navigation.navigate("address-selector-screen");
+              this.props.navigation.navigate("payment-selector-screen");
             }}
           >
             BUY NOW
           </Button>
         </Surface>
+        {/* Bottom Strip ends */}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  totalAmount: {
+    fontSize: 18,
+    marginVertical: 10,
+    paddingHorizontal: 10,
+  },
   priceView: {
     paddingLeft: 30,
     paddingHorizontal: 20,
@@ -169,8 +82,12 @@ const styles = StyleSheet.create({
     color: "#eee",
     textDecorationLine: "line-through",
     alignSelf: "flex-end",
-    // marginBottom: 5,
     marginLeft: 5,
+  },
+  paysecurely: {
+    color: "white",
+    alignSelf: "flex-end",
+    marginLeft: 10,
   },
   addToCartButton: {
     flexDirection: "row",

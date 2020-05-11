@@ -11,7 +11,7 @@ import { Drawer, IconButton, Avatar } from "react-native-paper";
 import { View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 
-import { primaryColor, secondaryColor } from "../appStyles";
+import { primaryColor, secondaryColor } from "../../appStyles";
 
 const CustomDrawerComponent = (props) => {
   const { navigation } = props;
