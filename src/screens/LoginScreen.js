@@ -6,6 +6,7 @@ import {
   Image,
   TouchableNativeFeedback,
 } from "react-native";
+import { connect } from "react-redux";
 import Constants from "expo-constants";
 import { Surface, TextInput } from "react-native-paper";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
@@ -16,7 +17,22 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { primaryColor, secondaryColor } from "../appStyles";
 
-export default class LoginIntroScreen extends React.Component {
+import { requestLogin } from "../redux/actions/loginActions";
+
+class LoginScreen extends React.Component {
+  state = { username: "", password: "" };
+
+  componentDidUpdate(prevProps) {
+    console.log(this.props.user);
+    if (this.props.user.code) {
+      console.log(this.props.user);
+      this.props.navigation.reset({
+        index: 0,
+        routes: [{ name: "Drawer" }],
+      });
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -29,24 +45,36 @@ export default class LoginIntroScreen extends React.Component {
         <View>
           <TextInput
             mode="flat"
-            keyboardType="numeric"
-            label="Mobile Number"
+            label="User name"
             underlineColor="#3f3d56"
+            value={this.state.username}
             style={{ backgroundColor: "white", marginHorizontal: 20 }}
+            onChangeText={(text) => {
+              this.setState({ username: text });
+            }}
           />
           <TextInput
             mode="flat"
             label="password"
             secureTextEntry
+            value={this.state.password}
+            onChangeText={(text) => {
+              this.setState({ password: text });
+            }}
             underlineColor="#3f3d56"
             style={{ backgroundColor: "white", marginHorizontal: 20 }}
           />
         </View>
         <View style={{ alignItems: "center" }}>
+          <Text style={{ color: "red", fontSize: 15 }}>
+            {this.props.user.error}
+          </Text>
+        </View>
+        <View style={{ alignItems: "center" }}>
           <TouchableNativeFeedback
             background={TouchableNativeFeedback.Ripple("#ffffff")}
             onPress={() => {
-              this.props.navigation.navigate("Drawer");
+              this.props.login(this.state.username, this.state.password);
             }}
           >
             <Surface style={styles.loginButton}>
@@ -70,6 +98,18 @@ export default class LoginIntroScreen extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  login: (username, password) => {
+    dispatch(requestLogin(username, password));
+  },
+});
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 
 const styles = StyleSheet.create({
   container: {

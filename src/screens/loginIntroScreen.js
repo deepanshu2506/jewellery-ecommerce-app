@@ -16,7 +16,7 @@ import { primaryColor, secondaryColor } from "../appStyles";
 import VectorArt from "../res/loginIntroArt.png";
 import GoogleLogo from "../res/googleLogo.png";
 
-export default class LoginIntroScreen extends React.Component {
+class LoginIntroScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
@@ -104,3 +104,5 @@ const styles = StyleSheet.create({
   },
   googleLoginButtonText: { color: "#333", marginLeft: 10 },
 });
+
+export default LoginIntroScreen;
