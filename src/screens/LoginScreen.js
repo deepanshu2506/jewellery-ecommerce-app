@@ -17,7 +17,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { primaryColor, secondaryColor } from "../appStyles";
 
-import { requestLogin } from "../redux/actions/loginActions";
+import { requestLogin } from "../redux/actions/userActions";
 
 class LoginScreen extends React.Component {
   state = { username: "", password: "" };

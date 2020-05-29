@@ -9,14 +9,59 @@ import {
 import Constants from "expo-constants";
 import { Surface, TextInput } from "react-native-paper";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
+
+import { connect } from "react-redux";
+
+import { signup } from "../redux/actions/userActions";
 
 import { primaryColor, secondaryColor } from "../appStyles";
 
 import VectorArt from "../res/signupArt.png";
 import GoogleLogo from "../res/googleLogo.png";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default class LoginIntroScreen extends React.Component {
+class LoginIntroScreen extends React.Component {
+  state = { username: "", mobile: "", password: "", error: "" };
+
+  _validate = () => {
+    if (this.state.username.length < 3) {
+      this.setState({
+        error: "username should be atleast 3 characters long",
+      });
+      return false;
+    } else if (this.state.mobile.length != 10) {
+      this.setState({ error: "Enter valid mobile number" });
+      return false;
+    } else if (this.state.password.length == 0) {
+      this.setState({ error: "password is required" });
+      return false;
+    }
+    return true;
+  };
+
+  _signUp = () => {
+    if (this._validate()) {
+      const { mobile, username, password } = this.state;
+      this.props.signUp(mobile, username, password);
+    }
+  };
+  componentDidUpdate(prevProps) {
+    console.log(this.props.user);
+    if (this.props.user.isSignupSuccess == 1) {
+      this.props.navigation.reset({
+        index: 0,
+        routes: [{ name: "login" }],
+      });
+    }
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.user.err) {
+      return { error: props.user.err };
+    }
+    return null;
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -30,6 +75,10 @@ export default class LoginIntroScreen extends React.Component {
           <TextInput
             mode="flat"
             label="Name"
+            value={this.state.username}
+            onChangeText={(username) => {
+              this.setState({ username: username.trim() });
+            }}
             underlineColor="#3f3d56"
             style={{ backgroundColor: "white", marginHorizontal: 20 }}
           />
@@ -38,6 +87,10 @@ export default class LoginIntroScreen extends React.Component {
             keyboardType="numeric"
             label="Mobile Number"
             underlineColor="#3f3d56"
+            value={this.state.mobile}
+            onChangeText={(mobile) => {
+              this.setState({ mobile: mobile.trim() });
+            }}
             style={{ backgroundColor: "white", marginHorizontal: 20 }}
           />
           <TextInput
@@ -45,12 +98,20 @@ export default class LoginIntroScreen extends React.Component {
             label="password"
             secureTextEntry
             underlineColor="#3f3d56"
+            value={this.state.password}
+            onChangeText={(password) => {
+              this.setState({ password: password.trim() });
+            }}
             style={{ backgroundColor: "white", marginHorizontal: 20 }}
           />
         </View>
         <View style={{ alignItems: "center" }}>
+          <Text style={{ color: "red" }}>{this.state.error}</Text>
+        </View>
+        <View style={{ alignItems: "center" }}>
           <TouchableNativeFeedback
             background={TouchableNativeFeedback.Ripple("#ffffff")}
+            onPress={this._signUp}
           >
             <Surface style={styles.loginButton}>
               <Text style={styles.loginButtonText}>Sign Up</Text>
@@ -61,6 +122,18 @@ export default class LoginIntroScreen extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  signUp: (mobile, username, password) => {
+    dispatch(signup(mobile, username, password));
+  },
+});
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginIntroScreen);
 
 const styles = StyleSheet.create({
   container: {

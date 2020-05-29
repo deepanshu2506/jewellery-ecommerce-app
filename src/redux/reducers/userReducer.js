@@ -1,12 +1,14 @@
 import {
-  LOG_IN_SENT,
+  LOADING_REQUEST,
   LOGIN_SUCESS,
   LOGIN_FAILED,
-} from "../actions/loginActions";
+  SIGNUP_FAILED,
+  SIGNUP_SUCCESS,
+} from "../actions/userActions";
 
 const initialState = { loading: false, error: "" };
 
-export const loginReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_SUCESS:
       return {
@@ -15,10 +17,14 @@ export const loginReducer = (state = initialState, action) => {
         loading: false,
         error: "",
       };
-    case LOG_IN_SENT:
+    case LOADING_REQUEST:
       return { ...state, loading: true };
     case LOGIN_FAILED:
       return { error: action.payload };
+    case SIGNUP_FAILED:
+      return { err: action.payload.err };
+    case SIGNUP_SUCCESS:
+      return { isSignupSuccess: 1 };
     default:
       return state;
   }
