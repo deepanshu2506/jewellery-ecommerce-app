@@ -1,6 +1,7 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { connect } from "react-redux";
 
 import Drawer from "./DrawerNavigator";
 import Login from "./LoginNavigator";
@@ -9,11 +10,13 @@ import Purchase from "./purchaseNavigator";
 
 const Stack = createStackNavigator();
 
-function MainStackNavigator() {
+const mapStateToProps = (state) => ({ user: state.user });
+
+function MainStackNavigator({ user }) {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="login"
+        initialRouteName={!user.token ? "login" : "Drawer"}
         screenOptions={{
           headerShown: false,
         }}
@@ -27,4 +30,4 @@ function MainStackNavigator() {
   );
 }
 
-export default MainStackNavigator;
+export default connect(mapStateToProps)(MainStackNavigator);

@@ -13,6 +13,11 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 
 import { primaryColor, secondaryColor } from "../../appStyles";
 
+const navigationHandler = (navigation, type) => () => {
+  navigation.push("search", { searchType: "category", search: type });
+  navigation.closeDrawer();
+};
+
 const CustomDrawerComponent = (props) => {
   const { navigation } = props;
   return (
@@ -51,10 +56,7 @@ const CustomDrawerComponent = (props) => {
         <Drawer.Section style={styles.drawerSection}>
           <DrawerItem
             label="Rings"
-            onPress={() => {
-              navigation.push("search", { search: "rings" });
-              navigation.closeDrawer();
-            }}
+            onPress={navigationHandler(navigation, "ring")}
             icon={({ color, size }) => (
               <MaterialCommunityIcons
                 name="ring"
@@ -68,10 +70,7 @@ const CustomDrawerComponent = (props) => {
           />
           <DrawerItem
             label="Pendants"
-            onPress={() => {
-              navigation.push("search", { search: "Pendants" });
-              navigation.closeDrawer();
-            }}
+            onPress={navigationHandler(navigation, "pendant")}
             icon={({ color, size }) => (
               <MaterialCommunityIcons
                 name="ring"
@@ -85,9 +84,7 @@ const CustomDrawerComponent = (props) => {
           />
           <DrawerItem
             label="Bracelets"
-            onPress={() => {
-              navigation.push("search", { search: "Bracelets" });
-            }}
+            onPress={navigationHandler(navigation, "bracelet")}
             icon={({ color, size }) => (
               <MaterialCommunityIcons
                 name="ring"
@@ -100,11 +97,8 @@ const CustomDrawerComponent = (props) => {
             labelStyle={styles.navText}
           />
           <DrawerItem
-            label="jewellery"
-            onPress={() => {
-              navigation.push("search", { search: "jewellery" });
-              navigation.closeDrawer();
-            }}
+            label="Earrings"
+            onPress={navigationHandler(navigation, "earring")}
             icon={({ color, size }) => (
               <MaterialCommunityIcons
                 name="ring"

@@ -10,7 +10,7 @@
 
 import React from "react";
 import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
-import { IconButton, Colors, Surface } from "react-native-paper";
+import { IconButton, Colors, Surface, Button } from "react-native-paper";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
@@ -27,24 +27,32 @@ export default class ItemCard extends React.Component {
   };
   render() {
     return (
-      <TouchableNativeFeedback
-        style={{ flex: 1, width: "100%", margin: 5, padding: 0 }}
-        onPress={() => {
-          this.props.navigation.navigate("itemDetails");
-        }}
+      <View
+        style={{ marginLeft: 6, padding: 0 }}
+        // onPress={() => {
+        //   this.props.navigation.navigate("itemDetails");
+        // }}
       >
         <Surface style={styles.card}>
-          <View style={styles.bestSellerTag}>
+          {/* <Text>abcd</Text> */}
+          {/* <View style={styles.bestSellerTag}>
             <Text style={{ color: "white", letterSpacing: 1.1, fontSize: 12 }}>
               Best Seller
             </Text>
-          </View>
+          </View> */}
           <View style={styles.imageView}>
-            <Image style={{ width: "100%", height: "100%" }} source={img1} />
+            <Image
+              style={{ width: "100%", height: "100%" }}
+              source={{ uri: this.props.data.url }}
+            />
           </View>
           <View style={styles.pricePane}>
-            <Text style={styles.offerPrice}>{"\u20B9"} 35,000/-</Text>
-            <Text style={styles.originalPrice}>{"\u20B9"} 42,000/-</Text>
+            <Text style={styles.offerPrice}>
+              {`\u20B9 ${this.props.data.price}/-`}
+            </Text>
+            <Text style={styles.originalPrice}>{`\u20B9 ${
+              this.props.data.price + 0.2 * this.props.data.price
+            }/-`}</Text>
           </View>
 
           <IconButton
@@ -54,9 +62,19 @@ export default class ItemCard extends React.Component {
             onPress={this.toggleWishList}
             color={this.state.wishListed ? Colors.red500 : Colors.black}
           />
-          <Text style={styles.itemDescription}>Long hanging earring</Text>
+          <Text style={styles.itemDescription}>{this.props.data.title}</Text>
+          <Button
+            mode="contained"
+            labelStyle={{ color: "white" }}
+            color={secondaryColor}
+            onPress={() => {
+              this.props.navigation.navigate("payment-selector-screen");
+            }}
+          >
+            Add to Cart
+          </Button>
         </Surface>
-      </TouchableNativeFeedback>
+      </View>
     );
   }
 }
@@ -69,6 +87,7 @@ const styles = StyleSheet.create({
     width: screenWidth / 2 - 10,
     alignItems: "center",
     elevation: 4,
+    marginVertical: 5,
   },
   imageView: {
     marginTop: 30,
@@ -78,7 +97,7 @@ const styles = StyleSheet.create({
   wishListButton: {
     position: "absolute",
     right: 10,
-    top: "75%",
+    top: "5%",
     borderWidth: 1,
     borderColor: "#ddd",
   },

@@ -19,17 +19,55 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { Surface, Portal, Dialog, RadioButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
+import { connect } from "react-redux";
+
 import { secondaryColor, primaryColor } from "../appStyles";
 
 import ItemCard from "../Components/searchScreen/itemCard";
 import FilterBar from "../Components/searchScreen/FilterBar";
 import SortDialog from "../Components/searchScreen/SortDialog";
 
+import { allProductsApi, productByTypeApi } from "../resources/endpoints";
+import { FlatList } from "react-native-gesture-handler";
+
 class searchResultsScreen extends React.Component {
   state = {
     sortType: 0,
     sortDialogVisible: false,
+    itemsList: [],
   };
+
+  async componentDidMount() {
+    let productApi = "";
+    const params = this.props.route.params || {};
+    console.log(params);
+    try {
+      if (params.searchType == "keyword") {
+        productApi = "";
+      } else if (params.searchType == "category") {
+        productApi = productByTypeApi(params.search);
+      } else {
+        productApi = allProductsApi;
+      }
+      console.log(productApi);
+      const response = fetch(productApi, {
+        method: "GET",
+        headers: { Authorization: this.props.authToken },
+      });
+      response
+        .then((data) => data.json())
+        .then((data) => {
+          // console.log(data);
+          this.setState({ itemsList: data });
+        });
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  _renderItems = ({ item, index }) => (
+    <ItemCard navigation={this.props.navigation} data={item} />
+  );
 
   sort = () => {};
 
@@ -41,30 +79,16 @@ class searchResultsScreen extends React.Component {
   _openFilters = () => this.props.navigation.navigate("filterScreen");
 
   render() {
-    const params = this.props.route.params || {};
     return (
       <View style={styles.container}>
-        <ScrollView>
-          {/* <Text>{params.search || " "}</Text> */}
-          <View style={styles.cardContainer}>
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-            <ItemCard navigation={this.props.navigation} />
-          </View>
-        </ScrollView>
+        {/* <Text>abcdsksd</Text> */}
+        <FlatList
+          style={styles.cardContainer}
+          data={this.state.itemsList}
+          renderItem={this._renderItems}
+          keyExtractor={(item) => item._id}
+          numColumns={2}
+        />
 
         <FilterBar
           openSortDialog={this._openSortDialog}
@@ -95,4 +119,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default searchResultsScreen;
+const mapStateToProps = (state) => ({ authToken: state.user.token });
+export default connect(mapStateToProps)(searchResultsScreen);

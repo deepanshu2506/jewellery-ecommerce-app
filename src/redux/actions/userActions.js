@@ -1,13 +1,9 @@
-import { host } from "../../config";
-
+import { loginUrl, signupUrl } from "../../resources/endpoints";
 export const LOADING_REQUEST = "LOADING_REQUEST";
 export const LOGIN_SUCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 export const SIGNUP_FAILED = "SIGNUP_FAILED";
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
-
-const _loginUrl = host + "/api/login";
-const _signupUrl = host + "/api/signup";
 
 const loadingRequest = () => {
   return { type: LOADING_REQUEST };
@@ -38,7 +34,7 @@ export const requestLogin = (username, password) => {
   return (dispatch) => {
     dispatch(loadingRequest());
     console.log(username, password);
-    fetch(_loginUrl, {
+    fetch(loginUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -66,7 +62,7 @@ export const requestLogin = (username, password) => {
 export const signup = (mobile, username, password) => (dispatch) => {
   dispatch(loadingRequest());
   const signupPayload = { mobile, username, password };
-  fetch(_signupUrl, {
+  fetch(signupUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
