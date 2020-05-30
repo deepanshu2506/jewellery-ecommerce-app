@@ -13,7 +13,10 @@ import { secondaryColor } from "../../appStyles";
 
 import Img from "../../res/loginIntroArt.png";
 
-const Card = ({ item }) => (
+import { connect } from "react-redux";
+import { removeFromCart } from "../../redux/actions/cartActions";
+
+const Card = ({ item, removeFromCart }) => (
   <Surface style={styles.container}>
     <View style={{ flexDirection: "row" }}>
       <View style={styles.topPart}>
@@ -38,7 +41,14 @@ const Card = ({ item }) => (
       </View>
     </View>
     <View style={styles.bottomPart}>
-      <Button mode="outlined" color={secondaryColor} style={{ width: "35%" }}>
+      <Button
+        mode="outlined"
+        color={secondaryColor}
+        style={{ width: "35%" }}
+        onPress={() => {
+          removeFromCart(item._id);
+        }}
+      >
         Remove
       </Button>
       <Button mode="outlined" style={{ width: "45%" }}>
@@ -85,4 +95,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Card;
+const mapDispatchToProps = (dispatch) => ({
+  removeFromCart: (id) => {
+    console.log(id);
+    dispatch(removeFromCart(id));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(Card);
