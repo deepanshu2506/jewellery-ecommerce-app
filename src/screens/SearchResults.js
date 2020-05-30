@@ -26,6 +26,7 @@ import { secondaryColor, primaryColor } from "../appStyles";
 import ItemCard from "../Components/searchScreen/itemCard";
 import FilterBar from "../Components/searchScreen/FilterBar";
 import SortDialog from "../Components/searchScreen/SortDialog";
+import NoItems from "../Components/searchScreen/noItems";
 
 import { allProductsApi, productByTypeApi } from "../resources/endpoints";
 import { FlatList } from "react-native-gesture-handler";
@@ -34,13 +35,13 @@ class searchResultsScreen extends React.Component {
   state = {
     sortType: 0,
     sortDialogVisible: false,
+    loading: true,
     itemsList: [],
   };
 
   async componentDidMount() {
     let productApi = "";
     const params = this.props.route.params || {};
-    console.log(params);
     try {
       if (params.searchType == "keyword") {
         productApi = "";
@@ -49,7 +50,6 @@ class searchResultsScreen extends React.Component {
       } else {
         productApi = allProductsApi;
       }
-      console.log(productApi);
       const response = fetch(productApi, {
         method: "GET",
         headers: { Authorization: this.props.authToken },
@@ -57,16 +57,22 @@ class searchResultsScreen extends React.Component {
       response
         .then((data) => data.json())
         .then((data) => {
-          // console.log(data);
-          this.setState({ itemsList: data });
+          this.setState({ itemsList: data, loading: false });
         });
     } catch (err) {
       throw err;
     }
   }
+  _debug = () => {
+    console.log(this.props.cart);
+  };
 
   _renderItems = ({ item, index }) => (
-    <ItemCard navigation={this.props.navigation} data={item} />
+    <ItemCard
+      navigation={this.props.navigation}
+      data={item}
+      debug={this._debug}
+    />
   );
 
   sort = () => {};
@@ -82,13 +88,17 @@ class searchResultsScreen extends React.Component {
     return (
       <View style={styles.container}>
         {/* <Text>abcdsksd</Text> */}
-        <FlatList
-          style={styles.cardContainer}
-          data={this.state.itemsList}
-          renderItem={this._renderItems}
-          keyExtractor={(item) => item._id}
-          numColumns={2}
-        />
+        {!this.state.loading && this.state.itemsList.length == 0 ? (
+          <NoItems />
+        ) : (
+          <FlatList
+            style={styles.cardContainer}
+            data={this.state.itemsList}
+            renderItem={this._renderItems}
+            keyExtractor={(item) => item._id}
+            numColumns={2}
+          />
+        )}
 
         <FilterBar
           openSortDialog={this._openSortDialog}
@@ -119,5 +129,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => ({ authToken: state.user.token });
+const mapStateToProps = (state) => ({
+  authToken: state.user.token,
+  cart: state.cart,
+});
 export default connect(mapStateToProps)(searchResultsScreen);

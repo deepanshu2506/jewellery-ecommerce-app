@@ -18,9 +18,12 @@ import { primaryColor, secondaryColor } from "../../appStyles";
 
 import img1 from "../../res/earring1.jpg";
 
+import { connect } from "react-redux";
+import { addItemToCart } from "../../redux/actions/cartActions";
+
 const screenWidth = Dimensions.get("window").width;
 
-export default class ItemCard extends React.Component {
+class ItemCard extends React.Component {
   state = { wishListed: false };
   toggleWishList = () => {
     this.setState((prevState) => ({ wishListed: !prevState.wishListed }));
@@ -68,7 +71,7 @@ export default class ItemCard extends React.Component {
             labelStyle={{ color: "white" }}
             color={secondaryColor}
             onPress={() => {
-              this.props.navigation.navigate("payment-selector-screen");
+              this.props.addToCart(this.props.data);
             }}
           >
             Add to Cart
@@ -78,6 +81,14 @@ export default class ItemCard extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  addToCart: (data) => {
+    dispatch(addItemToCart(data));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(ItemCard);
 
 const styles = StyleSheet.create({
   card: {

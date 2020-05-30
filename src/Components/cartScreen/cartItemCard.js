@@ -13,22 +13,27 @@ import { secondaryColor } from "../../appStyles";
 
 import Img from "../../res/loginIntroArt.png";
 
-const Card = (props) => (
+const Card = ({ item }) => (
   <Surface style={styles.container}>
     <View style={{ flexDirection: "row" }}>
       <View style={styles.topPart}>
         <View style={styles.imageView}>
-          <Image source={Img} style={styles.img} />
+          <Image source={{ uri: item.url }} style={styles.img} />
         </View>
       </View>
       <View style={styles.detailsContainer}>
-        <Text style={{ fontSize: 17 }}>Mens Cluster Ring</Text>
-        <Text style={styles.itemId}>KJKJ33-JFMR54</Text>
-        <Text>Size : 12</Text>
-        <Text>Quantity : 1</Text>
+        <Text style={{ fontSize: 17 }}>{item.title}</Text>
+        <Text style={styles.itemId}>
+          {item._id.toUpperCase().substring(0, 8)}
+        </Text>
+        <Text>Size : {item.size}</Text>
+        <Text>Quantity : {item.quantity}</Text>
         <Text style={styles.price}>
-          {`\u20b9`}14,867
-          <Text style={styles.actualPrice}>{`\t \u20b9`}17,367</Text>
+          {`\u20b9 ${item.price}/-`}
+
+          <Text style={styles.actualPrice}>
+            {`\t \u20b9${item.price + item.price * 0.2}`}
+          </Text>
         </Text>
       </View>
     </View>
@@ -47,7 +52,9 @@ const styles = StyleSheet.create({
   container: {
     color: "white",
     alignSelf: "flex-end",
-    marginLeft: 10,
+    marginHorizontal: 10,
+    marginBottom: 10,
+    paddingBottom: 10,
   },
   topPart: {
     width: "40%",

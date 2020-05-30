@@ -23,9 +23,9 @@ export default function App() {
   return (
     <PaperProvider theme={theme}>
       <ReduxProvider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <MainStackNavigator />
-        </PersistGate>
+        {/* <PersistGate loading={null} persistor={persistor}> */}
+        <MainStackNavigator />
+        {/* </PersistGate> */}
       </ReduxProvider>
     </PaperProvider>
   );

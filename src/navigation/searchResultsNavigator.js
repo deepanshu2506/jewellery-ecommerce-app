@@ -7,10 +7,17 @@ import CustomAppBar from "../Components/navigation-custom-components/CustomSearc
 import SearchScreen from "../screens/SearchResults";
 import ItemDetailsScreen from "../screens/ItemDetails";
 import filterScreen from "../screens/filterScreen";
+import { connect } from "react-redux";
 
 const Stack = createStackNavigator();
 
-function searchStackNavigator() {
+const getCartCount = (cart) => {
+  return cart.reduce(function (prev, item) {
+    return prev + item.quantity;
+  }, 0);
+};
+
+function searchStackNavigator({ cartCount }) {
   return (
     <Stack.Navigator
       initialRouteName="search"
@@ -20,6 +27,7 @@ function searchStackNavigator() {
             scene={scene}
             previous={previous}
             navigation={navigation}
+            cartCount={cartCount}
           />
         ),
       }}
@@ -31,4 +39,6 @@ function searchStackNavigator() {
   );
 }
 
-export default searchStackNavigator;
+const mapStateToProps = (state) => ({ cartCount: getCartCount(state.cart) });
+
+export default connect(mapStateToProps)(searchStackNavigator);

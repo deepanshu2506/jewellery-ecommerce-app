@@ -1,8 +1,5 @@
 /**
  * todo:
- * 1. fetch cart from server/ app state
- * 2.  populate the cart
- * 3. calculate total and display accordingly also save to order state
  * 4. fetch address if available
  * 5. if address not available then navigate to the address selection screen on clicking buy now
  * 6. implement the remove from cart and save to wishlist functions
@@ -18,32 +15,59 @@ import { secondaryColor, primaryColor } from "../appStyles";
 
 import AddressCard from "../Components/cartScreen/deliveryAddressHeader";
 import CartItem from "../Components/cartScreen/cartItemCard";
+import EmptyCart from "../Components/cartScreen/emptyCart";
+import { connect } from "react-redux";
 
-export default class cartScreen extends Component {
+class CartScreen extends Component {
   _onAddressChange = () =>
     this.props.navigation.navigate("address-selector-screen");
+
+  _getTotalItems = () => {
+    return this.props.cart.reduce(function (prev, item) {
+      return prev + item.quantity;
+    }, 0);
+  };
+
+  _hasItems = () => this.props.cart.length != 0;
+
+  _calcTotalAmount = () => {
+    let total = 0;
+    this.props.cart.forEach((item) => {
+      total += item.price * item.quantity;
+    });
+    return total;
+  };
   render() {
+    console.log(this.props.cart);
     return (
-      <View style={{ flex: 1 }}>
-        <ScrollView style={{ flex: 1, borderWidth: 1 }}>
-          <AddressCard onChangeClick={this._onAddressChange} />
-
-          <Text style={styles.totalAmount}>
-            Total (3 Item): {`  \u20B9 `}44,601.00
-          </Text>
-
-          <CartItem />
-          <CartItem />
-          <CartItem />
-        </ScrollView>
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        {this._hasItems() ? (
+          <View style={{ flex: 1, backgroundColor: "#eee" }}>
+            <ScrollView style={{ borderWidth: 1 }}>
+              <AddressCard onChangeClick={this._onAddressChange} />
+              <Text style={styles.totalAmount}>
+                Total ({this._getTotalItems()}):{" "}
+                {`  \u20B9 ${this._calcTotalAmount()}/-`}
+              </Text>
+              {this.props.cart.map((item) => (
+                <CartItem item={item} />
+              ))}
+            </ScrollView>
+          </View>
+        ) : (
+          <EmptyCart />
+        )}
 
         {/* Bottom strip starts */}
         <Surface style={styles.priceView}>
           <View style={{ flexDirection: "row" }}>
-            <Text style={styles.price}>{"\u20B9"}44,601</Text>
+            <Text style={styles.price}>
+              {`\u20B9 ${this._calcTotalAmount()}/-`}
+            </Text>
             <Text style={styles.paysecurely}>pay Securely</Text>
           </View>
           <Button
+            disabled={!this._hasItems()}
             mode="contained"
             icon="lock"
             labelStyle={{ color: "white" }}
@@ -60,6 +84,9 @@ export default class cartScreen extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({ cart: state.cart });
+
+export default connect(mapStateToProps)(CartScreen);
 
 const styles = StyleSheet.create({
   totalAmount: {

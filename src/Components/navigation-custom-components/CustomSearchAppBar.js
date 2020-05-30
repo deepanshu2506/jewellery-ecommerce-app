@@ -1,9 +1,10 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
-import { Appbar } from "react-native-paper";
+import { TouchableOpacity, View } from "react-native";
+import { Appbar, Badge } from "react-native-paper";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 
-const Header = ({ scene, previous, navigation }) => {
+const Header = ({ scene, previous, navigation, cartCount }) => {
+  console.log(cartCount);
   return (
     <Appbar.Header>
       <TouchableOpacity
@@ -21,8 +22,21 @@ const Header = ({ scene, previous, navigation }) => {
         }}
       />
       <Appbar.Action
-        icon="cart-outline"
-        style={{ marginRight: 10 }}
+        icon={({ size, color }) => (
+          <View style={{ width: 25, borderRadius: 0 }}>
+            <MaterialCommunityIcons
+              name="cart-outline"
+              size={size}
+              color={color}
+            />
+            {cartCount != 0 && (
+              <Badge style={{ position: "absolute", top: -5, right: -10 }}>
+                {cartCount}
+              </Badge>
+            )}
+          </View>
+        )}
+        style={{ width: 50 }}
         onPress={() => {
           navigation.navigate("purchase");
         }}
