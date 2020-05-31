@@ -147,6 +147,25 @@ const CustomDrawerComponent = (props) => {
             labelStyle={styles.navText}
             activeTintColor={secondaryColor}
           />
+
+          <DrawerItem
+            label="WishList"
+            onPress={() => {
+              navigation.push("wishlist");
+              navigation.closeDrawer();
+            }}
+            icon={({ color, size }) => (
+              <MaterialCommunityIcons
+                name="heart-multiple-outline"
+                color={secondaryColor}
+                size={size}
+              />
+            )}
+            style={styles.navItem}
+            labelStyle={styles.navText}
+            activeTintColor={secondaryColor}
+          />
+
           <DrawerItem
             label="Contact Us"
             onPress={() => {

@@ -4,7 +4,6 @@ import { Appbar, Badge } from "react-native-paper";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 
 const Header = ({ scene, previous, navigation, cartCount }) => {
-  console.log(cartCount);
   return (
     <Appbar.Header>
       <TouchableOpacity

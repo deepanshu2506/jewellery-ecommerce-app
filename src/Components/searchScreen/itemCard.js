@@ -20,12 +20,19 @@ import img1 from "../../res/earring1.jpg";
 
 import { connect } from "react-redux";
 import { addItemToCart } from "../../redux/actions/cartActions";
+import { add, remove } from "../../redux/actions/wishListActions";
 
 const screenWidth = Dimensions.get("window").width;
 
 class ItemCard extends React.Component {
-  state = { wishListed: false };
+  state = { wishListed: this.props.isWishListed };
+
   toggleWishList = () => {
+    if (!this.state.wishListed) {
+      this.props.addToWishList(this.props.data);
+    } else {
+      this.props.removeFromWishList(this.props.data);
+    }
     this.setState((prevState) => ({ wishListed: !prevState.wishListed }));
   };
   render() {
@@ -86,9 +93,18 @@ const mapDispatchToProps = (dispatch) => ({
   addToCart: (data) => {
     dispatch(addItemToCart(data));
   },
+  removeFromWishList: (item) => {
+    dispatch(remove(item));
+  },
+  addToWishList: (item) => {
+    dispatch(add(item));
+  },
+});
+const mapStateToProps = (state) => ({
+  wishList: state.wishList,
 });
 
-export default connect(null, mapDispatchToProps)(ItemCard);
+export default connect(mapStateToProps, mapDispatchToProps)(ItemCard);
 
 const styles = StyleSheet.create({
   card: {

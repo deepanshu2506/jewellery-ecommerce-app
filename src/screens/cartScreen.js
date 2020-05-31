@@ -47,7 +47,6 @@ class CartScreen extends Component {
     return total;
   };
   render() {
-    console.log("currentaddress", this.props.currentAddress);
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         {this._hasItems() ? (

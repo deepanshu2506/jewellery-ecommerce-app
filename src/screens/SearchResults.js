@@ -15,6 +15,7 @@ import {
   TouchableNativeFeedback,
 } from "react-native";
 import { Constants } from "expo";
+import _ from "lodash";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { Surface, Portal, Dialog, RadioButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -67,11 +68,17 @@ class searchResultsScreen extends React.Component {
     console.log(this.props.cart);
   };
 
+  isWishlisted = (item) => {
+    const fromList = _.find(this.props.wishList, (i) => i._id == item._id);
+    return fromList ? true : false;
+  };
+
   _renderItems = ({ item, index }) => (
     <ItemCard
       navigation={this.props.navigation}
       data={item}
       debug={this._debug}
+      isWishListed={this.isWishlisted(item)}
     />
   );
 
@@ -132,5 +139,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => ({
   authToken: state.user.token,
   cart: state.cart,
+  wishList: state.wishList,
 });
 export default connect(mapStateToProps)(searchResultsScreen);

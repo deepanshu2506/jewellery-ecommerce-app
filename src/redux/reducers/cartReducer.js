@@ -15,7 +15,6 @@ export const cartReducer = (state = [], action) => {
       }
     case REMOVE_ITEM:
       const cart = _.filter(state, (item) => {
-        console.log(item._id, action.payload);
         return item._id != action.payload;
       });
       return cart;

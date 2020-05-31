@@ -15,8 +15,9 @@ import Img from "../../res/loginIntroArt.png";
 
 import { connect } from "react-redux";
 import { removeFromCart } from "../../redux/actions/cartActions";
+import { add } from "../../redux/actions/wishListActions";
 
-const Card = ({ item, removeFromCart }) => (
+const Card = ({ item, removeFromCart, addToWishlist }) => (
   <Surface style={styles.container}>
     <View style={{ flexDirection: "row" }}>
       <View style={styles.topPart}>
@@ -51,7 +52,14 @@ const Card = ({ item, removeFromCart }) => (
       >
         Remove
       </Button>
-      <Button mode="outlined" style={{ width: "45%" }}>
+      <Button
+        mode="outlined"
+        style={{ width: "45%" }}
+        onPress={() => {
+          addToWishlist(item);
+          removeFromCart(item._id);
+        }}
+      >
         Save to wishlist
       </Button>
     </View>
@@ -97,8 +105,10 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => ({
   removeFromCart: (id) => {
-    console.log(id);
     dispatch(removeFromCart(id));
+  },
+  addToWishlist: (item) => {
+    dispatch(add(item));
   },
 });
 

@@ -7,6 +7,8 @@ import CustomAppBar from "../Components/navigation-custom-components/CustomSearc
 import SearchScreen from "../screens/SearchResults";
 import ItemDetailsScreen from "../screens/ItemDetails";
 import filterScreen from "../screens/filterScreen";
+import WishListScreen from "../screens/wishListScreen";
+
 import { connect } from "react-redux";
 
 const Stack = createStackNavigator();
@@ -35,6 +37,7 @@ function searchStackNavigator({ cartCount }) {
       <Stack.Screen name="search" component={SearchScreen} />
       <Stack.Screen name="itemDetails" component={ItemDetailsScreen} />
       <Stack.Screen name="filterScreen" component={filterScreen} />
+      <Stack.Screen name="wishlist" component={WishListScreen} />
     </Stack.Navigator>
   );
 }
