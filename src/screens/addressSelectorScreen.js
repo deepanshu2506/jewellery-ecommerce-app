@@ -5,8 +5,12 @@ import { secondaryColor } from "../appStyles";
 
 import { useNavigation } from "@react-navigation/native";
 
-const AddressCard = (props) => {
+import { connect } from "react-redux";
+import { changeCurrentAddress } from "../redux/actions/userActions";
+
+const AddressCardComponent = ({ address, changeAddress }) => {
   const navigation = useNavigation();
+  console.log(address);
   return (
     <Surface
       style={{
@@ -20,16 +24,19 @@ const AddressCard = (props) => {
       }}
     >
       <View style={{ flexGrow: 6 }}>
-        <Text>Address line 1</Text>
-        <Text>Address line 2</Text>
-        <Text>Address line 3</Text>
+        <Text>{address.line1}</Text>
+        <Text>{address.line2}</Text>
+        <Text>{address.line3}</Text>
+        <Text>{`${address.city} - ${address.pincode}`}</Text>
+        <Text>{address.state}</Text>
       </View>
       <View>
         <Button
           mode="outlined"
           color={secondaryColor}
           onPress={() => {
-            navigation.navigate("payment-selector-screen");
+            changeAddress(address);
+            navigation.goBack();
           }}
         >
           Select
@@ -39,12 +46,21 @@ const AddressCard = (props) => {
   );
 };
 
-export default class AddressSelectorScreen extends React.Component {
+const mapDispatchToProps = (dispatch) => ({
+  changeAddress: (address) => {
+    dispatch(changeCurrentAddress(address));
+  },
+});
+
+const AddressCard = connect(null, mapDispatchToProps)(AddressCardComponent);
+
+class AddressSelectorScreen extends React.Component {
   render() {
     return (
       <ScrollView style={{ flex: 1, paddingTop: 10 }}>
-        <AddressCard />
-        <AddressCard />
+        {this.props.addresses.map((address) => (
+          <AddressCard address={address} />
+        ))}
         <Button
           mode="contained"
           color={secondaryColor}
@@ -60,3 +76,9 @@ export default class AddressSelectorScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  addresses: state.user.addresses,
+});
+
+export default connect(mapStateToProps)(AddressSelectorScreen);

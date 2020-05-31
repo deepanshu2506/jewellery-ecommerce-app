@@ -4,6 +4,8 @@ export const LOGIN_SUCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 export const SIGNUP_FAILED = "SIGNUP_FAILED";
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
+export const NEW_ADDRESS = "NEW_ADDRESS";
+export const CHANGE_ADDRESS = "CHANGE_ADDRESS";
 
 const loadingRequest = () => {
   return { type: LOADING_REQUEST };
@@ -79,4 +81,15 @@ export const signup = (mobile, username, password) => (dispatch) => {
       }
     })
     .catch((err) => dispatch(signUpFailed("something went wrong")));
+};
+
+export const saveAddress = (address) => {
+  return {
+    type: NEW_ADDRESS,
+    payload: address,
+  };
+};
+
+export const changeCurrentAddress = (address) => {
+  return { type: CHANGE_ADDRESS, payload: address };
 };

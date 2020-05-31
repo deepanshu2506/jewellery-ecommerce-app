@@ -4,18 +4,34 @@ import {
   LOGIN_FAILED,
   SIGNUP_FAILED,
   SIGNUP_SUCCESS,
+  NEW_ADDRESS,
+  CHANGE_ADDRESS,
 } from "../actions/userActions";
 
-const initialState = { loading: false, error: "" };
+const initialState = {
+  loading: false,
+  error: "",
+  addresses: [],
+};
+
+const addAddress = (state, newAddress) => {
+  let addresses = state.addresses;
+  let newState = state;
+  if (addresses.length == 0) {
+    newState.currentAddress = { ...newAddress, id: 1 };
+  }
+  const newAdd = { ...newAddress, id: addresses.length + 1 };
+  addresses = [...addresses, newAdd];
+  newState = { ...newState, addresses };
+  return newState;
+};
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_SUCESS:
       return {
-        ...state,
+        ...initialState,
         ...action.payload,
-        loading: false,
-        error: "",
       };
     case LOADING_REQUEST:
       return { ...state, loading: true };
@@ -25,6 +41,10 @@ export const userReducer = (state = initialState, action) => {
       return { err: action.payload.err };
     case SIGNUP_SUCCESS:
       return { isSignupSuccess: 1 };
+    case NEW_ADDRESS:
+      return addAddress(state, action.payload);
+    case CHANGE_ADDRESS:
+      return { ...state, currentAddress: action.payload };
     default:
       return state;
   }

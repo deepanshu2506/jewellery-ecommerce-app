@@ -16,6 +16,7 @@ function MainStackNavigator({ user }) {
   return (
     <NavigationContainer>
       <Stack.Navigator
+        // initialRouteName="Drawer"
         initialRouteName={!user.token ? "login" : "Drawer"}
         screenOptions={{
           headerShown: false,

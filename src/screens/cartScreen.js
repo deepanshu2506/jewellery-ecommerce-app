@@ -28,6 +28,15 @@ class CartScreen extends Component {
     }, 0);
   };
 
+  _proceedToPayment = () => {
+    console.log(this.props.isAddressPresent);
+    if (!this.props.isAddressPresent) {
+      this.props.navigation.navigate("add-new-address-screen");
+    } else {
+      this.props.navigation.navigate("payment-selector-screen");
+    }
+  };
+
   _hasItems = () => this.props.cart.length != 0;
 
   _calcTotalAmount = () => {
@@ -38,13 +47,19 @@ class CartScreen extends Component {
     return total;
   };
   render() {
-    console.log(this.props.cart);
+    console.log("currentaddress", this.props.currentAddress);
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         {this._hasItems() ? (
           <View style={{ flex: 1, backgroundColor: "#eee" }}>
             <ScrollView style={{ borderWidth: 1 }}>
-              <AddressCard onChangeClick={this._onAddressChange} />
+              {this.props.isAddressPresent && (
+                <AddressCard
+                  address={this.props.currentAddress}
+                  onChangeClick={this._onAddressChange}
+                />
+              )}
+
               <Text style={styles.totalAmount}>
                 Total ({this._getTotalItems()}):{" "}
                 {`  \u20B9 ${this._calcTotalAmount()}/-`}
@@ -72,9 +87,7 @@ class CartScreen extends Component {
             icon="lock"
             labelStyle={{ color: "white" }}
             color={secondaryColor}
-            onPress={() => {
-              this.props.navigation.navigate("payment-selector-screen");
-            }}
+            onPress={this._proceedToPayment}
           >
             BUY NOW
           </Button>
@@ -84,7 +97,14 @@ class CartScreen extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({ cart: state.cart });
+
+const isAddressPresent = (addresses) => addresses.length != 0;
+const mapStateToProps = (state) => ({
+  cart: state.cart,
+  addresses: state.user.addresses,
+  isAddressPresent: isAddressPresent(state.user.addresses),
+  currentAddress: state.user.currentAddress,
+});
 
 export default connect(mapStateToProps)(CartScreen);
 
