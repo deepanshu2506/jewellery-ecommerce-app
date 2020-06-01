@@ -1,4 +1,11 @@
-import { loginUrl, signupUrl } from "../../resources/endpoints";
+import {
+  loginUrl,
+  signupUrl,
+  syncCartWishListUrl,
+} from "../../resources/endpoints";
+import { addItemToCart } from "./cartActions";
+import { add as addItemToWishList } from "./wishListActions";
+
 export const LOADING_REQUEST = "LOADING_REQUEST";
 export const LOGIN_SUCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
@@ -32,6 +39,24 @@ const signUpSuccess = () => ({
   type: SIGNUP_SUCCESS,
 });
 
+const populateCartAndWishList = (id, token) => {
+  const payLoad = { id };
+  fetch(syncCartWishListUrl, {
+    method: "GET",
+    headers: { "Content-Type": "application/json", Authorization: token },
+    body: JSON.stringify(payLoad),
+  })
+    .then((data) => data.json())
+    .then((data) => {
+      data.cart.forEach((item) => {
+        dispatch(addItemToCart(item));
+      });
+      data.wishlist.forEach((item) => {
+        dispatch(addItemToWishList(item));
+      });
+    });
+};
+
 export const requestLogin = (username, password) => {
   return (dispatch) => {
     dispatch(loadingRequest());
@@ -50,6 +75,7 @@ export const requestLogin = (username, password) => {
         // console.log(typeof data);
         if (typeof data !== "string") {
           dispatch(loginInSuccess(data));
+          populateCartAndWishList(data.user._id, data.token);
         } else {
           dispatch(loginInFailed(data));
         }
