@@ -39,7 +39,7 @@ const signUpSuccess = () => ({
   type: SIGNUP_SUCCESS,
 });
 
-const populateCartAndWishList = (id, token) => {
+export const populateCartAndWishList = (id, token) => (dispatch) => {
   const payLoad = { id };
   fetch(syncCartWishListUrl, {
     method: "GET",
