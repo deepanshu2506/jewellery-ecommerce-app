@@ -7,29 +7,18 @@
  */
 
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-  TouchableNativeFeedback,
-} from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Constants } from "expo";
 import _ from "lodash";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
-import { Surface, Portal, Dialog, RadioButton } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
 
 import { connect } from "react-redux";
-
-import { secondaryColor, primaryColor } from "../appStyles";
 
 import ItemCard from "../Components/searchScreen/itemCard";
 import FilterBar from "../Components/searchScreen/FilterBar";
 import SortDialog from "../Components/searchScreen/SortDialog";
 import NoItems from "../Components/searchScreen/noItems";
 
-import { allProductsApi, productByTypeApi } from "../resources/endpoints";
+import { allProductsApi, getSearchApi } from "../resources/endpoints";
 import { FlatList } from "react-native-gesture-handler";
 
 class searchResultsScreen extends React.Component {
@@ -41,16 +30,11 @@ class searchResultsScreen extends React.Component {
   };
 
   async componentDidMount() {
-    let productApi = "";
     const params = this.props.route.params || {};
     try {
-      if (params.searchType == "keyword") {
-        productApi = "";
-      } else if (params.searchType == "category") {
-        productApi = productByTypeApi(params.search);
-      } else {
-        productApi = allProductsApi;
-      }
+      const productApi = params.search
+        ? getSearchApi(params.search)
+        : allProductsApi;
       const response = fetch(productApi, {
         method: "GET",
         headers: { Authorization: this.props.authToken },

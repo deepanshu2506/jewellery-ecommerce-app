@@ -6,6 +6,13 @@ import Constants from "expo-constants";
 import { primaryColor, secondaryColor } from "../appStyles";
 
 export default class SearchbarScreen extends React.Component {
+  state = { searchText: "" };
+
+  search = () => {
+    this.props.navigation.push("search", { search: this.state.searchText });
+    this.props.navigation.goBack();
+  };
+
   render() {
     return (
       <View
@@ -25,6 +32,9 @@ export default class SearchbarScreen extends React.Component {
             }}
             placeholder="What are you looking for today ?"
             iconColor={secondaryColor}
+            value={this.state.searchText}
+            onChangeText={(text) => this.setState({ searchText: text })}
+            onSubmitEditing={this.search}
             inputStyle={{
               fontSize: 17,
               paddingLeft: 0,

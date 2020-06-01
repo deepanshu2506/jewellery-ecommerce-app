@@ -10,3 +10,7 @@ export const syncCartWishListUrl = host + "/api/sync";
 export const productByTypeApi = (type) => {
   return `${host}/api/product_type/${type}`;
 };
+
+export const getSearchApi = (keyword) => {
+  return `${host}/api/products/search?keywords=${keyword}`;
+};

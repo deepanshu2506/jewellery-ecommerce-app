@@ -14,7 +14,7 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { primaryColor, secondaryColor } from "../../appStyles";
 
 const navigationHandler = (navigation, type) => () => {
-  navigation.push("search", { searchType: "category", search: type });
+  navigation.push("search", { search: type });
   navigation.closeDrawer();
 };
 
