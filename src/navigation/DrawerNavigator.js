@@ -6,13 +6,15 @@ import DrawerComponent from "../Components/navigation-custom-components/customDr
 
 import SearchResultsNavigator from "./searchResultsNavigator";
 import DetailScreen from "../screens/details";
+import { connect } from "react-redux";
 
 const Drawer = createDrawerNavigator();
-export default function AppDrawer() {
+function AppDrawer({ user }) {
   return (
     <Drawer.Navigator
       //   drawerType="permanent"
-      drawerContent={DrawerComponent}
+      drawerContent={(props) => <DrawerComponent {...props} user={user} />}
+      // drawerContent={DrawerComponent}
       initialRouteName="HomeStack"
     >
       <Drawer.Screen name="HomeStack" component={SearchResultsNavigator} />
@@ -20,3 +22,7 @@ export default function AppDrawer() {
     </Drawer.Navigator>
   );
 }
+
+const mapStateToProps = (state) => ({ user: state.user.user });
+
+export default connect(mapStateToProps)(AppDrawer);

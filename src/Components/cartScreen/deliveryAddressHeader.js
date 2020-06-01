@@ -6,19 +6,25 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Surface, Button } from "react-native-paper";
+
 const maxAddressLength = 40;
-const AddressCard = ({ address, onChangeClick }) => {
+
+const getFormattedAddress = (address) => {
   let addressText = `${address.line1}, ${address.line2}, ${address.line3}, ${address.city}, ${address.state}- ${address.pincode}`;
   if (addressText.length > maxAddressLength) {
     addressText = addressText.substr(0, maxAddressLength - 3) + "...";
   }
+  return addressText;
+};
+
+const AddressCard = ({ address, onChangeClick, userName }) => {
   return (
     <Surface style={styles.container}>
       <View style={{ width: "70%" }}>
         <Text style={{ fontSize: 17 }}>
-          Deliver To <Text style={{ fontWeight: "bold" }}>Tom Holland</Text>
+          Deliver To <Text style={{ fontWeight: "bold" }}>{userName}</Text>
         </Text>
-        <Text>{addressText}</Text>
+        <Text>{getFormattedAddress(address)}</Text>
       </View>
       <View style={{ justifyContent: "center" }}>
         <Button

@@ -54,6 +54,7 @@ class CartScreen extends Component {
             <ScrollView style={{ borderWidth: 1 }}>
               {this.props.isAddressPresent && (
                 <AddressCard
+                  userName={this.props.userName}
                   address={this.props.currentAddress}
                   onChangeClick={this._onAddressChange}
                 />
@@ -99,8 +100,8 @@ class CartScreen extends Component {
 
 const isAddressPresent = (addresses) => addresses.length != 0;
 const mapStateToProps = (state) => ({
+  userName: state.user.user.username,
   cart: state.cart,
-  addresses: state.user.addresses,
   isAddressPresent: isAddressPresent(state.user.addresses),
   currentAddress: state.user.currentAddress,
 });

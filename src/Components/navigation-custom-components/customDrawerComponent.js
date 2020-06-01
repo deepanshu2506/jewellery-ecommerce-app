@@ -12,6 +12,7 @@ import { View, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 
 import { primaryColor, secondaryColor } from "../../appStyles";
+import { connect } from "react-redux";
 
 const navigationHandler = (navigation, type) => () => {
   navigation.push("search", { search: type });
@@ -19,7 +20,7 @@ const navigationHandler = (navigation, type) => () => {
 };
 
 const CustomDrawerComponent = (props) => {
-  const { navigation } = props;
+  const { navigation, user } = props;
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.drawerContent}>
@@ -46,7 +47,7 @@ const CustomDrawerComponent = (props) => {
             }}
           >
             <Avatar.Text
-              label="DV"
+              label={user.username[0].toUpperCase()}
               style={{ backgroundColor: secondaryColor }}
               size={40}
               color="white"
