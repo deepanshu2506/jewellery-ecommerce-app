@@ -1,16 +1,24 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { connect } from "react-redux";
+import WishListItem from "../Components/WishListScreen/WishListItem";
+import { FlatList } from "react-native-gesture-handler";
+import EmptyWishList from "../Components/WishListScreen/EmptyWishList";
 
 class WishListScreen extends React.Component {
+  renderWishListItem = ({ item }) => <WishListItem item={item} />;
   render() {
-    console.log(this.props.wishlist);
     return (
-      <View>
-        <Text>Wish List screen</Text>
-        {this.props.wishlist.map((item) => (
-          <Text>{item._id}</Text>
-        ))}
+      <View style={{ flex: 1, width: "100%", paddingHorizontal: 10 }}>
+        {this.props.wishlist.length != 0 ? (
+          <FlatList
+            data={this.props.wishlist}
+            renderItem={this.renderWishListItem}
+            keyExtractor={(item) => item._id}
+          />
+        ) : (
+          <EmptyWishList />
+        )}
       </View>
     );
   }
