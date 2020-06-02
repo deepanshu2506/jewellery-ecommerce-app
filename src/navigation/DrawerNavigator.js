@@ -7,9 +7,11 @@ import DrawerComponent from "../Components/navigation-custom-components/customDr
 import SearchResultsNavigator from "./searchResultsNavigator";
 import DetailScreen from "../screens/details";
 import { connect } from "react-redux";
+import { populateCartAndWishList } from "../redux/actions/userActions";
 
 const Drawer = createDrawerNavigator();
-function AppDrawer({ user }) {
+function AppDrawer({ user, token, populate }) {
+  populate(user._id, token);
   return (
     <Drawer.Navigator
       //   drawerType="permanent"
@@ -23,6 +25,14 @@ function AppDrawer({ user }) {
   );
 }
 
-const mapStateToProps = (state) => ({ user: state.user.user });
+const mapStateToProps = (state) => ({
+  user: state.user.user,
+  token: state.user.token,
+});
+const mapDispatchToProps = (dispatch) => ({
+  populate: (id, token) => {
+    dispatch(populateCartAndWishList(id, token));
+  },
+});
 
-export default connect(mapStateToProps)(AppDrawer);
+export default connect(mapStateToProps, mapDispatchToProps)(AppDrawer);

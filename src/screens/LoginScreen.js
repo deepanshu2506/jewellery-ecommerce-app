@@ -23,9 +23,7 @@ class LoginScreen extends React.Component {
   state = { username: "", password: "" };
 
   componentDidUpdate(prevProps) {
-    console.log(this.props.user);
     if (this.props.user.code) {
-      console.log(this.props.user);
       this.props.navigation.reset({
         index: 0,
         routes: [{ name: "Drawer" }],

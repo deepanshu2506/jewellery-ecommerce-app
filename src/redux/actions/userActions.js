@@ -48,12 +48,16 @@ export const populateCartAndWishList = (id, token) => (dispatch) => {
   })
     .then((data) => data.json())
     .then((data) => {
+      console.log(data);
       data.cart.forEach((item) => {
         dispatch(addItemToCart(item));
       });
       data.wishlist.forEach((item) => {
         dispatch(addItemToWishList(item));
       });
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };
 

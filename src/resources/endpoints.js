@@ -14,3 +14,6 @@ export const productByTypeApi = (type) => {
 export const getSearchApi = (keyword) => {
   return `${host}/api/products/search?keywords=${keyword}`;
 };
+
+export const addToCartUrl = host + "/api/add_to_cart";
+export const removeFromcartUrl = host + "/api/remove_from_cart";
