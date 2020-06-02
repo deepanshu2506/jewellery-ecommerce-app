@@ -22,7 +22,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "bundleIdentifier": "host.exp.exponent"
+    },
+    "android": {
+      "package": "com.inc.hnm"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
   }
 }
