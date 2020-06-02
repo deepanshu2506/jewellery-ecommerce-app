@@ -18,7 +18,12 @@ import CartItem from "../Components/cartScreen/cartItemCard";
 import EmptyCart from "../Components/cartScreen/emptyCart";
 import { connect } from "react-redux";
 
+import { populateCartAndWishList } from "../redux/actions/userActions";
+
 class CartScreen extends Component {
+  componentDidMount() {
+    this.props.syncCart();
+  }
   _onAddressChange = () =>
     this.props.navigation.navigate("address-selector-screen");
 
@@ -105,8 +110,12 @@ const mapStateToProps = (state) => ({
   isAddressPresent: isAddressPresent(state.user.addresses),
   currentAddress: state.user.currentAddress,
 });
-
-export default connect(mapStateToProps)(CartScreen);
+const mapDispatchToProps = (dispatch) => ({
+  syncCart: () => {
+    dispatch(populateCartAndWishList());
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(CartScreen);
 
 const styles = StyleSheet.create({
   totalAmount: {

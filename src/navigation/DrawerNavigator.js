@@ -11,7 +11,9 @@ import { populateCartAndWishList } from "../redux/actions/userActions";
 
 const Drawer = createDrawerNavigator();
 function AppDrawer({ user, token, populate }) {
-  populate(user._id, token);
+  React.useEffect(() => {
+    populate();
+  }, []);
   return (
     <Drawer.Navigator
       //   drawerType="permanent"

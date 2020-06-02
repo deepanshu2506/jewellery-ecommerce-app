@@ -3,8 +3,8 @@ import {
   signupUrl,
   syncCartWishListUrl,
 } from "../../resources/endpoints";
-import { addItemToCart } from "./cartActions";
-import { add as addItemToWishList } from "./wishListActions";
+import { setCartItems } from "./cartActions";
+import { setWishListItems } from "./wishListActions";
 
 export const LOADING_REQUEST = "LOADING_REQUEST";
 export const LOGIN_SUCESS = "LOGIN_SUCCESS";
@@ -39,22 +39,25 @@ const signUpSuccess = () => ({
   type: SIGNUP_SUCCESS,
 });
 
-export const populateCartAndWishList = (id, token) => (dispatch) => {
-  const payLoad = { id };
+export const populateCartAndWishList = () => (dispatch, getState) => {
+  const token = getState().user.token;
+  const userId = getState().user.user._id;
+  const payLoad = { id: userId };
   fetch(syncCartWishListUrl, {
-    method: "GET",
+    method: "POST",
     headers: { "Content-Type": "application/json", Authorization: token },
     body: JSON.stringify(payLoad),
   })
     .then((data) => data.json())
     .then((data) => {
-      console.log(data);
-      data.cart.forEach((item) => {
-        dispatch(addItemToCart(item));
-      });
-      data.wishlist.forEach((item) => {
-        dispatch(addItemToWishList(item));
-      });
+      dispatch(setCartItems(data.cart));
+      dispatch(setWishListItems(data.wishlist));
+      // data.cart.forEach((item) => {
+      //   dispatch(addItemToCart(item));
+      // });
+      // data.wishlist.forEach((item) => {
+      //   dispatch(addItemToWishList(item));
+      // });
     })
     .catch((err) => {
       console.log(err);
@@ -79,7 +82,7 @@ export const requestLogin = (username, password) => {
         // console.log(typeof data);
         if (typeof data !== "string") {
           dispatch(loginInSuccess(data));
-          populateCartAndWishList(data.user._id, data.token);
+          populateCartAndWishList();
         } else {
           dispatch(loginInFailed(data));
         }

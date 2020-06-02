@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import { ADD, REMOVE } from "../actions/wishListActions";
+import { ADD, REMOVE, SET_WISHLIST } from "../actions/wishListActions";
 
 export const WishListReducer = (state = [], action) => {
   switch (action.type) {
@@ -19,6 +19,8 @@ export const WishListReducer = (state = [], action) => {
       return _.filter(state, (item) => {
         return item._id != action.payload;
       });
+    case SET_WISHLIST:
+      return action.payload;
     default:
       return state;
   }

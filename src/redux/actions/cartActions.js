@@ -2,6 +2,7 @@ import { addToCartUrl, removeFromcartUrl } from "../../resources/endpoints";
 
 export const ADD_ITEM = "ADD_ITEM";
 export const REMOVE_ITEM = "REMOVE_ITEM";
+export const SET_CART = "SET_CART";
 
 const add = (data) => ({
   type: ADD_ITEM,
@@ -11,6 +12,11 @@ const add = (data) => ({
 const remove = (itemId) => ({
   type: REMOVE_ITEM,
   payload: itemId,
+});
+
+export const setCartItems = (items) => ({
+  type: SET_CART,
+  payload: items,
 });
 
 export const addItemToCart = (data) => (dispatch, getState) => {
