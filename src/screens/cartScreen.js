@@ -10,6 +10,7 @@
 import React, { Component } from "react";
 import { View, ScrollView, Text, StyleSheet } from "react-native";
 import { Surface, Button } from "react-native-paper";
+import RazorpayCheckout from "react-native-razorpay";
 
 import { secondaryColor, primaryColor } from "../appStyles";
 
@@ -19,6 +20,13 @@ import EmptyCart from "../Components/cartScreen/emptyCart";
 import { connect } from "react-redux";
 
 import { populateCartAndWishList } from "../redux/actions/userActions";
+import { ordersApiUrl } from "../resources/endpoints";
+import { apiKey as RazorPayApiKey } from "../config";
+
+const getFormattedAddress = (address) => {
+  let addressText = `${address.line1}, ${address.line2}, ${address.line3}, ${address.city}, ${address.state}- ${address.pincode}`;
+  return addressText;
+};
 
 class CartScreen extends Component {
   componentDidMount() {
@@ -38,8 +46,62 @@ class CartScreen extends Component {
     if (!this.props.isAddressPresent) {
       this.props.navigation.navigate("add-new-address-screen");
     } else {
-      this.props.navigation.navigate("payment-selector-screen");
+      this.payments();
     }
+  };
+
+  openCheckout = ({ order_id, amt }) => {
+    var options = {
+      description: "Your Jewellery purchase at H & M inc.",
+      currency: "INR",
+      key: RazorPayApiKey,
+      amount: amt,
+      name: "H&M Inc",
+      order_id: order_id, //Replace this with an order_id created using Orders API. Learn more at https://razorpay.com/docs/api/orders.
+      prefill: {
+        email: this.props.user.username,
+        contact: this.props.user.mobile,
+      },
+      theme: { color: "#53a20e" },
+    };
+    RazorpayCheckout.open(options)
+      .then((data) => {
+        // handle success
+        alert(`Success: ${data.razorpay_payment_id}`);
+      })
+      .catch((error) => {
+        // handle failure
+        alert(`Error: ${error.code} | ${error.description}`);
+      });
+  };
+
+  payments = () => {
+    const body = {
+      id: this.props.userId,
+      city: this.props.currentAddress.city,
+      address: getFormattedAddress(this.props.currentAddress),
+      state: this.props.currentAddress.state,
+      postcode: this.props.currentAddress.pincode,
+    };
+    console.log(body);
+    const options = {
+      method: "POST",
+      headers: {
+        Authorization: this.props.authToken,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    };
+
+    fetch(ordersApiUrl, options)
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        this.openCheckout(res);
+      })
+      .catch((err) => {
+        throw err;
+      });
   };
 
   _hasItems = () => this.props.cart.length != 0;
@@ -105,7 +167,11 @@ class CartScreen extends Component {
 
 const isAddressPresent = (addresses) => addresses.length != 0;
 const mapStateToProps = (state) => ({
+  authToken: state.user.token,
+  user: state.user.user,
   userName: state.user.user.username,
+
+  userId: state.user.user._id,
   cart: state.cart,
   isAddressPresent: isAddressPresent(state.user.addresses),
   currentAddress: state.user.currentAddress,

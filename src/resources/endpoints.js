@@ -17,3 +17,5 @@ export const getSearchApi = (keyword) => {
 
 export const addToCartUrl = host + "/api/add_to_cart";
 export const removeFromcartUrl = host + "/api/remove_from_cart";
+
+export const ordersApiUrl = host + "/api/proceed";
