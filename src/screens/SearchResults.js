@@ -20,6 +20,7 @@ import NoItems from "../Components/searchScreen/noItems";
 
 import { allProductsApi, getSearchApi } from "../resources/endpoints";
 import { FlatList } from "react-native-gesture-handler";
+import sortItems, { sortTypes } from "../resources/sortUtil";
 
 class searchResultsScreen extends React.Component {
   state = {
@@ -27,6 +28,12 @@ class searchResultsScreen extends React.Component {
     sortDialogVisible: false,
     loading: true,
     itemsList: [],
+  };
+  sortProperties = {
+    nameAsc: "Name: Ascending",
+    nameDesc: "Name: Descending",
+    priceAsc: "Price:Low to high",
+    priceDesc: "Price:High To Low ",
   };
 
   async componentDidMount() {
@@ -42,7 +49,14 @@ class searchResultsScreen extends React.Component {
       response
         .then((data) => data.json())
         .then((data) => {
-          this.setState({ itemsList: data, loading: false });
+          this.setState(
+            {
+              itemsList: data,
+              loading: false,
+              sortType: this.sortProperties.nameDesc,
+            },
+            this.sort(this.sortProperties.nameDesc)
+          );
         });
     } catch (err) {
       throw err;
@@ -66,12 +80,43 @@ class searchResultsScreen extends React.Component {
     />
   );
 
-  sort = () => {};
+  sort = (sortType) => {
+    let property = "";
+    let type = "";
+    console.log(sortType, this.sortProperties.priceAsc);
+    switch (sortType) {
+      case this.sortProperties.nameAsc:
+        property = "title";
+        type = sortTypes.ASC;
+        break;
+      case this.sortProperties.nameDesc:
+        property = "title";
+        type = sortTypes.DESC;
+        break;
+      case this.sortProperties.priceDesc:
+        property = "price";
+        type = sortTypes.DESC;
+        break;
+      case this.sortProperties.priceAsc:
+        console.log("abcd");
+        property = "price";
+        type = sortTypes.ASC;
+        console.log("abcd");
+        break;
+    }
+    console.log(property, type);
+    this.setState((prevState) => ({
+      itemsList: sortItems(prevState.itemsList, property, type),
+    }));
+  };
 
   _openSortDialog = () => this.setState({ sortDialogVisible: true });
   _closeSortDialog = () => this.setState({ sortDialogVisible: false });
 
-  _changeSortType = (value) => this.setState({ sortType: value }, this.sort());
+  _changeSortType = (value) => {
+    console.log(value);
+    this.setState({ sortType: value }, this.sort(value));
+  };
 
   _openFilters = () => this.props.navigation.navigate("filterScreen");
 
@@ -101,7 +146,7 @@ class searchResultsScreen extends React.Component {
           visible={this.state.sortDialogVisible}
           onSortSelect={this._changeSortType}
           currentType={this.state.sortType}
-          options={["popularity", "Price:Low to high", "Price:High To Low "]}
+          options={this.sortProperties}
         />
       </View>
     );

@@ -15,12 +15,12 @@ const SortDialog = (props) => {
             }}
             value={props.currentType}
           >
-            {props.options.map((option, index) => (
+            {Object.getOwnPropertyNames(props.options).map((key, index) => (
               <RadioButton.Item
-                label={option}
+                label={props.options[key]}
                 style={styles.sortDialogRadioButtonView}
-                labelStyle={{ marginLeft: 10 }}
-                value={index}
+                labelStyle={{ marginLeft: 10, fontSize: 18 }}
+                value={props.options[key]}
                 status={props.currentType === index ? "checked" : "unchecked"}
                 theme={{ color: "black" }}
               />
