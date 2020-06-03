@@ -1,14 +1,17 @@
 import React from "react";
-import { View, ScrollView, Text } from "react-native";
-import { Button, Surface } from "react-native-paper";
+import { View, ScrollView, Text, TouchableNativeFeedback } from "react-native";
+import { Button, Surface, IconButton } from "react-native-paper";
 import { secondaryColor } from "../appStyles";
 
 import { useNavigation } from "@react-navigation/native";
 
 import { connect } from "react-redux";
-import { changeCurrentAddress } from "../redux/actions/userActions";
+import {
+  changeCurrentAddress,
+  removeAddress,
+} from "../redux/actions/userActions";
 
-const AddressCardComponent = ({ address, changeAddress }) => {
+const AddressCardComponent = ({ address, change, remove }) => {
   const navigation = useNavigation();
   console.log(address);
   return (
@@ -23,32 +26,61 @@ const AddressCardComponent = ({ address, changeAddress }) => {
         elevation: 2,
       }}
     >
-      <View style={{ flexGrow: 6 }}>
-        <Text>{address.line1}</Text>
-        <Text>{address.line2}</Text>
-        <Text>{address.line3}</Text>
-        <Text>{`${address.city} - ${address.pincode}`}</Text>
-        <Text>{address.state}</Text>
-      </View>
-      <View>
-        <Button
-          mode="outlined"
-          color={secondaryColor}
-          onPress={() => {
-            changeAddress(address);
-            navigation.goBack();
+      <TouchableNativeFeedback
+        background={TouchableNativeFeedback.Ripple("#000")}
+        onPress={() => {
+          navigation.navigate("add-new-address-screen", {
+            replace: true,
+            address,
+          });
+        }}
+      >
+        <View
+          style={{
+            flexGrow: 5,
+            justifyContent: "center",
+            width: "70%",
+            color: "black",
+            paddingLeft: 10,
+            // borderWidth: 1,
           }}
         >
-          Select
-        </Button>
+          <Text>{address.line1}</Text>
+          <Text>{address.line2}</Text>
+          <Text>{address.line3}</Text>
+          <Text>{`${address.city} - ${address.pincode}`}</Text>
+          <Text>{address.state}</Text>
+        </View>
+      </TouchableNativeFeedback>
+      <View style={{ flexGrow: 1, flexDirection: "row" }}>
+        <IconButton
+          icon="check"
+          color="green"
+          size={30}
+          onPress={() => {
+            change(address);
+            navigation.goBack();
+          }}
+        />
+        <IconButton
+          icon="delete-outline"
+          color="red"
+          size={30}
+          onPress={() => {
+            remove(address);
+          }}
+        />
       </View>
     </Surface>
   );
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  changeAddress: (address) => {
+  change: (address) => {
     dispatch(changeCurrentAddress(address));
+  },
+  remove: (address) => {
+    dispatch(removeAddress(address));
   },
 });
 

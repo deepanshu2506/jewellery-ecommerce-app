@@ -6,7 +6,11 @@ import {
   SIGNUP_SUCCESS,
   NEW_ADDRESS,
   CHANGE_ADDRESS,
+  REMOVE_ADDRESS,
 } from "../actions/userActions";
+import _ from "lodash";
+
+import shortId from "shortid";
 
 const initialState = {
   loading: false,
@@ -18,9 +22,9 @@ const addAddress = (state, newAddress) => {
   let addresses = state.addresses;
   let newState = state;
   if (addresses.length == 0) {
-    newState.currentAddress = { ...newAddress, id: 1 };
+    newState.currentAddress = { ...newAddress, id: shortId.generate() };
   }
-  const newAdd = { ...newAddress, id: addresses.length + 1 };
+  const newAdd = { ...newAddress, id: shortId.generate() };
   addresses = [...addresses, newAdd];
   newState = { ...newState, addresses };
   return newState;
@@ -45,6 +49,16 @@ export const userReducer = (state = initialState, action) => {
       return addAddress(state, action.payload);
     case CHANGE_ADDRESS:
       return { ...state, currentAddress: action.payload };
+    case REMOVE_ADDRESS:
+      const addresses = _.filter(
+        state.addresses,
+        (address) => address.id != action.payload.id
+      );
+      if (state.currentAddress.id == action.payload.id) {
+        return { ...state, currentAddress: undefined, addresses };
+      } else {
+        return { ...state, addresses };
+      }
     default:
       return state;
   }

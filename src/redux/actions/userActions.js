@@ -13,6 +13,8 @@ export const SIGNUP_FAILED = "SIGNUP_FAILED";
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 export const NEW_ADDRESS = "NEW_ADDRESS";
 export const CHANGE_ADDRESS = "CHANGE_ADDRESS";
+export const REMOVE_ADDRESS = "REMOVE_ADDRESS";
+export const EDIT_ADDRESS = "EDIT_ADDRESS";
 
 const loadingRequest = () => {
   return { type: LOADING_REQUEST };
@@ -52,12 +54,6 @@ export const populateCartAndWishList = () => (dispatch, getState) => {
     .then((data) => {
       dispatch(setCartItems(data.cart));
       dispatch(setWishListItems(data.wishlist));
-      // data.cart.forEach((item) => {
-      //   dispatch(addItemToCart(item));
-      // });
-      // data.wishlist.forEach((item) => {
-      //   dispatch(addItemToWishList(item));
-      // });
     })
     .catch((err) => {
       console.log(err);
@@ -121,6 +117,17 @@ export const saveAddress = (address) => {
     type: NEW_ADDRESS,
     payload: address,
   };
+};
+
+export const removeAddress = (address) => {
+  return {
+    type: REMOVE_ADDRESS,
+    payload: address,
+  };
+};
+export const editAddress = (address) => (dispatch) => {
+  dispatch(removeAddress(address));
+  dispatch(saveAddress(address));
 };
 
 export const changeCurrentAddress = (address) => {

@@ -3,7 +3,7 @@ import { ScrollView } from "react-native";
 import { TextInput as BaseTextInput, Button } from "react-native-paper";
 import { secondaryColor } from "../appStyles";
 
-import { saveAddress } from "../redux/actions/userActions";
+import { saveAddress, editAddress } from "../redux/actions/userActions";
 import { connect } from "react-redux";
 
 const TextInput = (props) => (
@@ -15,16 +15,37 @@ const TextInput = (props) => (
 );
 
 class NewAddressScreen extends Component {
-  state = { line1: "", line2: "", line3: "", city: "", pincode: "", state: "" };
-
+  screenParams = this.props.route.params || {};
+  state = {
+    line1: this.screenParams.address ? this.screenParams.address.line1 : "",
+    line2: this.screenParams.address ? this.screenParams.address.line2 : "",
+    line3: this.screenParams.address ? this.screenParams.address.line3 : "",
+    city: this.screenParams.address ? this.screenParams.address.city : "",
+    pincode: this.screenParams.address ? this.screenParams.address.pincode : "",
+    state: this.screenParams.address ? this.screenParams.address.state : "",
+  };
+  componentDidMount() {
+    this.props.navigation.setOptions({
+      headerTitle: this.screenParams.address
+        ? "Modify Address"
+        : "Add New Address",
+    });
+  }
   _saveAddress = () => {
     //save the address to the user account
-
-    this.props.saveNewAddress(this.state);
+    if (this.screenParams.replace) {
+      this.props.replaceAddress({
+        ...this.state,
+        id: this.screenParams.address.id,
+      });
+    } else {
+      this.props.saveNewAddress(this.state);
+    }
     this.props.navigation.goBack();
   };
 
   render() {
+    console.log(this.screenParams);
     return (
       <ScrollView style={{ padding: 10, backgroundColor: "white", flex: 1 }}>
         <TextInput
@@ -84,7 +105,7 @@ class NewAddressScreen extends Component {
           mode="contained"
           onPress={this._saveAddress}
         >
-          Save
+          {this.screenParams.replace ? "replace" : "Save"}
         </Button>
       </ScrollView>
     );
@@ -94,6 +115,9 @@ class NewAddressScreen extends Component {
 const mapDispatchToProps = (dispatch) => ({
   saveNewAddress: (address) => {
     dispatch(saveAddress(address));
+  },
+  replaceAddress: (address) => {
+    dispatch(editAddress(address));
   },
 });
 
