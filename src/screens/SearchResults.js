@@ -21,6 +21,7 @@ import NoItems from "../Components/searchScreen/noItems";
 import { allProductsApi, getSearchApi } from "../resources/endpoints";
 import { FlatList } from "react-native-gesture-handler";
 import sortItems, { sortTypes } from "../resources/sortUtil";
+import Loader from "../Components/utility/LoaderDialog";
 
 class searchResultsScreen extends React.Component {
   state = {
@@ -124,6 +125,7 @@ class searchResultsScreen extends React.Component {
     return (
       <View style={styles.container}>
         {/* <Text>abcdsksd</Text> */}
+        <Loader visible={this.state.loading} />
         {!this.state.loading && this.state.itemsList.length == 0 ? (
           <NoItems />
         ) : (

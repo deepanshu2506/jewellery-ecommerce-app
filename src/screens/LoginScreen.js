@@ -14,6 +14,7 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 import VectorArt from "../res/loginVector.png";
 import GoogleLogo from "../res/googleLogo.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Loader from "../Components/utility/LoaderDialog";
 
 import { primaryColor, secondaryColor } from "../appStyles";
 
@@ -34,6 +35,7 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Loader visible={this.props.user.loading} />
         <View style={styles.imgContainer}>
           <Image
             style={{ width: "100%", height: "100%", opacity: 0.5 }}

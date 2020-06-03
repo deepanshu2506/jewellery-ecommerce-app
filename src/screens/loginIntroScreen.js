@@ -10,7 +10,7 @@ import Constants from "expo-constants";
 import { Surface } from "react-native-paper";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
+import Loader from "../Components/utility/LoaderDialog";
 import { primaryColor, secondaryColor } from "../appStyles";
 
 import VectorArt from "../res/loginIntroArt.png";

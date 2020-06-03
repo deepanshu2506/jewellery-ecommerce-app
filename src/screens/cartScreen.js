@@ -17,6 +17,8 @@ import { secondaryColor, primaryColor } from "../appStyles";
 import AddressCard from "../Components/cartScreen/deliveryAddressHeader";
 import CartItem from "../Components/cartScreen/cartItemCard";
 import EmptyCart from "../Components/cartScreen/emptyCart";
+import Loader from "../Components/utility/LoaderDialog";
+
 import { connect } from "react-redux";
 
 import { populateCartAndWishList } from "../redux/actions/userActions";
@@ -30,6 +32,7 @@ const getFormattedAddress = (address) => {
 };
 
 class CartScreen extends Component {
+  state = { loading: false };
   componentDidMount() {
     this.props.syncCart();
   }
@@ -68,10 +71,12 @@ class CartScreen extends Component {
     RazorpayCheckout.open(options)
       .then(async (data) => {
         this.props.syncCart();
+        this.setState({ loading: true });
         const response = await verifyPayments({
           ...data,
           token: this.props.authToken,
         });
+        this.setState({ loading: false });
         if (response.successful) {
           this.props.navigation.navigate("payment-success-screen");
         } else {
@@ -100,10 +105,11 @@ class CartScreen extends Component {
       },
       body: JSON.stringify(body),
     };
-
+    this.setState({ loading: true });
     fetch(ordersApiUrl, options)
       .then((res) => res.json())
       .then((res) => {
+        this.setState({ loading: false });
         console.log(res);
         this.openCheckout(res);
       })
@@ -124,6 +130,7 @@ class CartScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
+        <Loader visible={this.state.loading} />
         {this._hasItems() ? (
           <View style={{ flex: 1, backgroundColor: "#eee" }}>
             <ScrollView style={{ borderWidth: 1 }}>
