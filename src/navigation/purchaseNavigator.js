@@ -6,8 +6,11 @@ import cartScreen from "../screens/cartScreen";
 import AddressSelectorScreen from "../screens/addressSelectorScreen";
 import NewAddressScreen from "../screens/newAddressScreen";
 import paymentMethodScreen from "../screens/paymentMethodScreen";
+import PaymentFailureScreen from "../screens/paymentFailureScreen";
+import paymentSuccessScreen from "../screens/paymentSuccessScreen";
 
 import Header from "../Components/navigation-custom-components/purchaseCustomHeader";
+import paymentFailureScreen from "../screens/paymentFailureScreen";
 
 const Stack = createStackNavigator();
 
@@ -40,6 +43,16 @@ function PurchaseStackNavigator() {
         name="payment-selector-screen"
         options={{ headerTitle: "Select Payment Method" }}
         component={paymentMethodScreen}
+      />
+      <Stack.Screen
+        name="payment-success-screen"
+        options={{ headerTitle: "" }}
+        component={paymentSuccessScreen}
+      />
+      <Stack.Screen
+        name="payment-failure-screen"
+        options={{ headerTitle: "" }}
+        component={paymentFailureScreen}
       />
     </Stack.Navigator>
   );

@@ -22,6 +22,7 @@ import { connect } from "react-redux";
 import { populateCartAndWishList } from "../redux/actions/userActions";
 import { ordersApiUrl } from "../resources/endpoints";
 import { apiKey as RazorPayApiKey } from "../config";
+import { verifyPayments } from "../resources/payments";
 
 const getFormattedAddress = (address) => {
   let addressText = `${address.line1}, ${address.line2}, ${address.line3}, ${address.city}, ${address.state}- ${address.pincode}`;
@@ -65,13 +66,20 @@ class CartScreen extends Component {
       theme: { color: "#53a20e" },
     };
     RazorpayCheckout.open(options)
-      .then((data) => {
-        // handle success
-        alert(`Success: ${data.razorpay_payment_id}`);
+      .then(async (data) => {
+        this.props.syncCart();
+        const response = await verifyPayments({
+          ...data,
+          token: this.props.authToken,
+        });
+        if (response.successful) {
+          this.props.navigation.navigate("payment-success-screen");
+        } else {
+          this.props.navigation.navigate("payment-failure-screen");
+        }
       })
       .catch((error) => {
-        // handle failure
-        alert(`Error: ${error.code} | ${error.description}`);
+        this.props.navigation.navigate("payment-failure-screen");
       });
   };
 
