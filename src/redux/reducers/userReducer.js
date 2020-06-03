@@ -40,7 +40,7 @@ export const userReducer = (state = initialState, action) => {
     case SIGNUP_FAILED:
       return { err: action.payload.err };
     case SIGNUP_SUCCESS:
-      return { isSignupSuccess: 1 };
+      return { isSignupSuccess: 1, loading: false };
     case NEW_ADDRESS:
       return addAddress(state, action.payload);
     case CHANGE_ADDRESS:

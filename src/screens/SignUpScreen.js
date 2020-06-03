@@ -10,7 +10,7 @@ import Constants from "expo-constants";
 import { Surface, TextInput } from "react-native-paper";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
+import Loader from "../Components/utility/LoaderDialog";
 import { connect } from "react-redux";
 
 import { signup } from "../redux/actions/userActions";
@@ -65,6 +65,7 @@ class LoginIntroScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Loader visible={this.props.user.loading} />
         <View style={styles.imgContainer}>
           <Image
             style={{ width: "100%", height: "100%", opacity: 0.8 }}
