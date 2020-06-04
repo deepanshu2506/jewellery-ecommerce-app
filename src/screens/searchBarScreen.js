@@ -1,19 +1,33 @@
 import React from "react";
-import { StyleSheet, View, Text, StatusBar } from "react-native";
+import { StyleSheet, View, Text, StatusBar, FlatList } from "react-native";
 import { Searchbar } from "react-native-paper";
 import Constants from "expo-constants";
 
-import { primaryColor, secondaryColor } from "../appStyles";
+import SearchHistoryComponent from "../Components/utility/SearchHistoryComponent";
 
-export default class SearchbarScreen extends React.Component {
+import { primaryColor, secondaryColor } from "../appStyles";
+import { connect } from "react-redux";
+import { newSearch } from "../redux/actions/searchResultsActions";
+
+class SearchbarScreen extends React.Component {
   state = { searchText: "" };
 
   search = () => {
-    this.props.navigation.push("search", { search: this.state.searchText });
+    this.searchFromHistory(this.state.searchText);
+    this.props.addToHistory(this.state.searchText);
+  };
+
+  searchFromHistory = (keyword) => {
+    this.props.navigation.push("search", { search: keyword });
     this.props.navigation.goBack();
   };
 
+  renderHistoryItem = ({ item }) => (
+    <SearchHistoryComponent keyword={item} search={this.searchFromHistory} />
+  );
+
   render() {
+    console.log(this.props.searchHistory);
     return (
       <View
         style={{
@@ -44,10 +58,24 @@ export default class SearchbarScreen extends React.Component {
             clearIcon="trash-can"
           />
         </View>
-        <View style={{ flex: 1 }}>{/**show search results */}</View>
+        <View style={{ flex: 1, paddingHorizontal: 10 }}>
+          <FlatList
+            data={this.props.searchHistory}
+            renderItem={this.renderHistoryItem}
+          />
+        </View>
       </View>
     );
   }
 }
+
+const mapStateToProps = (state) => ({ searchHistory: state.searchResults });
+const mapDispatchToProps = (dispatch) => ({
+  addToHistory: (keyword) => {
+    dispatch(newSearch(keyword));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchbarScreen);
 
 const styles = StyleSheet.create({});
