@@ -8,7 +8,7 @@ import {
 
 import { Drawer, IconButton, Avatar } from "react-native-paper";
 
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 
 import { primaryColor, secondaryColor } from "../../appStyles";
@@ -40,18 +40,23 @@ const CustomDrawerComponent = (props) => {
           />
           <View
             style={{
-              justifyContent: "flex-end",
               flex: 1,
-              paddingBottom: 10,
               paddingLeft: 10,
+              flexDirection: "row",
+              alignItems: "center",
             }}
           >
             <Avatar.Text
               label={user.username[0].toUpperCase()}
-              style={{ backgroundColor: secondaryColor }}
+              style={{ backgroundColor: secondaryColor, marginRight: 10 }}
               size={40}
               color="white"
             />
+            <View>
+              <Text style={{ color: "white", fontSize: 18 }}>
+                {user.username}
+              </Text>
+            </View>
           </View>
         </View>
         <Drawer.Section style={styles.drawerSection}>
