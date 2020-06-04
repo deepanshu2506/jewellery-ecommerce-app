@@ -7,8 +7,9 @@ import { persistStore, persistReducer } from "redux-persist";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
+  whitelist: ["user"],
 };
 
-// const persistedReducer = persistReducer(persistConfig, rootReducer);
-export const store = createStore(rootReducer, {}, applyMiddleware(thunk));
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+export const store = createStore(persistedReducer, {}, applyMiddleware(thunk));
 export const persistor = persistStore(store);
