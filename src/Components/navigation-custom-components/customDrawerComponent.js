@@ -141,7 +141,7 @@ const CustomDrawerComponent = (props) => {
           <DrawerItem
             label="My orders"
             onPress={() => {
-              navigation.push("search", { search: "Pendants" });
+              navigation.navigate("orders");
               navigation.closeDrawer();
             }}
             icon={({ color, size }) => (

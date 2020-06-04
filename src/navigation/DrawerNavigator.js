@@ -17,7 +17,6 @@ function AppDrawer({ user, token, populate, logout }) {
   React.useEffect(() => {
     populate();
   }, []);
-  console.log(user);
   return (
     <Drawer.Navigator
       //   drawerType="permanent"

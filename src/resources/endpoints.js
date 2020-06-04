@@ -21,3 +21,5 @@ export const removeFromcartUrl = host + "/api/remove_from_cart";
 export const ordersApiUrl = host + "/api/proceed";
 
 export const verifyPaymentsUrl = host + "/api/verify_payment";
+
+export const getAllOrdersApi = host + "/api/orders";
