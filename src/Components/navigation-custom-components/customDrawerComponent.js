@@ -38,26 +38,28 @@ const CustomDrawerComponent = (props) => {
             color="white"
             onPress={navigation.closeDrawer}
           />
-          <View
-            style={{
-              flex: 1,
-              paddingLeft: 10,
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Avatar.Text
-              label={user.username[0].toUpperCase()}
-              style={{ backgroundColor: secondaryColor, marginRight: 10 }}
-              size={40}
-              color="white"
-            />
-            <View>
-              <Text style={{ color: "white", fontSize: 18 }}>
-                {user.username}
-              </Text>
+          {user.username && (
+            <View
+              style={{
+                flex: 1,
+                paddingLeft: 10,
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Avatar.Text
+                label={user.username[0].toUpperCase()}
+                style={{ backgroundColor: secondaryColor, marginRight: 10 }}
+                size={40}
+                color="white"
+              />
+              <View>
+                <Text style={{ color: "white", fontSize: 18 }}>
+                  {user.username}
+                </Text>
+              </View>
             </View>
-          </View>
+          )}
         </View>
         <Drawer.Section style={styles.drawerSection}>
           <DrawerItem
@@ -181,6 +183,27 @@ const CustomDrawerComponent = (props) => {
             icon={({ color, size }) => (
               <MaterialCommunityIcons
                 name="email-outline"
+                color={secondaryColor}
+                size={size}
+              />
+            )}
+            style={styles.navItem}
+            labelStyle={styles.navText}
+            activeTintColor={secondaryColor}
+          />
+
+          <DrawerItem
+            label="Log Out"
+            onPress={() => {
+              props.logout();
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "login" }],
+              });
+            }}
+            icon={({ color, size }) => (
+              <MaterialCommunityIcons
+                name="logout"
                 color={secondaryColor}
                 size={size}
               />

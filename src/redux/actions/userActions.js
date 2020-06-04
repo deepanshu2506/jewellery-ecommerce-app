@@ -15,6 +15,7 @@ export const NEW_ADDRESS = "NEW_ADDRESS";
 export const CHANGE_ADDRESS = "CHANGE_ADDRESS";
 export const REMOVE_ADDRESS = "REMOVE_ADDRESS";
 export const EDIT_ADDRESS = "EDIT_ADDRESS";
+export const LOGOUT = "LOGOUT";
 
 const loadingRequest = () => {
   return { type: LOADING_REQUEST };
@@ -39,6 +40,10 @@ const signUpFailed = (data) => ({
 
 const signUpSuccess = () => ({
   type: SIGNUP_SUCCESS,
+});
+
+export const logout = () => ({
+  type: LOGOUT,
 });
 
 export const populateCartAndWishList = () => (dispatch, getState) => {

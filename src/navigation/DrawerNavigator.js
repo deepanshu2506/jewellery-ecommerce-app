@@ -7,17 +7,23 @@ import DrawerComponent from "../Components/navigation-custom-components/customDr
 import SearchResultsNavigator from "./searchResultsNavigator";
 import DetailScreen from "../screens/details";
 import { connect } from "react-redux";
-import { populateCartAndWishList } from "../redux/actions/userActions";
+import {
+  populateCartAndWishList,
+  logout as logoutUser,
+} from "../redux/actions/userActions";
 
 const Drawer = createDrawerNavigator();
-function AppDrawer({ user, token, populate }) {
+function AppDrawer({ user, token, populate, logout }) {
   React.useEffect(() => {
     populate();
   }, []);
+  console.log(user);
   return (
     <Drawer.Navigator
       //   drawerType="permanent"
-      drawerContent={(props) => <DrawerComponent {...props} user={user} />}
+      drawerContent={(props) => (
+        <DrawerComponent {...props} user={user} logout={logout} />
+      )}
       // drawerContent={DrawerComponent}
       initialRouteName="HomeStack"
     >
@@ -34,6 +40,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   populate: (id, token) => {
     dispatch(populateCartAndWishList(id, token));
+  },
+  logout: () => {
+    dispatch(logoutUser());
   },
 });
 

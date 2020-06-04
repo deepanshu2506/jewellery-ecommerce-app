@@ -7,6 +7,7 @@ import {
   NEW_ADDRESS,
   CHANGE_ADDRESS,
   REMOVE_ADDRESS,
+  LOGOUT,
 } from "../actions/userActions";
 import _ from "lodash";
 
@@ -16,6 +17,7 @@ const initialState = {
   loading: false,
   error: "",
   addresses: [],
+  user: {},
 };
 
 const addAddress = (state, newAddress) => {
@@ -45,6 +47,9 @@ export const userReducer = (state = initialState, action) => {
       return { err: action.payload.err };
     case SIGNUP_SUCCESS:
       return { isSignupSuccess: 1, loading: false };
+    case LOGOUT:
+      console.log("abcd");
+      return { ...initialState };
     case NEW_ADDRESS:
       return addAddress(state, action.payload);
     case CHANGE_ADDRESS:
