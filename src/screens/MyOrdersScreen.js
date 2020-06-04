@@ -50,7 +50,6 @@ class MyOrdersScreen extends Component {
   renderOrders = ({ item }) => <OrderItem item={item} />;
 
   render() {
-    console.log(this.state.orders);
     return (
       <View style={{ flex: 1, padding: 5, paddingHorizontal: 10 }}>
         <SectionList
