@@ -12,10 +12,39 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { Divider, Checkbox } from "react-native-paper";
 
 import { primaryColor, secondaryColor } from "../appStyles";
+import FilterCategoryOptions from "../Components/filterScreen/FilterCategoryOptions";
 
 const screenWidth = Dimensions.get("screen").width;
 
 export default class FilterScreen extends React.Component {
+  filters = {
+    gender: ["male", "female", "unisex"],
+    material: ["gold", "diamond"],
+    price: ["less than 10000", "10000 to 20000", "20000-300000"],
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {};
+    Object.keys(this.filters).forEach((key) => {
+      this.filters[key].forEach((item) => {
+        this.state[key] = this.state[key]
+          ? [...this.state[key], { [item]: false }]
+          : [{ [item]: false }];
+      });
+    });
+    this.state.currentCategory = Object.keys(this.filters)[0];
+  }
+  handleFilterToggle = (category) => (filter) => {
+    console.log(category, filter, this.state[category][filter]);
+    this.setState((prevState) => {
+      const filterObj = prevState[category].find((f) => {
+        return Object.keys(f)[0] == filter;
+      });
+      filterObj[filter] = !filterObj[filter];
+      return prevState;
+    });
+  };
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -32,51 +61,42 @@ export default class FilterScreen extends React.Component {
         <View style={{ flex: 1, flexDirection: "row" }}>
           <ScrollView
             style={{
-              flexGrow: 2,
+              width: "30%",
               backgroundColor: secondaryColor,
               paddingTop: 10,
             }}
           >
-            <TouchableWithoutFeedback>
-              <Text style={[styles.filterCategories]}>Price</Text>
-            </TouchableWithoutFeedback>
-            <Divider
-              style={{ backgroundColor: "#000000", marginVertical: 5 }}
-            />
-            <TouchableWithoutFeedback>
-              <Text
-                style={[
-                  styles.filterCategories,
-                  { backgroundColor: "white", color: secondaryColor },
-                ]}
-              >
-                Gender
-              </Text>
-            </TouchableWithoutFeedback>
-            <Divider
-              style={{ backgroundColor: "#000000", marginVertical: 5 }}
-            />
-            <TouchableWithoutFeedback>
-              <Text style={styles.filterCategories}>Material</Text>
-            </TouchableWithoutFeedback>
-            <Divider
-              style={{ backgroundColor: "#000000", marginVertical: 5 }}
-            />
+            {Object.keys(this.filters).map((category, index) => (
+              <View key={index}>
+                <TouchableWithoutFeedback>
+                  <Text
+                    style={[
+                      styles.filterCategories,
+                      category == this.state.currentCategory &&
+                        styles.activeCategory,
+                    ]}
+                    onPress={() => this.setState({ currentCategory: category })}
+                  >
+                    {category}
+                  </Text>
+                </TouchableWithoutFeedback>
+                <Divider
+                  style={{ backgroundColor: "#000000", marginVertical: 5 }}
+                />
+              </View>
+              //
+            ))}
           </ScrollView>
-          <ScrollView style={{ flexGrow: 4, paddingTop: 10 }}>
-            <View style={styles.filterCheckboxView}>
-              <Checkbox color={secondaryColor} />
-              <Text>Male</Text>
-            </View>
-            <View style={styles.filterCheckboxView}>
-              <Checkbox color={secondaryColor} />
-              <Text>Female</Text>
-            </View>
-            <View style={styles.filterCheckboxView}>
-              <Checkbox color={secondaryColor} />
-              <Text>Unisex</Text>
-            </View>
-          </ScrollView>
+
+          <FilterCategoryOptions
+            onPropChange={this.handleFilterToggle(this.state.currentCategory)}
+            categories={this.state[this.state.currentCategory].reduce(
+              (obj, item) => {
+                return obj ? { ...obj, ...item } : {};
+              },
+              {}
+            )}
+          />
         </View>
         <View
           style={{
@@ -105,6 +125,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     borderRadius: 5,
   },
+  activeCategory: { backgroundColor: "white", color: secondaryColor },
   filterCheckboxView: {
     flexDirection: "row",
     alignItems: "center",
