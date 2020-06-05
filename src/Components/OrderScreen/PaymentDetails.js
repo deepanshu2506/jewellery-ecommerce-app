@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Text, Surface, Divider } from "react-native-paper";
-const PaymentDetails = (props) => {
+const PaymentDetails = ({ orderPrice }) => {
   return (
     <Surface style={styles.surface}>
       <View style={styles.headerView}>
@@ -10,7 +10,7 @@ const PaymentDetails = (props) => {
       <View style={styles.contentView}>
         <View style={styles.paymentRow}>
           <Text style={styles.paymentTexthead}>Sub Total: </Text>
-          <Text style={{ fontSize: 18 }}>{`Rs.15813 /-`}</Text>
+          <Text style={{ fontSize: 18 }}>{`Rs.${orderPrice}/-`}</Text>
         </View>
         <View style={styles.paymentRow}>
           <Text style={styles.paymentTexthead}>Shipping Charges: </Text>
@@ -19,7 +19,7 @@ const PaymentDetails = (props) => {
         <Divider style={styles.divider} />
         <View style={styles.paymentRow}>
           <Text style={styles.paymentTexthead}>Grand Total: </Text>
-          <Text style={{ fontSize: 18 }}>{`Rs.15813 /-`}</Text>
+          <Text style={{ fontSize: 18 }}>{`Rs.${orderPrice}/-`}</Text>
         </View>
       </View>
     </Surface>

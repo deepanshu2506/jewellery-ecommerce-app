@@ -5,11 +5,12 @@ import OrderItem from "../Components/OrderScreen/OrderItem";
 import { getAllOrdersApi } from "../resources/endpoints";
 import { connect } from "react-redux";
 import _ from "lodash";
+import Loader from "../Components/utility/LoaderDialog";
 
 const DELIVERED = "Delivered";
 
 class MyOrdersScreen extends Component {
-  state = { orders: [], error: false };
+  state = { orders: [], error: false, loading: true };
   componentDidMount() {
     const options = {
       method: "GET",
@@ -23,11 +24,12 @@ class MyOrdersScreen extends Component {
       .then((res) => {
         if (res.code == 1) {
           this._segregateOrders(res.data);
+          this.setState({ loading: false });
         } else {
-          this.setState({ error: true });
+          this.setState({ error: true, loading: false });
         }
       })
-      .catch((err) => this.setState({ error: true }));
+      .catch((err) => this.setState({ error: true, loading: false }));
   }
 
   _segregateOrders = (orders) => {
@@ -52,15 +54,20 @@ class MyOrdersScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1, padding: 5, paddingHorizontal: 10 }}>
-        <SectionList
-          sections={this.state.orders}
-          renderItem={this.renderOrders}
-          renderSectionHeader={({ section }) => (
-            <Text style={{ fontSize: 20, marginVertical: 10 }}>
-              {section.title}
-            </Text>
-          )}
-        />
+        {this.state.loading ? (
+          <Loader visible={this.state.loading} />
+        ) : (
+          <SectionList
+            sections={this.state.orders}
+            renderItem={this.renderOrders}
+            renderSectionHeader={({ section }) => (
+              <Text style={{ fontSize: 20, marginVertical: 10 }}>
+                {section.title}
+              </Text>
+            )}
+            keyExtractor={(item) => item._id}
+          />
+        )}
       </View>
     );
   }

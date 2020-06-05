@@ -24,7 +24,7 @@ const getCartCount = (cart) => {
 function searchStackNavigator({ cartCount }) {
   return (
     <Stack.Navigator
-      initialRouteName="order-details"
+      initialRouteName="search"
       screenOptions={{
         header: ({ scene, previous, navigation }) => (
           <CustomAppBar

@@ -4,7 +4,7 @@ import { Text, Surface } from "react-native-paper";
 import { MaterialCommunityIcons as Icon } from "react-native-vector-icons";
 import { secondaryColor } from "../../appStyles";
 
-const ShippingDetails = (props) => {
+const ShippingDetails = ({ order: { address, city, state, postcode } }) => {
   return (
     <Surface style={styles.surface}>
       <View style={styles.headerView}>
@@ -18,9 +18,7 @@ const ShippingDetails = (props) => {
             color={secondaryColor}
             style={{ paddingRight: 10 }}
           />
-          <Text style={styles.rowText}>
-            abcdabcd, efgh, ijkl, mumbai, maharashtra- 400022
-          </Text>
+          <Text style={styles.rowText}>{address}</Text>
         </View>
         <View style={styles.rowView}>
           <Icon
@@ -29,7 +27,7 @@ const ShippingDetails = (props) => {
             color={secondaryColor}
             style={{ paddingRight: 10 }}
           />
-          <Text style={styles.rowText}>Mumbai</Text>
+          <Text style={styles.rowText}>{city}</Text>
         </View>
         <View style={styles.rowView}>
           <Icon
@@ -38,7 +36,7 @@ const ShippingDetails = (props) => {
             color={secondaryColor}
             style={{ paddingRight: 10 }}
           />
-          <Text style={styles.rowText}>Maharashtra - 410210</Text>
+          <Text style={styles.rowText}>{`${state} - ${postcode}`}</Text>
         </View>
       </View>
     </Surface>

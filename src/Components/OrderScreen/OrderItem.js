@@ -2,8 +2,10 @@ import React from "react";
 import { View } from "react-native";
 import { Text, Surface, TouchableRipple } from "react-native-paper";
 import { primaryColor } from "../../appStyles";
+import { useNavigation } from "@react-navigation/native";
 
 export default ({ item }) => {
+  const navigation = useNavigation();
   return (
     <Surface style={{ elevation: 3, borderRadius: 7, marginBottom: 10 }}>
       <TouchableRipple
@@ -11,7 +13,7 @@ export default ({ item }) => {
         rippleColor={primaryColor}
         borderless={true}
         onPress={() => {
-          console.log("sdsd");
+          navigation.navigate("order-details", { orderId: item._id });
         }}
       >
         <View style={{ padding: 10 }}>

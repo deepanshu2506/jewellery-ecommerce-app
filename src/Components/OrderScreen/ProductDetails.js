@@ -2,43 +2,44 @@ import React from "react";
 import { View, Image, StyleSheet } from "react-native";
 import { Text, Surface } from "react-native-paper";
 
-const ProductDetails = (props) => {
+const ProductDetails = ({ products }) => {
   return (
     <Surface style={styles.surface}>
       <View style={styles.headerView}>
         <Text style={styles.headerText}>PRODUCTS</Text>
       </View>
       <View>
-        <View style={styles.productRow}>
-          <View style={styles.productDetails}>
-            <Text style={styles.productName}>Mesh Cluster Ring For Men</Text>
-            <Text>
-              Size:
-              <Text>12</Text>
-            </Text>
-            <Text>
-              Quantity:
-              <Text>1</Text>
-            </Text>
-            <Text style={{ fontSize: 19 }}>
-              Price: <Text>Rs. 15813/-</Text>
-            </Text>
-          </View>
-          <View style={styles.productImageView}>
-            <View style={{ width: 120, height: 120 }}>
-              <Image
-                style={{
-                  width: "100%",
-                  height: "100%",
-                }}
-                source={{
-                  uri:
-                    "https://cdn.caratlane.com/media/catalog/product/J/R/JR04526-WYP900_1_lar.jpg",
-                }}
-              />
+        {products.map((product) => (
+          <View key={product._id} style={styles.productRow}>
+            <View style={styles.productDetails}>
+              <Text style={styles.productName}>{product.id.title}</Text>
+              <Text>
+                Size:
+                <Text>{product.id.size}</Text>
+              </Text>
+              <Text>
+                Quantity:
+                <Text>{product.quantity}</Text>
+              </Text>
+              <Text>
+                Price: <Text>{`Rs. ${product.price}/-`}</Text>
+              </Text>
+            </View>
+            <View style={styles.productImageView}>
+              <View style={{ width: 120, height: 120 }}>
+                <Image
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                  source={{
+                    uri: product.id.url,
+                  }}
+                />
+              </View>
             </View>
           </View>
-        </View>
+        ))}
       </View>
     </Surface>
   );
