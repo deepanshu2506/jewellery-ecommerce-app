@@ -7,7 +7,7 @@ export default class FilterCategoryOptions extends Component {
   render() {
     return (
       <ScrollView style={{ width: "55%", paddingTop: 10 }}>
-        {Object.keys(this.props.categories).map((category, index) => (
+        {Object.keys(this.props.categories || {}).map((category, index) => (
           <View key={index} style={styles.filterCheckboxView}>
             <Checkbox.Item
               label={category}

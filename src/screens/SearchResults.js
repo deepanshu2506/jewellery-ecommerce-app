@@ -1,11 +1,3 @@
-/**
- * todo:
- * 1. fetch products from API
- * 2. render item cards
- * 3. sorting functions
- *
- */
-
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Constants } from "expo";
@@ -22,6 +14,7 @@ import { allProductsApi, getSearchApi } from "../resources/endpoints";
 import { FlatList } from "react-native-gesture-handler";
 import sortItems, { sortTypes } from "../resources/sortUtil";
 import Loader from "../Components/utility/LoaderDialog";
+import { applyFilters } from "../resources/ApplyFilters";
 
 class searchResultsScreen extends React.Component {
   state = {
@@ -38,10 +31,11 @@ class searchResultsScreen extends React.Component {
   };
 
   async componentDidMount() {
-    const params = this.props.route.params || {};
+    const searchKeyWord =
+      this.props.route.params && this.props.route.params.search;
     try {
-      const productApi = params.search
-        ? getSearchApi(params.search)
+      const productApi = searchKeyWord
+        ? getSearchApi(searchKeyWord)
         : allProductsApi;
       const response = fetch(productApi, {
         method: "GET",
@@ -119,30 +113,31 @@ class searchResultsScreen extends React.Component {
     this.setState({ sortType: value }, this.sort(value));
   };
 
-  _openFilters = () => this.props.navigation.navigate("filterScreen");
+  _openFilters = () =>
+    this.props.navigation.navigate("filterScreen", {
+      filters: this.props.route?.params?.filters,
+    });
 
   render() {
-    return (
+    return this.state.loading ? (
+      <Loader visible={this.state.loading} />
+    ) : (
       <View style={styles.container}>
-        {/* <Text>abcdsksd</Text> */}
-        <Loader visible={this.state.loading} />
-        {!this.state.loading && this.state.itemsList.length == 0 ? (
-          <NoItems />
-        ) : (
-          <FlatList
-            style={styles.cardContainer}
-            data={this.state.itemsList}
-            renderItem={this._renderItems}
-            keyExtractor={(item) => item._id}
-            numColumns={2}
-          />
-        )}
-
+        <FlatList
+          style={styles.cardContainer}
+          data={applyFilters(
+            this.props.route?.params?.filters,
+            this.state.itemsList
+          )}
+          renderItem={this._renderItems}
+          keyExtractor={(item) => item._id}
+          numColumns={2}
+          ListEmptyComponent={() => <NoItems />}
+        />
         <FilterBar
           openSortDialog={this._openSortDialog}
           openFiltersScreen={this._openFilters}
         />
-
         <SortDialog
           onDismiss={this._closeSortDialog}
           visible={this.state.sortDialogVisible}
