@@ -94,16 +94,16 @@ export default class DetailsSwitcher extends Component {
           <View style={styles.card}>
             <DataTable style={{ alignContent: "center" }}>
               <DataTable.Row>
-                <DataTable.Cell>Height</DataTable.Cell>
-                <DataTable.Cell>1.25cm</DataTable.Cell>
+                <DataTable.Cell>Weight</DataTable.Cell>
+                <DataTable.Cell>{`${this.props.item.weight} g`}</DataTable.Cell>
               </DataTable.Row>
               <DataTable.Row>
-                <DataTable.Cell>Height</DataTable.Cell>
-                <DataTable.Cell>1.25cm</DataTable.Cell>
+                <DataTable.Cell>Size</DataTable.Cell>
+                <DataTable.Cell>{this.props.item.size}</DataTable.Cell>
               </DataTable.Row>
               <DataTable.Row>
-                <DataTable.Cell>Height</DataTable.Cell>
-                <DataTable.Cell>1.25cm</DataTable.Cell>
+                <DataTable.Cell>Gender</DataTable.Cell>
+                <DataTable.Cell>{item.sex}</DataTable.Cell>
               </DataTable.Row>
             </DataTable>
           </View>

@@ -10,7 +10,13 @@
 
 import React from "react";
 import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
-import { IconButton, Colors, Surface, Button } from "react-native-paper";
+import {
+  IconButton,
+  Colors,
+  Surface,
+  Button,
+  TouchableRipple,
+} from "react-native-paper";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
@@ -37,34 +43,36 @@ class ItemCard extends React.Component {
   };
   render() {
     return (
-      <View
-        style={{ marginLeft: 6, padding: 0 }}
-        // onPress={() => {
-        //   this.props.navigation.navigate("itemDetails");
-        // }}
-      >
+      <View style={{ marginLeft: 6, padding: 0 }}>
         <Surface style={styles.card}>
-          {/* <Text>abcd</Text> */}
-          {/* <View style={styles.bestSellerTag}>
-            <Text style={{ color: "white", letterSpacing: 1.1, fontSize: 12 }}>
-              Best Seller
-            </Text>
-          </View> */}
-          <View style={styles.imageView}>
-            <Image
-              style={{ width: "100%", height: "100%" }}
-              source={{ uri: this.props.data.url }}
-            />
-          </View>
-          <View style={styles.pricePane}>
-            <Text style={styles.offerPrice}>
-              {`\u20B9 ${this.props.data.price}/-`}
-            </Text>
-            <Text style={styles.originalPrice}>{`\u20B9 ${
-              this.props.data.price + 0.2 * this.props.data.price
-            }/-`}</Text>
-          </View>
-
+          <TouchableRipple
+            style={{ width: "100%" }}
+            onPress={() => {
+              this.props.navigation.navigate("itemDetails", {
+                item: this.props.data,
+              });
+            }}
+          >
+            <View style={{ width: "100%" }}>
+              <View style={styles.imageView}>
+                <Image
+                  style={{ width: "100%", height: "100%" }}
+                  source={{ uri: this.props.data.url }}
+                />
+              </View>
+              <View style={styles.pricePane}>
+                <Text style={styles.offerPrice}>
+                  {`\u20B9 ${this.props.data.price}/-`}
+                </Text>
+                <Text style={styles.originalPrice}>{`\u20B9 ${
+                  this.props.data.price + 0.2 * this.props.data.price
+                }/-`}</Text>
+              </View>
+              <Text style={styles.itemDescription}>
+                {this.props.data.title}
+              </Text>
+            </View>
+          </TouchableRipple>
           <IconButton
             style={styles.wishListButton}
             size={20}
@@ -72,7 +80,7 @@ class ItemCard extends React.Component {
             onPress={this.toggleWishList}
             color={this.state.wishListed ? Colors.red500 : Colors.black}
           />
-          <Text style={styles.itemDescription}>{this.props.data.title}</Text>
+
           <Button
             mode="contained"
             labelStyle={{ color: "white" }}
@@ -120,6 +128,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     width: "80%",
     height: 130,
+    alignSelf: "center",
   },
   wishListButton: {
     position: "absolute",

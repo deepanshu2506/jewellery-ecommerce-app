@@ -1,62 +1,103 @@
-/**
- * in progress extend UI
- *
- * todo:
- * 1. pass the product details and the price breakup as props to details switcher
- *
- *
- *
- */
-
 import React from "react";
 import {
   View,
-  Text,
   StyleSheet,
   Image,
   ScrollView,
+  Animated,
   Dimensions,
 } from "react-native";
-import { Surface, IconButton, DataTable } from "react-native-paper";
+import {
+  Surface,
+  IconButton,
+  DataTable,
+  Text,
+  Button,
+} from "react-native-paper";
 import { Rating } from "react-native-ratings";
 import { MaterialCommunityIcons as Icons } from "react-native-vector-icons";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import {
+  TouchableNativeFeedback,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
 
 import { primaryColor, secondaryColor } from "../appStyles";
 
 import Carousel from "../Components/itemDetailsScreen/imageCarousel";
 import DetailsSwitcher from "../Components/itemDetailsScreen/detailsSwitcher";
+import img from "../res/earring1.jpg";
+import ImageViewer from "../Components/utility/ImageViewer";
+import { PinchGestureHandler, State } from "react-native-gesture-handler";
+import DescriptionView from "../Components/itemDetailsScreen/DescriptionView";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
+const { width } = Dimensions.get("window");
 
-const carouselItems = [
-  {
-    title: "Item 1",
-    text: "Text 1",
-  },
-  {
-    title: "Item 2",
-    text: "Text 2",
-  },
-  {
-    title: "Item 3",
-    text: "Text 3",
-  },
-  {
-    title: "Item 4",
-    text: "Text 4",
-  },
-  {
-    title: "Item 5",
-    text: "Text 5",
-  },
-];
+const toCurrencyString = (number) => {
+  return `\u20B9 ${number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}`;
+};
 export default class ItemDetailsScreen extends React.Component {
+  state = { imageViewerVisible: false };
+
+  scale = new Animated.Value(1);
+
+  onZoomEvent = Animated.event(
+    [
+      {
+        nativeEvent: { scale: this.scale },
+      },
+    ],
+    {
+      useNativeDriver: true,
+    }
+  );
+
+  onZoomStateChange = (event) => {
+    if (event.nativeEvent.oldState === State.ACTIVE) {
+      Animated.spring(this.scale, {
+        toValue: 1,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
+
   render() {
+    const item = this.props?.route.params.item;
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={{ backgroundColor: "white" }}>
-          <Carousel carouselItems={carouselItems} />
+          <TouchableWithoutFeedback
+            onPress={() => {
+              console.log("abcd");
+            }}
+          >
+            <Surface style={styles.carouselContainer}>
+              <View
+                style={{
+                  height: "100%",
+                  width: screenWidth,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <PinchGestureHandler
+                  onGestureEvent={this.onZoomEvent}
+                  onHandlerStateChange={this.onZoomStateChange}
+                >
+                  <Animated.Image
+                    source={{ uri: item.url }}
+                    style={{
+                      width: width,
+                      height: 300,
+                      transform: [{ scale: this.scale }],
+                    }}
+                    resizeMode="contain"
+                  />
+                </PinchGestureHandler>
+                {/* <Image source={img} /> */}
+              </View>
+            </Surface>
+          </TouchableWithoutFeedback>
           <View
             style={{
               padding: 10,
@@ -86,14 +127,16 @@ export default class ItemDetailsScreen extends React.Component {
               <IconButton icon="heart-outline" color={primaryColor} />
             </View>
           </View>
-          <Text style={styles.productTitle}>Amber Cut Drop Earrings</Text>
-
-          <DetailsSwitcher />
+          <Text style={styles.productTitle}>{item.title}</Text>
+          <DescriptionView description={item.description} />
+          <DetailsSwitcher item={item} />
         </ScrollView>
         <Surface style={styles.priceView}>
           <View style={{ flexDirection: "row" }}>
-            <Text style={styles.price}>{"\u20B9"}15,000</Text>
-            <Text style={styles.actualPrice}>{"\u20B9"}18,564</Text>
+            <Text style={styles.price}>{toCurrencyString(item.price)}</Text>
+            <Text style={styles.actualPrice}>
+              {toCurrencyString(item.price + 0.2 * item.price)}
+            </Text>
           </View>
           <TouchableNativeFeedback
             background={TouchableNativeFeedback.Ripple("#000000")}
@@ -128,6 +171,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     elevation: 10,
+  },
+  carouselContainer: {
+    // borderWidth: 1,
+    elevation: 2,
+    height: 350,
+    alignItems: "center",
   },
   price: { fontSize: 25, color: "white" },
   actualPrice: {
