@@ -23,12 +23,10 @@ import {
 
 import { primaryColor, secondaryColor } from "../appStyles";
 
-import Carousel from "../Components/itemDetailsScreen/imageCarousel";
 import DetailsSwitcher from "../Components/itemDetailsScreen/detailsSwitcher";
-import img from "../res/earring1.jpg";
-import ImageViewer from "../Components/utility/ImageViewer";
 import { PinchGestureHandler, State } from "react-native-gesture-handler";
 import DescriptionView from "../Components/itemDetailsScreen/DescriptionView";
+import CartButton from "../Components/utility/AddToCartButton";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 const { width } = Dimensions.get("window");
@@ -138,22 +136,7 @@ export default class ItemDetailsScreen extends React.Component {
               {toCurrencyString(item.price + 0.2 * item.price)}
             </Text>
           </View>
-          <TouchableNativeFeedback
-            background={TouchableNativeFeedback.Ripple("#000000")}
-          >
-            <Surface style={styles.addToCartButton}>
-              <Icons name="cart" color="white" size={24} />
-              <Text
-                style={{
-                  color: "white",
-                  marginLeft: 10,
-                  fontSize: 15,
-                }}
-              >
-                Add To Cart
-              </Text>
-            </Surface>
-          </TouchableNativeFeedback>
+          <CartButton item={item} />
         </Surface>
       </View>
     );

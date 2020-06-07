@@ -6,6 +6,7 @@ import { secondaryColor } from "../../appStyles";
 import { MaterialCommunityIcons as Icons } from "react-native-vector-icons";
 import { addItemToCart } from "../../redux/actions/cartActions";
 import { remove } from "../../redux/actions/wishListActions";
+import CartButton from "../utility/AddToCartButton";
 
 const WishListItem = ({ item, addItemToCart, removeFromWishList }) => {
   return (
@@ -32,23 +33,7 @@ const WishListItem = ({ item, addItemToCart, removeFromWishList }) => {
           </Text>
         </Text>
         <View style={styles.bottomPart}>
-          <Button
-            mode="contained"
-            icon={({ size, color }) => (
-              <View style={{ width: size + 5 }}>
-                <Icons name="cart" size={size + 5} color="white" />
-              </View>
-            )}
-            labelStyle={{ color: "white" }}
-            color={secondaryColor}
-            // style={{ width: "35%" }}
-            onPress={() => {
-              addItemToCart(item);
-              removeFromWishList(item);
-            }}
-          >
-            move
-          </Button>
+          <CartButton title="move" item={item} />
           <Button
             mode="outlined"
             style={{ marginLeft: 20 }}

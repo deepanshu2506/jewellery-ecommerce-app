@@ -14,18 +14,13 @@ import {
   IconButton,
   Colors,
   Surface,
-  Button,
   TouchableRipple,
 } from "react-native-paper";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
-import { primaryColor, secondaryColor } from "../../appStyles";
-
-import img1 from "../../res/earring1.jpg";
+import CartButton from "../utility/AddToCartButton";
+import { secondaryColor } from "../../appStyles";
 
 import { connect } from "react-redux";
-import { addItemToCart } from "../../redux/actions/cartActions";
 import { add, remove } from "../../redux/actions/wishListActions";
 
 const screenWidth = Dimensions.get("window").width;
@@ -80,17 +75,7 @@ class ItemCard extends React.Component {
             onPress={this.toggleWishList}
             color={this.state.wishListed ? Colors.red500 : Colors.black}
           />
-
-          <Button
-            mode="contained"
-            labelStyle={{ color: "white" }}
-            color={secondaryColor}
-            onPress={() => {
-              this.props.addToCart(this.props.data);
-            }}
-          >
-            Add to Cart
-          </Button>
+          <CartButton title="Add To Cart" item={this.props.data} />
         </Surface>
       </View>
     );
@@ -98,9 +83,6 @@ class ItemCard extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addToCart: (data) => {
-    dispatch(addItemToCart(data));
-  },
   removeFromWishList: (item) => {
     dispatch(remove(item));
   },
