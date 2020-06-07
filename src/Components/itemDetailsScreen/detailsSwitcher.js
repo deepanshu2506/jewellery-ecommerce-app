@@ -103,7 +103,7 @@ export default class DetailsSwitcher extends Component {
               </DataTable.Row>
               <DataTable.Row>
                 <DataTable.Cell>Gender</DataTable.Cell>
-                <DataTable.Cell>{item.sex}</DataTable.Cell>
+                <DataTable.Cell>{this.props.item.sex}</DataTable.Cell>
               </DataTable.Row>
             </DataTable>
           </View>
