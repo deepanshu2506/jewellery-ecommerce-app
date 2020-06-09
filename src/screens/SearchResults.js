@@ -42,28 +42,45 @@ class searchResultsScreen extends React.Component {
       const data = await get(productApi);
       this.setState(
         {
-          itemsList: data,
+          itemsList: this.isWishlisted(data),
           loading: false,
           sortType: this.sortProperties.nameDesc,
         },
         this.sort(this.sortProperties.nameDesc)
       );
     } catch (err) {
+      console.log(err);
       alert("something went wrong");
     }
   }
 
-  isWishlisted = (item) => {
-    const fromList = _.find(this.props.wishList, (i) => i._id == item._id);
-    return fromList ? true : false;
+  isWishlisted = (items) => {
+    return items.map((item) => ({
+      ...item,
+      isWishListed: _.find(this.props.wishList, (i) => i._id == item._id)
+        ? true
+        : false,
+    }));
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.wishList != prevProps.wishList) {
+      console.log(this.props.route.params);
+      this.setState(
+        (prevState) => ({
+          itemsList: [...this.isWishlisted(prevState.itemsList)],
+        }),
+        () => console.log(this.state.itemsList)
+      );
+    }
+  }
 
   _renderItems = ({ item }) => (
     <ItemCard
       navigation={this.props.navigation}
       data={item}
       debug={this._debug}
-      isWishListed={this.isWishlisted(item)}
+      // isWishListed={this.isWishlisted(item)}
     />
   );
 

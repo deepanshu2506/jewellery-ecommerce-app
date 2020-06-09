@@ -19,11 +19,9 @@ function AppDrawer({ user, token, populate, logout }) {
   }, []);
   return (
     <Drawer.Navigator
-      //   drawerType="permanent"
       drawerContent={(props) => (
         <DrawerComponent {...props} user={user} logout={logout} />
       )}
-      // drawerContent={DrawerComponent}
       initialRouteName="HomeStack"
     >
       <Drawer.Screen name="HomeStack" component={SearchResultsNavigator} />

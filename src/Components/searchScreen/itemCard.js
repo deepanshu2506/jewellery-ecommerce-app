@@ -22,7 +22,7 @@ import { add, remove } from "../../redux/actions/wishListActions";
 const screenWidth = Dimensions.get("window").width;
 
 class ItemCard extends React.Component {
-  state = { wishListed: this.props.isWishListed };
+  state = { wishListed: this.props.data.isWishListed };
 
   toggleWishList = () => {
     if (!this.state.wishListed) {
@@ -32,6 +32,11 @@ class ItemCard extends React.Component {
     }
     this.setState((prevState) => ({ wishListed: !prevState.wishListed }));
   };
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.data.isWishListed != prevProps.data.isWishListed) {
+      this.setState({ wishListed: this.props.data.isWishListed });
+    }
+  }
   render() {
     return (
       <View style={{ marginLeft: 6, padding: 0 }}>

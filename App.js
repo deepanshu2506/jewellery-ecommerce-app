@@ -18,6 +18,7 @@ const theme = {
     text: "black",
   },
 };
+console.disableYellowBox = true;
 
 export default function App() {
   return (
