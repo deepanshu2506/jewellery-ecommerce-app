@@ -1,4 +1,5 @@
 import { addToCartUrl, removeFromcartUrl } from "../../resources/endpoints";
+import { post } from "../../resources/Requests";
 
 export const ADD_ITEM = "ADD_ITEM";
 export const REMOVE_ITEM = "REMOVE_ITEM";
@@ -19,47 +20,25 @@ export const setCartItems = (items) => ({
   payload: items,
 });
 
-export const addItemToCart = (data) => (dispatch, getState) => {
+export const addItemToCart = (data) => async (dispatch, getState) => {
   const requestBody = { id: getState().user.user._id, pid: data._id };
-  const options = {
-    method: "POST",
-    headers: {
-      Authorization: getState().user.token,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(requestBody),
-  };
   dispatch(add(data));
-  fetch(addToCartUrl, options)
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  try {
+    await post(addToCartUrl, requestBody);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-export const removeFromCart = (itemId) => (dispatch, getState) => {
+export const removeFromCart = (itemId) => async (dispatch, getState) => {
   const requestBody = {
     id: getState().user.user._id,
     pid: itemId,
   };
-  const options = {
-    method: "POST",
-    headers: {
-      Authorization: getState().user.token,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(requestBody),
-  };
   dispatch(remove(itemId));
-  fetch(removeFromcartUrl, options)
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  try {
+    await post(removeFromcartUrl, requestBody);
+  } catch (err) {
+    console.log(err);
+  }
 };

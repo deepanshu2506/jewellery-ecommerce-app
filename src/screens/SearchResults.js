@@ -1,19 +1,20 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Constants } from "expo";
-import _ from "lodash";
-
 import { connect } from "react-redux";
+import { FlatList } from "react-native-gesture-handler";
+import _ from "lodash";
 
 import ItemCard from "../Components/searchScreen/itemCard";
 import FilterBar from "../Components/searchScreen/FilterBar";
 import SortDialog from "../Components/searchScreen/SortDialog";
 import NoItems from "../Components/searchScreen/noItems";
 
-import { allProductsApi, getSearchApi } from "../resources/endpoints";
-import { FlatList } from "react-native-gesture-handler";
-import sortItems, { sortTypes } from "../resources/sortUtil";
 import Loader from "../Components/utility/LoaderDialog";
+
+import { allProductsApi, getSearchApi } from "../resources/endpoints";
+import { get } from "../resources/Requests";
+
+import sortItems, { sortTypes } from "../resources/sortUtil";
 import { applyFilters } from "../resources/ApplyFilters";
 
 class searchResultsScreen extends React.Component {
@@ -37,29 +38,20 @@ class searchResultsScreen extends React.Component {
       const productApi = searchKeyWord
         ? getSearchApi(searchKeyWord)
         : allProductsApi;
-      const response = fetch(productApi, {
-        method: "GET",
-        headers: { Authorization: this.props.authToken },
-      });
-      response
-        .then((data) => data.json())
-        .then((data) => {
-          this.setState(
-            {
-              itemsList: data,
-              loading: false,
-              sortType: this.sortProperties.nameDesc,
-            },
-            this.sort(this.sortProperties.nameDesc)
-          );
-        });
+
+      const data = await get(productApi);
+      this.setState(
+        {
+          itemsList: data,
+          loading: false,
+          sortType: this.sortProperties.nameDesc,
+        },
+        this.sort(this.sortProperties.nameDesc)
+      );
     } catch (err) {
-      throw err;
+      alert("something went wrong");
     }
   }
-  _debug = () => {
-    console.log(this.props.cart);
-  };
 
   isWishlisted = (item) => {
     const fromList = _.find(this.props.wishList, (i) => i._id == item._id);
@@ -163,8 +155,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  authToken: state.user.token,
-  cart: state.cart,
   wishList: state.wishList,
 });
 export default connect(mapStateToProps)(searchResultsScreen);

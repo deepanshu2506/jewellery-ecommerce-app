@@ -1,4 +1,5 @@
 import { verifyPaymentsUrl } from "./endpoints";
+import { post } from "./Requests";
 
 export const verifyPayments = (creds) => {
   const body = {
@@ -6,20 +7,16 @@ export const verifyPayments = (creds) => {
     razorpay_payment_id: creds.razorpay_payment_id,
     razorpay_signature: creds.razorpay_signature,
   };
-  const options = {
-    method: "POST",
-    headers: { Authorization: creds.token, "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  };
-  return new Promise((resolve, reject) => {
-    fetch(verifyPaymentsUrl, options)
-      .then((res) => res.json())
-      .then((res) => {
+
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await post(verifyPaymentsUrl, body);
+      if (res) {
         resolve(res);
-      })
-      .catch((err) => {
-        resolve({ successful: false });
-      });
+      }
+    } catch (err) {
+      resolve({ successful: false });
+    }
   });
 };
 

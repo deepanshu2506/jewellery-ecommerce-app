@@ -3,33 +3,28 @@ import { View, FlatList, SectionList } from "react-native";
 import { Surface, Text } from "react-native-paper";
 import OrderItem from "../Components/OrderScreen/OrderItem";
 import { getAllOrdersApi } from "../resources/endpoints";
-import { connect } from "react-redux";
 import _ from "lodash";
 import Loader from "../Components/utility/LoaderDialog";
+import { get } from "../resources/Requests";
 
 const DELIVERED = "Delivered";
 
 class MyOrdersScreen extends Component {
   state = { orders: [], error: false, loading: true };
-  componentDidMount() {
-    const options = {
-      method: "GET",
-      headers: {
-        Authorization: this.props.authToken,
-        "Content-type": "application/json",
-      },
-    };
-    fetch(getAllOrdersApi, options)
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.code == 1) {
-          this._segregateOrders(res.data);
-          this.setState({ loading: false });
-        } else {
-          this.setState({ error: true, loading: false });
-        }
-      })
-      .catch((err) => this.setState({ error: true, loading: false }));
+  async componentDidMount() {
+    try {
+      const res = await get(getAllOrdersApi);
+      if (res.code == 1) {
+        this._segregateOrders(res.data);
+        this.setState({ loading: false });
+      } else {
+        this.setState({ error: true, loading: false });
+      }
+    } catch (err) {
+      console.log(err);
+      alert("something went wrong");
+      this.setState({ error: true, loading: false });
+    }
   }
 
   _segregateOrders = (orders) => {
@@ -72,5 +67,4 @@ class MyOrdersScreen extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({ authToken: state.user.token });
-export default connect(mapStateToProps)(MyOrdersScreen);
+export default MyOrdersScreen;

@@ -5,6 +5,7 @@ import {
 } from "../../resources/endpoints";
 import { setCartItems } from "./cartActions";
 import { setWishListItems } from "./wishListActions";
+import { post } from "../../resources/Requests";
 
 export const LOADING_REQUEST = "LOADING_REQUEST";
 export const LOGIN_SUCESS = "LOGIN_SUCCESS";
@@ -46,23 +47,16 @@ export const logout = () => ({
   type: LOGOUT,
 });
 
-export const populateCartAndWishList = () => (dispatch, getState) => {
-  const token = getState().user.token;
+export const populateCartAndWishList = () => async (dispatch, getState) => {
   const userId = getState().user.user._id;
   const payLoad = { id: userId };
-  fetch(syncCartWishListUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: token },
-    body: JSON.stringify(payLoad),
-  })
-    .then((data) => data.json())
-    .then((data) => {
-      dispatch(setCartItems(data.cart));
-      dispatch(setWishListItems(data.wishlist));
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  try {
+    const data = await post(syncCartWishListUrl, payLoad);
+    dispatch(setCartItems(data.cart));
+    dispatch(setWishListItems(data.wishlist));
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const requestLogin = (username, password) => {
