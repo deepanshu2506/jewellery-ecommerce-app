@@ -18,7 +18,6 @@ const WishListItem = ({ item, addItemToCart, removeFromWishList }) => {
       }}
     >
       <View style={{ width: 120, height: 120 }}>
-        {/* <Text>{item.url}</Text> */}
         <Image
           source={{ uri: item.url }}
           style={{ width: "100%", height: "100%" }}

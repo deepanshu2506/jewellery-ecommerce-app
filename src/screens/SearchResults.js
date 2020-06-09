@@ -58,7 +58,7 @@ class searchResultsScreen extends React.Component {
     return fromList ? true : false;
   };
 
-  _renderItems = ({ item, index }) => (
+  _renderItems = ({ item }) => (
     <ItemCard
       navigation={this.props.navigation}
       data={item}

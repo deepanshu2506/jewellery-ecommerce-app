@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, StatusBar, FlatList } from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 import { Searchbar } from "react-native-paper";
 import Constants from "expo-constants";
 
@@ -53,7 +53,6 @@ class SearchbarScreen extends React.Component {
               fontSize: 17,
               paddingLeft: 0,
               marginLeft: 10,
-              // borderWidth: 1,
             }}
             clearIcon="trash-can"
           />

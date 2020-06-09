@@ -32,7 +32,6 @@ class NewAddressScreen extends Component {
     });
   }
   _saveAddress = () => {
-    //save the address to the user account
     if (this.screenParams.replace) {
       this.props.replaceAddress({
         ...this.state,

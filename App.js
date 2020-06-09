@@ -1,5 +1,4 @@
 import React from "react";
-// import { StyleSheet, Text, View } from "react-native";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import { Provider as ReduxProvider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";

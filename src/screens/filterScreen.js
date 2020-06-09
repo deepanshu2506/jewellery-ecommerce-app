@@ -2,7 +2,7 @@ import React from "react";
 
 import { View, Text, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { Divider, Checkbox, Button } from "react-native-paper";
+import { Divider, Button } from "react-native-paper";
 
 import { primaryColor, secondaryColor } from "../appStyles";
 import FilterCategoryOptions from "../Components/filterScreen/FilterCategoryOptions";
@@ -141,7 +141,6 @@ export default class FilterScreen extends React.Component {
 
 const styles = StyleSheet.create({
   filterCategories: {
-    // borderWidth: 1,
     paddingVertical: 5,
     fontSize: 20,
     color: "white",

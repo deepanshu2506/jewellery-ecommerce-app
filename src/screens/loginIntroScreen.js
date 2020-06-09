@@ -8,10 +8,9 @@ import {
 } from "react-native";
 import Constants from "expo-constants";
 import { Surface } from "react-native-paper";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Loader from "../Components/utility/LoaderDialog";
-import { primaryColor, secondaryColor } from "../appStyles";
+
+import { secondaryColor } from "../appStyles";
 
 import VectorArt from "../res/loginIntroArt.png";
 import GoogleLogo from "../res/googleLogo.png";
@@ -80,10 +79,8 @@ const styles = StyleSheet.create({
   imgContainer: {
     width: "100%",
     height: 400,
-    // marginBottom: 130,
   },
   loginButton: {
-    // borderWidth: 1,
     paddingVertical: 13,
     paddingHorizontal: 40,
     marginTop: 20,

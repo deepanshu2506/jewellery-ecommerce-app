@@ -1,8 +1,4 @@
 /**
- * todo:
- * 1. accept a boolean flag for bestseller tag
- * 2. accept the image , name,prices from props
- * 3. handle logic to save the item if wishlisted and remove it (in redux)
  *
  * bugs:
  * 1. click on the heart icon results in a navigation to item details screen

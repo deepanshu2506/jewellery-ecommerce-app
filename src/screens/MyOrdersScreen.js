@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { View, FlatList, SectionList } from "react-native";
-import { Surface, Text } from "react-native-paper";
+import { View, SectionList } from "react-native";
+import { Text } from "react-native-paper";
 import OrderItem from "../Components/OrderScreen/OrderItem";
 import { getAllOrdersApi } from "../resources/endpoints";
 import _ from "lodash";

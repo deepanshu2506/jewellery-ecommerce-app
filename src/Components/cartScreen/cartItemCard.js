@@ -1,17 +1,8 @@
-/**
- * todo:
- * 1. accept a item as prop and display all details from it
- * 2. implement remove and save to wishlist from props
- *
- */
-
-import React, { Component } from "react";
+import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { Surface, Button } from "react-native-paper";
 
 import { secondaryColor } from "../../appStyles";
-
-import Img from "../../res/loginIntroArt.png";
 
 import { connect } from "react-redux";
 import { removeFromCart } from "../../redux/actions/cartActions";

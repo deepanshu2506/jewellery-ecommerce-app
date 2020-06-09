@@ -1,8 +1,3 @@
-/**
- * todo:
- * 1.accept name from app state
- * 2.
- */
 import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Surface, Button } from "react-native-paper";
@@ -42,7 +37,6 @@ const AddressCard = ({ address, onChangeClick, userName }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    // height: 60,
     alignItems: "center",
     justifyContent: "space-around",
     padding: 10,

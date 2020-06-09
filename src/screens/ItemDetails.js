@@ -2,24 +2,14 @@ import React from "react";
 import {
   View,
   StyleSheet,
-  Image,
   ScrollView,
   Animated,
   Dimensions,
 } from "react-native";
-import {
-  Surface,
-  IconButton,
-  DataTable,
-  Text,
-  Button,
-} from "react-native-paper";
+import { Surface, IconButton, Text, Button } from "react-native-paper";
 import { Rating } from "react-native-ratings";
-import { MaterialCommunityIcons as Icons } from "react-native-vector-icons";
-import {
-  TouchableNativeFeedback,
-  TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 import { primaryColor, secondaryColor } from "../appStyles";
 
@@ -114,7 +104,6 @@ export default class ItemDetailsScreen extends React.Component {
             />
             <View
               style={{
-                //   borderWidth: 1,
                 flexDirection: "row",
                 alignItems: "center",
                 flex: 1,
@@ -166,7 +155,7 @@ const styles = StyleSheet.create({
     color: "#eee",
     textDecorationLine: "line-through",
     alignSelf: "flex-end",
-    // marginBottom: 5,
+
     marginLeft: 5,
   },
   addToCartButton: {

@@ -8,17 +8,15 @@ import {
 } from "react-native";
 import Constants from "expo-constants";
 import { Surface, TextInput } from "react-native-paper";
-import { MaterialCommunityIcons } from "react-native-vector-icons";
-import { TouchableOpacity } from "react-native-gesture-handler";
+
 import Loader from "../Components/utility/LoaderDialog";
 import { connect } from "react-redux";
 
 import { signup } from "../redux/actions/userActions";
 
-import { primaryColor, secondaryColor } from "../appStyles";
+import { secondaryColor } from "../appStyles";
 
 import VectorArt from "../res/signupArt.png";
-import GoogleLogo from "../res/googleLogo.png";
 
 class LoginIntroScreen extends React.Component {
   state = { username: "", mobile: "", password: "", error: "" };
@@ -45,6 +43,7 @@ class LoginIntroScreen extends React.Component {
       this.props.signUp(mobile, username, password);
     }
   };
+
   componentDidUpdate(prevProps) {
     console.log(this.props.user);
     if (this.props.user.isSignupSuccess == 1) {
@@ -141,7 +140,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Constants.statusBarHeight,
     backgroundColor: "white",
-    // alignItems: "center",
     justifyContent: "space-around",
   },
   imgContainer: {
@@ -150,7 +148,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   loginButton: {
-    // borderWidth: 1,
     paddingVertical: 13,
     paddingHorizontal: 40,
     marginTop: 20,

@@ -33,7 +33,6 @@ class LoginScreen extends React.Component {
   }
 
   render() {
-    console.log(this.props.user);
     return (
       <View style={styles.container}>
         <Loader visible={this.props.user.loading} />

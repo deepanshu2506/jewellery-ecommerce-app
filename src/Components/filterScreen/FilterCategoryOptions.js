@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
-import { Text, Checkbox } from "react-native-paper";
-import { secondaryColor } from "../../appStyles";
+import { Checkbox } from "react-native-paper";
 
 export default class FilterCategoryOptions extends Component {
   render() {
@@ -28,7 +27,6 @@ export default class FilterCategoryOptions extends Component {
 
 const styles = StyleSheet.create({
   filterCategories: {
-    // borderWidth: 1,
     paddingVertical: 5,
     fontSize: 20,
     color: "white",
@@ -39,7 +37,5 @@ const styles = StyleSheet.create({
   filterCheckboxView: {
     flexDirection: "row",
     alignItems: "center",
-    // paddingVertical: 5,
-    // paddingLeft: 10,
   },
 });

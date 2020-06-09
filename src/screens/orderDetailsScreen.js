@@ -14,7 +14,9 @@ import { get } from "../resources/Requests";
 
 class OrderDetailsScreen extends Component {
   state = { orderDetails: { _id: "" }, loading: true, error: false };
+
   screenProps = this.props.route.params || {};
+
   async componentDidMount() {
     try {
       const response = await get(getOrderDetailsApi(this.screenProps.orderId));
@@ -28,6 +30,7 @@ class OrderDetailsScreen extends Component {
       alert("something went wrong");
     }
   }
+
   render() {
     return (
       <View style={{ flex: 1 }}>

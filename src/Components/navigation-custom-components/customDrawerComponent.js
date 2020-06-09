@@ -1,10 +1,6 @@
 import React from "react";
 
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem,
-} from "@react-navigation/drawer";
+import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 
 import { Drawer, IconButton, Avatar } from "react-native-paper";
 
@@ -12,7 +8,6 @@ import { View, StyleSheet, Text } from "react-native";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 
 import { primaryColor, secondaryColor } from "../../appStyles";
-import { connect } from "react-redux";
 
 const navigationHandler = (navigation, type) => () => {
   navigation.push("search", { search: type });
@@ -233,9 +228,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 14,
   },
-  navItem: {
-    // paddingLeft: 20,
-  },
+
   navText: { fontSize: 17 },
   row: {
     marginTop: 20,
