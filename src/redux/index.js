@@ -7,7 +7,7 @@ import { persistStore, persistReducer } from "redux-persist";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["user"],
+  whitelist: ["user", "cart", "wishList", "searchResults"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
