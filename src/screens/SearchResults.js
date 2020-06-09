@@ -66,12 +66,9 @@ class searchResultsScreen extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.wishList != prevProps.wishList) {
       console.log(this.props.route.params);
-      this.setState(
-        (prevState) => ({
-          itemsList: [...this.isWishlisted(prevState.itemsList)],
-        }),
-        () => console.log(this.state.itemsList)
-      );
+      this.setState((prevState) => ({
+        itemsList: [...this.isWishlisted(prevState.itemsList)],
+      }));
     }
   }
 

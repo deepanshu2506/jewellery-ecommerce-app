@@ -5,7 +5,14 @@
  */
 
 import React from "react";
-import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  ToastAndroid,
+} from "react-native";
 import {
   IconButton,
   Colors,
@@ -26,9 +33,19 @@ class ItemCard extends React.Component {
 
   toggleWishList = () => {
     if (!this.state.wishListed) {
+      ToastAndroid.showWithGravity(
+        "Item added to wish list",
+        ToastAndroid.SHORT,
+        ToastAndroid.BOTTOM
+      );
       this.props.addToWishList(this.props.data);
     } else {
       this.props.removeFromWishList(this.props.data);
+      ToastAndroid.showWithGravity(
+        "Item removed from wish list",
+        ToastAndroid.SHORT,
+        ToastAndroid.BOTTOM
+      );
     }
     this.setState((prevState) => ({ wishListed: !prevState.wishListed }));
   };
