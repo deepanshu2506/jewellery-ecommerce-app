@@ -17,7 +17,13 @@ export const get = (api, params = {}, headers = {}) => {
     };
     fetch(url, options)
       .then((res) => res.json())
-      .then((res) => resolve(res))
+      .then((res) => {
+        if (res.code == 1) {
+          resolve(res.data);
+        } else {
+          reject(res.error);
+        }
+      })
       .catch((err) => reject(err));
   });
 };
@@ -35,7 +41,13 @@ export const post = (api, body = {}, headers = {}) => {
     };
     fetch(api, options)
       .then((res) => res.json())
-      .then((res) => resolve(res))
+      .then((res) => {
+        if (res.code == 1) {
+          resolve(res.data);
+        } else {
+          reject(res.error);
+        }
+      })
       .catch((err) => reject(err));
   });
 };
