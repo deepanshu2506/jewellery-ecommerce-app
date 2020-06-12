@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 
 import { populateCartAndWishList } from "../redux/actions/userActions";
 import { ordersApiUrl } from "../resources/endpoints";
-import { apiKey as RazorPayApiKey } from "../config";
+import { RAZORPAY_API_KEY as RazorPayApiKey } from "../../env.json";
 import { verifyPayments } from "../resources/payments";
 import { post } from "../resources/Requests";
 

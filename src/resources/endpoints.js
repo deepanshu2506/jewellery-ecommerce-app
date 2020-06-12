@@ -1,4 +1,4 @@
-import { host } from "../config";
+import { API_URL as host } from "../../env.json";
 
 export const loginUrl = host + "/api/login";
 export const signupUrl = host + "/api/signup";
