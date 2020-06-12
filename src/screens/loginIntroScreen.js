@@ -15,9 +15,11 @@ import { Surface } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { secondaryColor } from "../appStyles";
 import { GOOGLE_LOGIN_WEB_CLIENT_ID as WebClientID } from "../../env.json";
-
+import Loader from "../Components/utility/LoaderDialog";
 import VectorArt from "../res/loginIntroArt.png";
 import GoogleLogo from "../res/googleLogo.png";
+import { connect } from "react-redux";
+import { googleLogin } from "../redux/actions/userActions";
 
 class LoginIntroScreen extends React.Component {
   componentDidMount() {
@@ -34,27 +36,38 @@ class LoginIntroScreen extends React.Component {
       await GoogleSignin.hasPlayServices();
       console.log(WebClientID);
       const userInfo = await GoogleSignin.signIn();
-
-      console.log("userInfo");
-      this.setState({ userInfo });
+      const payload = { email: userInfo.user.email, name: userInfo.user.name };
+      console.log(payload);
+      this.props.signIn(payload);
+      // const res = await post(googleLoginApi, payload);
+      // console.log("abcd");
+      // console.log(res);
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log("SIGN_IN_CANCELLED");
+        Alert("SIGN_IN_CANCELLED");
       } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (e.g. sign in) is in progress already
-        console.log("IN_PROGRESS");
+        Alert("IN_PROGRESS");
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
-        console.log("PLAY_SERVICES_NOT_AVAILABLE");
+        Alert("PLAY_SERVICES_NOT_AVAILABLE");
       } else {
-        console.log(error);
+        Alert(error);
       }
     }
   };
+  componentDidUpdate(prevProps) {
+    if (this.props.user.code) {
+      this.props.navigation.reset({
+        index: 0,
+        routes: [{ name: "Drawer" }],
+      });
+    }
+  }
   render() {
-    console.log(this.state);
     return (
       <View style={styles.container}>
+        <Loader visible={this.props.user.loading} />
         <View style={styles.imgContainer}>
           <Image
             style={{ width: "100%", height: "100%", opacity: 0.8 }}
@@ -139,4 +152,14 @@ const styles = StyleSheet.create({
   googleLoginButtonText: { color: "#333", marginLeft: 10 },
 });
 
-export default LoginIntroScreen;
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  signIn: (user) => {
+    dispatch(googleLogin(user));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginIntroScreen);

@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "938380918415",
-    "firebase_url": "https://hnm-inc.firebaseio.com",
-    "project_id": "hnm-inc",
-    "storage_bucket": "hnm-inc.appspot.com"
+    "project_number": "737486437540",
+    "firebase_url": "https://central-apex-192014.firebaseio.com",
+    "project_id": "central-apex-192014",
+    "storage_bucket": "central-apex-192014.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:938380918415:android:12eeee2ebc59161757fafa",
+        "mobilesdk_app_id": "1:737486437540:android:a431db3bd0938bd98bfa31",
         "android_client_info": {
           "package_name": "com.jewelleryshop"
         }
       },
       "oauth_client": [
         {
-          "client_id": "938380918415-8frllkfa1r5nna2fdrddrg9i8ll1m8i3.apps.googleusercontent.com",
+          "client_id": "737486437540-e65j19kt245uc3vo81r079nrr9vuu1ea.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.jewelleryshop",
-            "certificate_hash": "1efcffae3abddbdacacdfdbda3250b81156ec5dc"
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
-          "client_id": "938380918415-1pio3e1lo6pfemcv4674t17fqj7nr4ov.apps.googleusercontent.com",
+          "client_id": "737486437540-9u08bealm37isaqrfn2p4o63drcbmasq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAYKl0DUFGlQXN4sXUTS7CeyGdQ4XOV8r4"
+          "current_key": "AIzaSyCJwwCCNJrXyE5q5KLgpxq5OIHPaQdUO6s"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "938380918415-1pio3e1lo6pfemcv4674t17fqj7nr4ov.apps.googleusercontent.com",
+              "client_id": "737486437540-9u08bealm37isaqrfn2p4o63drcbmasq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -2,6 +2,7 @@ import {
   loginUrl,
   signupUrl,
   syncCartWishListUrl,
+  googleLoginApi,
 } from "../../resources/endpoints";
 import { setCartItems } from "./cartActions";
 import { setWishListItems } from "./wishListActions";
@@ -87,6 +88,29 @@ export const requestLogin = (username, password) => {
       });
     //make async call if successfull call loginSucess else login failed
   };
+};
+
+export const googleLogin = (data) => (dispatch) => {
+  dispatch(loadingRequest());
+  fetch(googleLoginApi, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((data) => data.json())
+    .then((res) => {
+      console.log(res);
+      if (res.code == 1) {
+        dispatch(loginInSuccess({ ...res.data, code: res.code }));
+      } else {
+        dispatch(loginInFailed(res.message));
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 export const signup = (mobile, username, password) => (dispatch) => {
