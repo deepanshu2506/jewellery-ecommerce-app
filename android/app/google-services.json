@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "938380918415",
+    "firebase_url": "https://hnm-inc.firebaseio.com",
+    "project_id": "hnm-inc",
+    "storage_bucket": "hnm-inc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938380918415:android:12eeee2ebc59161757fafa",
+        "android_client_info": {
+          "package_name": "com.jewelleryshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938380918415-8frllkfa1r5nna2fdrddrg9i8ll1m8i3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jewelleryshop",
+            "certificate_hash": "1efcffae3abddbdacacdfdbda3250b81156ec5dc"
+          }
+        },
+        {
+          "client_id": "938380918415-1pio3e1lo6pfemcv4674t17fqj7nr4ov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYKl0DUFGlQXN4sXUTS7CeyGdQ4XOV8r4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938380918415-1pio3e1lo6pfemcv4674t17fqj7nr4ov.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
