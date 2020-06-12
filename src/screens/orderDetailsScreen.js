@@ -20,14 +20,11 @@ class OrderDetailsScreen extends Component {
   async componentDidMount() {
     try {
       const response = await get(getOrderDetailsApi(this.screenProps.orderId));
-      if (response.code == 1) {
-        this.setState({ orderDetails: response.data, loading: false });
-      } else {
-        this.setState({ error: true, loading: false });
-      }
+      this.setState({ orderDetails: response.data, loading: false });
     } catch (err) {
       console.log(err);
       alert("something went wrong");
+      this.setState({ error: true, loading: false });
     }
   }
 
