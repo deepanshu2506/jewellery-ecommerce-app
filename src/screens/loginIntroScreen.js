@@ -36,7 +36,11 @@ class LoginIntroScreen extends React.Component {
       await GoogleSignin.hasPlayServices();
       console.log(WebClientID);
       const userInfo = await GoogleSignin.signIn();
-      const payload = { email: userInfo.user.email, name: userInfo.user.name };
+      const payload = {
+        email: userInfo.user.email,
+        name: userInfo.user.name,
+        profilePhoto: userInfo.user.photo,
+      };
       console.log(payload);
       this.props.signIn(payload);
       // const res = await post(googleLoginApi, payload);

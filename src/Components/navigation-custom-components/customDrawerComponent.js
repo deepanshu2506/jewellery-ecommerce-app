@@ -16,6 +16,7 @@ const navigationHandler = (navigation, type) => () => {
 
 const CustomDrawerComponent = (props) => {
   const { navigation, user } = props;
+  const username = user.googleSignIn ? user.fullname : user.username;
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.drawerContent}>
@@ -42,16 +43,23 @@ const CustomDrawerComponent = (props) => {
                 alignItems: "center",
               }}
             >
-              <Avatar.Text
-                label={user.username[0].toUpperCase()}
-                style={{ backgroundColor: secondaryColor, marginRight: 10 }}
-                size={40}
-                color="white"
-              />
+              {!user.googleSignIn ? (
+                <Avatar.Text
+                  label={username[0].toUpperCase()}
+                  style={{ backgroundColor: secondaryColor, marginRight: 10 }}
+                  size={40}
+                  color="white"
+                />
+              ) : (
+                <Avatar.Image
+                  source={{ uri: user.profilePhoto }}
+                  style={{ backgroundColor: secondaryColor, marginRight: 10 }}
+                  size={40}
+                  color="white"
+                />
+              )}
               <View>
-                <Text style={{ color: "white", fontSize: 18 }}>
-                  {user.username}
-                </Text>
+                <Text style={{ color: "white", fontSize: 18 }}>{username}</Text>
               </View>
             </View>
           )}
