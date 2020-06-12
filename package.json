@@ -1,9 +1,12 @@
 {
   "scripts": {
-    "start": "react-native start",
+    "start:dev": "yarn env:dev && react-native start",
+    "start:prod": "yarn env:prod && react-native start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "env:dev": "node scripts/set_env.js dev",
+    "env:prod": "node scripts/set_env.js prod"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.10.3",
