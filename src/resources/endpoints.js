@@ -23,5 +23,6 @@ export const ordersApiUrl = host + "/api/proceed";
 export const verifyPaymentsUrl = host + "/api/verify_payment";
 
 export const getAllOrdersApi = host + "/api/orders";
+export const googleLoginApi = host + "/api/googleSignIn";
 
 export const getOrderDetailsApi = (orderId) => `${host}/api/orders/${orderId}`;
