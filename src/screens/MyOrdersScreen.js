@@ -14,7 +14,7 @@ class MyOrdersScreen extends Component {
   async componentDidMount() {
     try {
       const res = await get(getAllOrdersApi);
-      this._segregateOrders(res.data);
+      this._segregateOrders(res);
       this.setState({ loading: false });
     } catch (err) {
       console.log(err);

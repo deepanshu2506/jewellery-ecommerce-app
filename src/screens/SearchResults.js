@@ -65,7 +65,6 @@ class searchResultsScreen extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.wishList != prevProps.wishList) {
-      console.log(this.props.route.params);
       this.setState((prevState) => ({
         itemsList: [...this.isWishlisted(prevState.itemsList)],
       }));
@@ -84,7 +83,6 @@ class searchResultsScreen extends React.Component {
   sort = (sortType) => {
     let property = "";
     let type = "";
-    console.log(sortType, this.sortProperties.priceAsc);
     switch (sortType) {
       case this.sortProperties.nameAsc:
         property = "title";
@@ -99,13 +97,10 @@ class searchResultsScreen extends React.Component {
         type = sortTypes.DESC;
         break;
       case this.sortProperties.priceAsc:
-        console.log("abcd");
         property = "price";
         type = sortTypes.ASC;
-        console.log("abcd");
         break;
     }
-    console.log(property, type);
     this.setState((prevState) => ({
       itemsList: sortItems(prevState.itemsList, property, type),
     }));
@@ -115,7 +110,6 @@ class searchResultsScreen extends React.Component {
   _closeSortDialog = () => this.setState({ sortDialogVisible: false });
 
   _changeSortType = (value) => {
-    console.log(value);
     this.setState({ sortType: value }, this.sort(value));
   };
 

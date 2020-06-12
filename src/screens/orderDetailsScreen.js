@@ -20,7 +20,7 @@ class OrderDetailsScreen extends Component {
   async componentDidMount() {
     try {
       const response = await get(getOrderDetailsApi(this.screenProps.orderId));
-      this.setState({ orderDetails: response.data, loading: false });
+      this.setState({ orderDetails: response, loading: false });
     } catch (err) {
       console.log(err);
       alert("something went wrong");
