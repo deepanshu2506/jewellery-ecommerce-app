@@ -7,16 +7,52 @@ import {
   TouchableNativeFeedback,
 } from "react-native";
 import Constants from "expo-constants";
+import {
+  GoogleSignin,
+  statusCodes,
+} from "@react-native-community/google-signin";
 import { Surface } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
 import { secondaryColor } from "../appStyles";
+import { GOOGLE_LOGIN_WEB_CLIENT_ID as WebClientID } from "../../env.json";
 
 import VectorArt from "../res/loginIntroArt.png";
 import GoogleLogo from "../res/googleLogo.png";
 
 class LoginIntroScreen extends React.Component {
+  componentDidMount() {
+    GoogleSignin.configure({
+      webClientId: WebClientID,
+      offlineAccess: true,
+      forceCodeForRefreshToken: true,
+      accountName: "", // [Android] specifies an account name on the device that should be used
+    });
+  }
+
+  signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      console.log(WebClientID);
+      const userInfo = await GoogleSignin.signIn();
+
+      console.log("userInfo");
+      this.setState({ userInfo });
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log("SIGN_IN_CANCELLED");
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+        console.log("IN_PROGRESS");
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+        console.log("PLAY_SERVICES_NOT_AVAILABLE");
+      } else {
+        console.log(error);
+      }
+    }
+  };
   render() {
+    console.log(this.state);
     return (
       <View style={styles.container}>
         <View style={styles.imgContainer}>
@@ -36,7 +72,7 @@ class LoginIntroScreen extends React.Component {
               <Text style={styles.loginButtonText}>Login To Your Account</Text>
             </Surface>
           </TouchableNativeFeedback>
-          <TouchableNativeFeedback>
+          <TouchableNativeFeedback onPress={this.signIn}>
             <Surface style={[styles.loginButton, styles.googleLoginButton]}>
               <Image source={GoogleLogo} style={{ height: 22, width: 22 }} />
               <Text
@@ -82,11 +118,12 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     paddingVertical: 13,
-    paddingHorizontal: 40,
+    width: 330,
     marginTop: 20,
     elevation: 3,
     backgroundColor: secondaryColor,
     borderRadius: 2,
+    alignItems: "center",
   },
   loginButtonText: {
     color: "white",
