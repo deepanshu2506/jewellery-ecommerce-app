@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, Keyboard } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Keyboard,
+  KeyboardAvoidingView,
+} from "react-native";
 import Constants from "expo-constants";
 import { Surface, TextInput, Button } from "react-native-paper";
 
@@ -20,7 +27,17 @@ class SignupScreen extends React.Component {
     error: "",
     email: "",
     signUpSuccess: false,
+    hideImg: false,
   };
+
+  componentDidMount() {
+    Keyboard.addListener("keyboardDidShow", () => {
+      this.setState({ hideImg: true });
+    });
+    Keyboard.addListener("keyboardDidHide", () => {
+      this.setState({ hideImg: false });
+    });
+  }
 
   _validate = () => {
     const emailreg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -76,12 +93,14 @@ class SignupScreen extends React.Component {
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
           <Loader visible={this.props.user.loading} />
-          <View style={styles.imgContainer}>
-            <Image
-              style={{ width: "100%", height: "100%", opacity: 0.8 }}
-              source={VectorArt}
-            />
-          </View>
+          {!this.state.hideImg && (
+            <View style={styles.imgContainer}>
+              <Image
+                style={{ width: "100%", height: "100%", opacity: 0.8 }}
+                source={VectorArt}
+              />
+            </View>
+          )}
           <View>
             <TextInput
               mode="flat"
