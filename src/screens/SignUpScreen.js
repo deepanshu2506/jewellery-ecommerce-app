@@ -28,6 +28,7 @@ class SignupScreen extends React.Component {
     email: "",
     signUpSuccess: false,
     hideImg: false,
+    currentInput: "",
   };
 
   componentDidMount() {
@@ -105,27 +106,39 @@ class SignupScreen extends React.Component {
             <TextInput
               mode="flat"
               label="Name"
+              blurOnSubmit={false}
               value={this.state.username}
               onChangeText={(username) => {
                 this.setState({ username: username.trim() });
               }}
               underlineColor="#3f3d56"
               style={{ backgroundColor: "white", marginHorizontal: 20 }}
+              onSubmitEditing={(event) => {
+                this.email.focus();
+              }}
             />
             <TextInput
               mode="flat"
               label="email"
               keyboardType="email-address"
+              blurOnSubmit={false}
               value={this.state.email}
               onChangeText={(email) => {
                 this.setState({ email: email.trim() });
               }}
               underlineColor="#3f3d56"
               style={{ backgroundColor: "white", marginHorizontal: 20 }}
+              ref={(input) => {
+                this.email = input;
+              }}
+              onSubmitEditing={() => {
+                this.mobile.focus();
+              }}
             />
             <TextInput
               mode="flat"
               keyboardType="numeric"
+              blurOnSubmit={false}
               label="Mobile Number"
               maxLength={10}
               underlineColor="#3f3d56"
@@ -133,18 +146,29 @@ class SignupScreen extends React.Component {
               onChangeText={(mobile) => {
                 this.setState({ mobile: mobile.trim() });
               }}
+              onSubmitEditing={() => {
+                this.password.focus();
+              }}
               style={{ backgroundColor: "white", marginHorizontal: 20 }}
+              ref={(input) => {
+                this.mobile = input;
+              }}
             />
             <TextInput
               mode="flat"
               label="password"
+              blurOnSubmit={false}
               secureTextEntry
               underlineColor="#3f3d56"
+              onSubmitEditing={this._signUp}
               value={this.state.password}
               onChangeText={(password) => {
                 this.setState({ password: password.trim() });
               }}
               style={{ backgroundColor: "white", marginHorizontal: 20 }}
+              ref={(input) => {
+                this.password = input;
+              }}
             />
           </View>
           <View style={{ alignItems: "center" }}>
