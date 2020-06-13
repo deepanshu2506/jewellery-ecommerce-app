@@ -113,9 +113,9 @@ export const googleLogin = (data) => (dispatch) => {
     });
 };
 
-export const signup = (mobile, username, password) => (dispatch) => {
+export const signup = (mobile, username, password, email) => (dispatch) => {
   dispatch(loadingRequest());
-  const signupPayload = { mobile, username, password };
+  const signupPayload = { mobile, username, password, email };
   fetch(signupUrl, {
     method: "POST",
     headers: {

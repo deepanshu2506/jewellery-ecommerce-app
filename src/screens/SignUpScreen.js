@@ -1,13 +1,7 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableNativeFeedback,
-} from "react-native";
+import { View, Text, StyleSheet, Image, Keyboard } from "react-native";
 import Constants from "expo-constants";
-import { Surface, TextInput } from "react-native-paper";
+import { Surface, TextInput, Button } from "react-native-paper";
 
 import Loader from "../Components/utility/LoaderDialog";
 import { connect } from "react-redux";
@@ -18,10 +12,18 @@ import { secondaryColor } from "../appStyles";
 
 import VectorArt from "../res/signupArt.png";
 
-class LoginIntroScreen extends React.Component {
-  state = { username: "", mobile: "", password: "", error: "" };
+class SignupScreen extends React.Component {
+  state = {
+    username: "",
+    mobile: "",
+    password: "",
+    error: "",
+    email: "",
+    signUpSuccess: false,
+  };
 
   _validate = () => {
+    const emailreg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (this.state.username.length < 3) {
       this.setState({
         error: "username should be atleast 3 characters long",
@@ -33,19 +35,27 @@ class LoginIntroScreen extends React.Component {
     } else if (this.state.password.length == 0) {
       this.setState({ error: "password is required" });
       return false;
+    } else if (
+      this.state.email.length == 0 ||
+      !emailreg.test(this.state.email)
+    ) {
+      this.setState({ error: "Enter valid Email" });
+      return false;
     }
     return true;
   };
 
   _signUp = () => {
+    Keyboard.dismiss();
     if (this._validate()) {
-      const { mobile, username, password } = this.state;
-      this.props.signUp(mobile, username, password);
+      const { mobile, username, password, email } = this.state;
+      this.props.signUp(mobile, username, password, email);
     }
   };
 
   componentDidUpdate(prevProps) {
     console.log(this.props.user);
+
     if (this.props.user.isSignupSuccess == 1) {
       this.props.navigation.reset({
         index: 0,
@@ -63,60 +73,74 @@ class LoginIntroScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Loader visible={this.props.user.loading} />
-        <View style={styles.imgContainer}>
-          <Image
-            style={{ width: "100%", height: "100%", opacity: 0.8 }}
-            source={VectorArt}
-          />
+      <View style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <Loader visible={this.props.user.loading} />
+          <View style={styles.imgContainer}>
+            <Image
+              style={{ width: "100%", height: "100%", opacity: 0.8 }}
+              source={VectorArt}
+            />
+          </View>
+          <View>
+            <TextInput
+              mode="flat"
+              label="Name"
+              value={this.state.username}
+              onChangeText={(username) => {
+                this.setState({ username: username.trim() });
+              }}
+              underlineColor="#3f3d56"
+              style={{ backgroundColor: "white", marginHorizontal: 20 }}
+            />
+            <TextInput
+              mode="flat"
+              label="email"
+              keyboardType="email-address"
+              value={this.state.email}
+              onChangeText={(email) => {
+                this.setState({ email: email.trim() });
+              }}
+              underlineColor="#3f3d56"
+              style={{ backgroundColor: "white", marginHorizontal: 20 }}
+            />
+            <TextInput
+              mode="flat"
+              keyboardType="numeric"
+              label="Mobile Number"
+              maxLength={10}
+              underlineColor="#3f3d56"
+              value={this.state.mobile}
+              onChangeText={(mobile) => {
+                this.setState({ mobile: mobile.trim() });
+              }}
+              style={{ backgroundColor: "white", marginHorizontal: 20 }}
+            />
+            <TextInput
+              mode="flat"
+              label="password"
+              secureTextEntry
+              underlineColor="#3f3d56"
+              value={this.state.password}
+              onChangeText={(password) => {
+                this.setState({ password: password.trim() });
+              }}
+              style={{ backgroundColor: "white", marginHorizontal: 20 }}
+            />
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <Text style={{ color: "red" }}>{this.state.error}</Text>
+          </View>
         </View>
         <View>
-          <TextInput
-            mode="flat"
-            label="Name"
-            value={this.state.username}
-            onChangeText={(username) => {
-              this.setState({ username: username.trim() });
-            }}
-            underlineColor="#3f3d56"
-            style={{ backgroundColor: "white", marginHorizontal: 20 }}
-          />
-          <TextInput
-            mode="flat"
-            keyboardType="numeric"
-            label="Mobile Number"
-            underlineColor="#3f3d56"
-            value={this.state.mobile}
-            onChangeText={(mobile) => {
-              this.setState({ mobile: mobile.trim() });
-            }}
-            style={{ backgroundColor: "white", marginHorizontal: 20 }}
-          />
-          <TextInput
-            mode="flat"
-            label="password"
-            secureTextEntry
-            underlineColor="#3f3d56"
-            value={this.state.password}
-            onChangeText={(password) => {
-              this.setState({ password: password.trim() });
-            }}
-            style={{ backgroundColor: "white", marginHorizontal: 20 }}
-          />
-        </View>
-        <View style={{ alignItems: "center" }}>
-          <Text style={{ color: "red" }}>{this.state.error}</Text>
-        </View>
-        <View style={{ alignItems: "center" }}>
-          <TouchableNativeFeedback
-            background={TouchableNativeFeedback.Ripple("#ffffff")}
+          <Button
+            mode="contained"
+            color={secondaryColor}
+            labelStyle={styles.signUpButton}
             onPress={this._signUp}
           >
-            <Surface style={styles.loginButton}>
-              <Text style={styles.loginButtonText}>Sign Up</Text>
-            </Surface>
-          </TouchableNativeFeedback>
+            Sign Up
+          </Button>
         </View>
       </View>
     );
@@ -124,8 +148,8 @@ class LoginIntroScreen extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  signUp: (mobile, username, password) => {
-    dispatch(signup(mobile, username, password));
+  signUp: (mobile, username, password, email) => {
+    dispatch(signup(mobile, username, password, email));
   },
 });
 
@@ -133,7 +157,7 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginIntroScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SignupScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -147,19 +171,9 @@ const styles = StyleSheet.create({
     height: 190,
     alignSelf: "center",
   },
-  loginButton: {
-    paddingVertical: 13,
-    paddingHorizontal: 40,
-    marginTop: 20,
-    elevation: 3,
-    backgroundColor: secondaryColor,
-    borderRadius: 2,
-    marginBottom: 50,
-  },
-  loginButtonText: {
+  signUpButton: {
     color: "white",
-    textTransform: "uppercase",
-    letterSpacing: 1.1,
-    fontSize: 15,
+    paddingHorizontal: 20,
+    paddingVertical: 5,
   },
 });
