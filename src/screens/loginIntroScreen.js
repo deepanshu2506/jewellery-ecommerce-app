@@ -1,14 +1,8 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableNativeFeedback,
-} from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import Constants from "expo-constants";
 
-import { Surface } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { secondaryColor } from "../appStyles";
 import Loader from "../Components/utility/LoaderDialog";
@@ -29,6 +23,9 @@ class LoginIntroScreen extends React.Component {
       });
     }
   }
+  _loginPress = () => {
+    this.props.navigation.navigate("login-screen");
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -40,16 +37,14 @@ class LoginIntroScreen extends React.Component {
           />
         </View>
         <View>
-          <TouchableNativeFeedback
-            background={TouchableNativeFeedback.Ripple("#ffffff")}
-            onPress={() => {
-              this.props.navigation.navigate("login-screen");
-            }}
+          <Button
+            mode="contained"
+            color={secondaryColor}
+            labelStyle={{ padding: 5, color: "white" }}
+            onPress={this._loginPress}
           >
-            <Surface style={styles.loginButton}>
-              <Text style={styles.loginButtonText}>Login To Your Account</Text>
-            </Surface>
-          </TouchableNativeFeedback>
+            Login To Your account
+          </Button>
           <GoogleSignInButton />
           <TouchableOpacity
             style={{ alignItems: "center" }}

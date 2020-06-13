@@ -49,6 +49,7 @@ class SearchbarScreen extends React.Component {
             value={this.state.searchText}
             onChangeText={(text) => this.setState({ searchText: text })}
             onSubmitEditing={this.search}
+            returnKeyLabel="search"
             inputStyle={{
               fontSize: 17,
               paddingLeft: 0,
