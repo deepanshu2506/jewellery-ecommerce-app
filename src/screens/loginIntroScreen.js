@@ -19,10 +19,11 @@ import Loader from "../Components/utility/LoaderDialog";
 import VectorArt from "../res/loginIntroArt.png";
 import GoogleLogo from "../res/googleLogo.png";
 import { connect } from "react-redux";
-import { googleLogin } from "../redux/actions/userActions";
+import { googleLogin, logout } from "../redux/actions/userActions";
 
 class LoginIntroScreen extends React.Component {
   componentDidMount() {
+    this.props.resetUser();
     GoogleSignin.configure({
       webClientId: WebClientID,
       offlineAccess: true,
@@ -163,6 +164,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   signIn: (user) => {
     dispatch(googleLogin(user));
+  },
+  resetUser: () => {
+    dispatch(logout());
   },
 });
 
