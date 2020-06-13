@@ -5,6 +5,7 @@ import OrderItem from "../Components/OrderScreen/OrderItem";
 import { getAllOrdersApi } from "../resources/endpoints";
 import _ from "lodash";
 import Loader from "../Components/utility/LoaderDialog";
+import NoOrdersScreen from "../Components/OrderScreen/NoOrdersScreen";
 import { get } from "../resources/Requests";
 
 const DELIVERED = "Delivered";
@@ -14,7 +15,11 @@ class MyOrdersScreen extends Component {
   async componentDidMount() {
     try {
       const res = await get(getAllOrdersApi);
-      this._segregateOrders(res);
+      if (res.length != 0) {
+        this._segregateOrders(res);
+      } else {
+        this.setState({ noOrders: true });
+      }
       this.setState({ loading: false });
     } catch (err) {
       console.log(err);
@@ -47,7 +52,7 @@ class MyOrdersScreen extends Component {
       <View style={{ flex: 1, padding: 5, paddingHorizontal: 10 }}>
         {this.state.loading ? (
           <Loader visible={this.state.loading} />
-        ) : (
+        ) : !this.state.noOrders ? (
           <SectionList
             sections={this.state.orders}
             renderItem={this.renderOrders}
@@ -58,6 +63,8 @@ class MyOrdersScreen extends Component {
             )}
             keyExtractor={(item) => item._id}
           />
+        ) : (
+          <NoOrdersScreen />
         )}
       </View>
     );
