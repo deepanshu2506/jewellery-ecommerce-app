@@ -1,18 +1,18 @@
 import React, { Component } from "react";
-import { ScrollView } from "react-native";
-import { TextInput as BaseTextInput, Button } from "react-native-paper";
+import { View, ScrollView, KeyboardAvoidingView } from "react-native";
+import { TextInput, Button } from "react-native-paper";
 import { secondaryColor } from "../appStyles";
 
 import { saveAddress, editAddress } from "../redux/actions/userActions";
 import { connect } from "react-redux";
 
-const TextInput = (props) => (
-  <BaseTextInput
-    style={{ marginVertical: 7 }}
-    theme={{ colors: { primary: secondaryColor } }}
-    {...props}
-  />
-);
+// const TextInput = (props) => (
+//   <BaseTextInput
+//     style={{ marginVertical: 7 }}
+//     theme={{ colors: { primary: secondaryColor } }}
+//     {...props}
+//   />
+// );
 
 class NewAddressScreen extends Component {
   screenParams = this.props.route.params || {};
@@ -46,67 +46,122 @@ class NewAddressScreen extends Component {
   render() {
     console.log(this.screenParams);
     return (
-      <ScrollView style={{ padding: 10, backgroundColor: "white", flex: 1 }}>
-        <TextInput
-          mode="outlined"
-          label="Address Line 1"
-          value={this.state.line1}
-          onChangeText={(text) => {
-            this.setState({ line1: text.trim() });
-          }}
-        />
-        <TextInput
-          mode="outlined"
-          label="Address Line 2"
-          value={this.state.line2}
-          onChangeText={(text) => {
-            this.setState({ line2: text.trim() });
-          }}
-        />
-        <TextInput
-          mode="outlined"
-          label="Address Line 3"
-          value={this.state.line3}
-          onChangeText={(text) => {
-            this.setState({ line3: text.trim() });
-          }}
-        />
-        <TextInput
-          mode="outlined"
-          label="City"
-          value={this.state.city}
-          onChangeText={(text) => {
-            this.setState({ city: text.trim() });
-          }}
-        />
-        <TextInput
-          mode="outlined"
-          label="pincode"
-          maxLength={6}
-          keyboardType="numeric"
-          value={this.state.pincode}
-          onChangeText={(text) => {
-            this.setState({ pincode: text.trim() });
-          }}
-        />
-        <TextInput
-          mode="outlined"
-          label="State"
-          value={this.state.state}
-          onChangeText={(text) => {
-            this.setState({ state: text.trim() });
-          }}
-        />
+      <View style={{ flex: 1 }}>
+        <ScrollView style={{ padding: 10, backgroundColor: "white" }}>
+          <KeyboardAvoidingView behavior="padding">
+            <TextInput
+              style={{ marginVertical: 7 }}
+              theme={{ colors: { primary: secondaryColor } }}
+              mode="outlined"
+              blurOnSubmit={false}
+              label="Address Line 1"
+              value={this.state.line1}
+              onChangeText={(text) => {
+                this.setState({ line1: text.trim() });
+              }}
+              onSubmitEditing={() => {
+                this.addressLine2.focus();
+              }}
+            />
+            <TextInput
+              style={{ marginVertical: 7 }}
+              theme={{ colors: { primary: secondaryColor } }}
+              mode="outlined"
+              label="Address Line 2"
+              value={this.state.line2}
+              onChangeText={(text) => {
+                this.setState({ line2: text.trim() });
+              }}
+              blurOnSubmit={false}
+              ref={(input) => {
+                this.addressLine2 = input;
+              }}
+              onSubmitEditing={() => {
+                this.addressLine3.focus();
+              }}
+            />
+            <TextInput
+              style={{ marginVertical: 7 }}
+              theme={{ colors: { primary: secondaryColor } }}
+              mode="outlined"
+              label="Address Line 3"
+              value={this.state.line3}
+              onChangeText={(text) => {
+                this.setState({ line3: text.trim() });
+              }}
+              blurOnSubmit={false}
+              ref={(input) => {
+                this.addressLine3 = input;
+              }}
+              onSubmitEditing={() => {
+                this.city.focus();
+              }}
+            />
+            <TextInput
+              style={{ marginVertical: 7 }}
+              theme={{ colors: { primary: secondaryColor } }}
+              mode="outlined"
+              label="City"
+              value={this.state.city}
+              onChangeText={(text) => {
+                this.setState({ city: text.trim() });
+              }}
+              blurOnSubmit={false}
+              ref={(input) => {
+                this.city = input;
+              }}
+              onSubmitEditing={() => {
+                this.pincode.focus();
+              }}
+            />
+            <TextInput
+              style={{ marginVertical: 7 }}
+              theme={{ colors: { primary: secondaryColor } }}
+              mode="outlined"
+              label="pincode"
+              maxLength={6}
+              keyboardType="numeric"
+              value={this.state.pincode}
+              onChangeText={(text) => {
+                this.setState({ pincode: text.trim() });
+              }}
+              blurOnSubmit={false}
+              ref={(input) => {
+                this.pincode = input;
+              }}
+              onSubmitEditing={() => {
+                this.addState.focus();
+              }}
+            />
+            <TextInput
+              style={{ marginVertical: 7 }}
+              theme={{ colors: { primary: secondaryColor } }}
+              mode="outlined"
+              label="State"
+              value={this.state.state}
+              onChangeText={(text) => {
+                this.setState({ state: text.trim() });
+              }}
+              onSubmitEditing={false}
+              ref={(input) => {
+                this.addState = input;
+              }}
+              onSubmitEditing={this._saveAddress}
+            />
+          </KeyboardAvoidingView>
+        </ScrollView>
         <Button
-          style={{ marginTop: 20 }}
+          style={{
+            borderRadius: 0,
+          }}
           color={secondaryColor}
-          labelStyle={{ color: "white" }}
+          labelStyle={{ color: "white", paddingVertical: 2, fontSize: 17 }}
           mode="contained"
           onPress={this._saveAddress}
         >
           {this.screenParams.replace ? "replace" : "Save"}
         </Button>
-      </ScrollView>
+      </View>
     );
   }
 }
