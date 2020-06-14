@@ -21,7 +21,7 @@ export const setCartItems = (items) => ({
 });
 
 export const addItemToCart = (data) => async (dispatch, getState) => {
-  const requestBody = { id: getState().user.user._id, pid: data._id };
+  const requestBody = { pid: data._id };
   dispatch(add(data));
   try {
     await post(addToCartUrl, requestBody);
@@ -32,7 +32,6 @@ export const addItemToCart = (data) => async (dispatch, getState) => {
 
 export const removeFromCart = (itemId) => async (dispatch, getState) => {
   const requestBody = {
-    id: getState().user.user._id,
     pid: itemId,
   };
   dispatch(remove(itemId));

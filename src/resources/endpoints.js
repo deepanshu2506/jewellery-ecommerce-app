@@ -25,4 +25,7 @@ export const verifyPaymentsUrl = host + "/api/verify_payment";
 export const getAllOrdersApi = host + "/api/orders";
 export const googleLoginApi = host + "/api/googleSignIn";
 
+export const addTowishListApi = host + "/api/wishlist/add";
+export const removeFromWishListApi = host + "/api/wishlist/delete";
+
 export const getOrderDetailsApi = (orderId) => `${host}/api/orders/${orderId}`;
