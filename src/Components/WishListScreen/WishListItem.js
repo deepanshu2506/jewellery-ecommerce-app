@@ -32,7 +32,7 @@ const WishListItem = ({ item, addItemToCart, removeFromWishList }) => {
           </Text>
         </Text>
         <View style={styles.bottomPart}>
-          <CartButton title="move" item={item} />
+          <CartButton title="move" item={item} inWishList={true} />
           <Button
             mode="outlined"
             style={{ marginLeft: 20 }}

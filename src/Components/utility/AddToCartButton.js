@@ -5,10 +5,20 @@ import { addItemToCart } from "../../redux/actions/cartActions";
 import { MaterialCommunityIcons as Icons } from "react-native-vector-icons";
 import { View, ToastAndroid } from "react-native";
 import { connect } from "react-redux";
+import { remove } from "../../redux/actions/wishListActions";
 
-const addToCart = ({ addToCart, item, title }) => {
+const addToCart = ({
+  addToCart,
+  removeFromWishList,
+  item,
+  title,
+  inWishList = false,
+}) => {
   const _onPress = () => {
     addToCart(item);
+    if (inWishList) {
+      removeFromWishList(item);
+    }
     ToastAndroid.showWithGravity(
       "successfully added item to cart! ",
       ToastAndroid.SHORT,
@@ -35,6 +45,9 @@ const addToCart = ({ addToCart, item, title }) => {
 const mapDispatchToProps = (dispatch) => ({
   addToCart: (data) => {
     dispatch(addItemToCart(data));
+  },
+  removeFromWishList: (item) => {
+    dispatch(remove(item));
   },
 });
 
