@@ -11,6 +11,7 @@ import { getOrderDetailsApi } from "../resources/endpoints";
 
 import Loader from "../Components/utility/LoaderDialog";
 import { get } from "../resources/Requests";
+import InvoiceEmail from "../Components/OrderScreen/InvoiceEmail";
 
 class OrderDetailsScreen extends Component {
   state = { orderDetails: { _id: "" }, loading: true, error: false };
@@ -37,6 +38,7 @@ class OrderDetailsScreen extends Component {
           <ScrollView>
             <OrderDetails order={this.state.orderDetails} />
             <ProductDetails products={this.state.orderDetails.products} />
+            <InvoiceEmail orderId={this.state.orderDetails._id} />
             <PaymentDetails orderPrice={this.state.orderDetails.order_price} />
             <ShippingDetails order={this.state.orderDetails} />
           </ScrollView>

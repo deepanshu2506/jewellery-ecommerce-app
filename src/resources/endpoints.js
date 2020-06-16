@@ -27,5 +27,6 @@ export const googleLoginApi = host + "/api/googleSignIn";
 
 export const addTowishListApi = host + "/api/wishlist/add";
 export const removeFromWishListApi = host + "/api/wishlist/delete";
+export const generateInvoice = host + "/api/orders/sendInvoice";
 
 export const getOrderDetailsApi = (orderId) => `${host}/api/orders/${orderId}`;
