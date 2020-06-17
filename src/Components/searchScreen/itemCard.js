@@ -77,10 +77,17 @@ class ItemCard extends React.Component {
                 <Text style={styles.offerPrice}>
                   {`\u20B9 ${this.props.data.price}/-`}
                 </Text>
-                <Text style={styles.originalPrice}>{`\u20B9 ${
-                  this.props.data.price + 0.2 * this.props.data.price
-                }/-`}</Text>
+                <Text style={styles.originalPrice}>
+                  {`\u20B9 ${this.props.data.actualPrice}/-`}
+                </Text>
               </View>
+              {this.props.data.discount > 0 && (
+                <View style={styles.bestSellerTag}>
+                  <Text style={{ textAlign: "left", color: "white" }}>
+                    {`${this.props.data.discount}% off`}
+                  </Text>
+                </View>
+              )}
               <Text style={styles.itemDescription}>
                 {this.props.data.title}
               </Text>
@@ -157,12 +164,15 @@ const styles = StyleSheet.create({
   bestSellerTag: {
     position: "absolute",
     right: 0,
-    top: "5%",
-    width: 90,
-    height: 25,
+    top: "75%",
+    // width: 50,
+    // height: 25,
+
     justifyContent: "center",
-    backgroundColor: secondaryColor,
-    paddingLeft: 10,
+    backgroundColor: "green",
+    padding: 3,
+    paddingHorizontal: 5,
+    // paddingLeft: 10,
   },
   itemDescription: {
     marginTop: 5,
