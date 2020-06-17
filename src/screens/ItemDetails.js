@@ -68,6 +68,24 @@ export default class ItemDetailsScreen extends React.Component {
                   justifyContent: "center",
                 }}
               >
+                {item.discount > 0 && (
+                  <View
+                    style={{
+                      backgroundColor: secondaryColor,
+                      padding: 5,
+                      paddingLeft: 10,
+                      position: "absolute",
+                      zIndex: 1,
+                      top: "10%",
+                      right: 0,
+                      paddingRight: 30,
+                    }}
+                  >
+                    <Text style={{ fontSize: 17, color: "white" }}>
+                      {` ${item.discount}% off`}
+                    </Text>
+                  </View>
+                )}
                 <PinchGestureHandler
                   onGestureEvent={this.onZoomEvent}
                   onHandlerStateChange={this.onZoomStateChange}
@@ -122,7 +140,7 @@ export default class ItemDetailsScreen extends React.Component {
           <View style={{ flexDirection: "row" }}>
             <Text style={styles.price}>{toCurrencyString(item.price)}</Text>
             <Text style={styles.actualPrice}>
-              {toCurrencyString(item.price + 0.2 * item.price)}
+              {toCurrencyString(item.actualPrice)}
             </Text>
           </View>
           <CartButton item={item} />
@@ -135,7 +153,7 @@ export default class ItemDetailsScreen extends React.Component {
 const styles = StyleSheet.create({
   productTitle: { fontSize: 24, paddingLeft: 10, color: "#011627" },
   priceView: {
-    paddingLeft: 30,
+    paddingLeft: 10,
     paddingHorizontal: 20,
     height: 50,
     backgroundColor: primaryColor,

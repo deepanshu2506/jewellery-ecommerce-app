@@ -12,7 +12,7 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import { DataTable } from "react-native-paper";
+import { DataTable, Divider } from "react-native-paper";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -92,7 +92,7 @@ export default class DetailsSwitcher extends Component {
           ref={(node) => (this.descriptionSwitcher = node)}
         >
           <View style={styles.card}>
-            <DataTable style={{ alignContent: "center" }}>
+            <DataTable style={{ alignContent: "center", marginBottom: 20 }}>
               <DataTable.Row>
                 <DataTable.Cell>Weight</DataTable.Cell>
                 <DataTable.Cell>{`${this.props.item.weight} g`}</DataTable.Cell>
@@ -120,46 +120,72 @@ export default class DetailsSwitcher extends Component {
                   WEIGHT
                 </DataTable.Title>
                 <DataTable.Title style={styles.tableHeaders}>
-                  DISCOUNT
-                </DataTable.Title>
-                <DataTable.Title style={styles.tableHeaders}>
                   VALUE
                 </DataTable.Title>
               </DataTable.Header>
+              {this.props.item.materials.map((material) => (
+                <DataTable.Row>
+                  <DataTable.Cell>{material.materialType.name}</DataTable.Cell>
+
+                  <DataTable.Cell>{`Rs.${material.materialType.price}`}</DataTable.Cell>
+                  <DataTable.Cell>{`${material.weight} g`}</DataTable.Cell>
+                  <DataTable.Cell>
+                    {`Rs.${(
+                      material.materialType.price * material.weight
+                    ).toFixed(2)}`}
+                  </DataTable.Cell>
+                </DataTable.Row>
+              ))}
               <DataTable.Row>
-                <DataTable.Cell>Gold</DataTable.Cell>
-                <DataTable.Cell>Rs.3433.00</DataTable.Cell>
-                <DataTable.Cell>5.63 gms</DataTable.Cell>
-                <DataTable.Cell>-</DataTable.Cell>
-                <DataTable.Cell>18201.25</DataTable.Cell>
+                <DataTable.Cell>Making</DataTable.Cell>
+                <DataTable.Cell>{`Rs.${this.props.item.makingCharges}`}</DataTable.Cell>
+                <DataTable.Cell>{`${this.props.item.weight} g`}</DataTable.Cell>
+                <DataTable.Cell>{`Rs.${(
+                  this.props.item.makingCharges * this.props.item.weight
+                ).toFixed(2)}`}</DataTable.Cell>
               </DataTable.Row>
+              <Divider style={{ backgroundColor: "red" }} />
               <DataTable.Row>
-                <DataTable.Cell>Gold</DataTable.Cell>
-                <DataTable.Cell>Rs.3433.00</DataTable.Cell>
-                <DataTable.Cell>5.63 gms</DataTable.Cell>
-                <DataTable.Cell>-</DataTable.Cell>
-                <DataTable.Cell>18201.25</DataTable.Cell>
+                <DataTable.Cell></DataTable.Cell>
+                <DataTable.Cell></DataTable.Cell>
+                <DataTable.Cell>
+                  <Text style={{ fontWeight: "bold" }}>Sub Total</Text>
+                </DataTable.Cell>
+                <DataTable.Cell>
+                  {" "}
+                  <Text style={{ fontWeight: "bold" }}>
+                    {`Rs.${(+this.props.item.actualPrice).toFixed(2)}`}
+                  </Text>
+                </DataTable.Cell>
               </DataTable.Row>
-              <DataTable.Row>
-                <DataTable.Cell>Gold</DataTable.Cell>
-                <DataTable.Cell>Rs.3433.00</DataTable.Cell>
-                <DataTable.Cell>5.63 gms</DataTable.Cell>
-                <DataTable.Cell>-</DataTable.Cell>
-                <DataTable.Cell>18201.25</DataTable.Cell>
-              </DataTable.Row>
-              <DataTable.Row>
-                <DataTable.Cell>Gold</DataTable.Cell>
-                <DataTable.Cell>Rs.3433.00</DataTable.Cell>
-                <DataTable.Cell>5.63 gms</DataTable.Cell>
-                <DataTable.Cell>-</DataTable.Cell>
-                <DataTable.Cell>18201.25</DataTable.Cell>
-              </DataTable.Row>
-              <DataTable.Row>
-                <DataTable.Cell>Gold</DataTable.Cell>
-                <DataTable.Cell>Rs.3433.00</DataTable.Cell>
-                <DataTable.Cell>5.63 gms</DataTable.Cell>
-                <DataTable.Cell>-</DataTable.Cell>
-                <DataTable.Cell>18201.25</DataTable.Cell>
+              {this.props.item.discount > 0 && (
+                <DataTable.Row>
+                  <DataTable.Cell></DataTable.Cell>
+                  <DataTable.Cell></DataTable.Cell>
+                  <DataTable.Cell>
+                    <Text style={{ fontWeight: "bold" }}>(-)Discount</Text>
+                  </DataTable.Cell>
+                  <DataTable.Cell style={{ borderBottomWidth: 2 }}>
+                    <Text style={{ fontWeight: "bold" }}>
+                      {`Rs.${(
+                        this.props.item.actualPrice *
+                        (this.props.item.discount / 100)
+                      ).toFixed(2)}`}
+                    </Text>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              )}
+              <DataTable.Row style={{ marginBottom: 20 }}>
+                <DataTable.Cell></DataTable.Cell>
+                <DataTable.Cell></DataTable.Cell>
+                <DataTable.Cell>
+                  <Text style={{ fontWeight: "bold" }}>Grand Total</Text>
+                </DataTable.Cell>
+                <DataTable.Cell style={{ borderBottomWidth: 2 }}>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {`Rs.${this.props.item.price.toFixed(2)}`}
+                  </Text>
+                </DataTable.Cell>
               </DataTable.Row>
             </DataTable>
           </View>
@@ -182,5 +208,5 @@ const styles = StyleSheet.create({
     borderLeftWidth: 1,
     borderColor: "#bbb",
   },
-  tableHeaders: { justifyContent: "center" },
+  // tableHeaders: { justifyContent: "center" },
 });
