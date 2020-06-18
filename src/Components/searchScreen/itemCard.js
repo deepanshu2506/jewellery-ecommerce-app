@@ -62,7 +62,7 @@ class ItemCard extends React.Component {
             style={{ width: "100%" }}
             onPress={() => {
               this.props.navigation.navigate("itemDetails", {
-                item: this.props.data,
+                itemId: this.props.data._id,
               });
             }}
           >

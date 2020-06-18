@@ -5,6 +5,7 @@ import {
   ScrollView,
   Animated,
   Dimensions,
+  Alert,
 } from "react-native";
 import { Surface, IconButton, Text, Button } from "react-native-paper";
 import { Rating } from "react-native-ratings";
@@ -17,7 +18,9 @@ import DetailsSwitcher from "../Components/itemDetailsScreen/detailsSwitcher";
 import { PinchGestureHandler, State } from "react-native-gesture-handler";
 import DescriptionView from "../Components/itemDetailsScreen/DescriptionView";
 import CartButton from "../Components/utility/AddToCartButton";
-
+import { get } from "../resources/Requests";
+import { getProductApi } from "../resources/endpoints";
+import Loader from "../Components/utility/LoaderDialog";
 const screenWidth = Math.round(Dimensions.get("window").width);
 const { width } = Dimensions.get("window");
 
@@ -25,8 +28,18 @@ const toCurrencyString = (number) => {
   return `\u20B9 ${number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}`;
 };
 export default class ItemDetailsScreen extends React.Component {
-  state = { imageViewerVisible: false };
+  state = { imageViewerVisible: false, loading: true, item: {} };
+  async componentDidMount() {
+    try {
+      const item = await get(getProductApi(this.props?.route.params.itemId));
 
+      this.setState({ item, loading: false });
+    } catch (err) {
+      console.log(err);
+      Alert("something went wrong");
+      this.props.navigation.goBack();
+    }
+  }
   scale = new Animated.Value(1);
 
   onZoomEvent = Animated.event(
@@ -50,8 +63,10 @@ export default class ItemDetailsScreen extends React.Component {
   };
 
   render() {
-    const item = this.props?.route.params.item;
-    return (
+    const { item } = this.state;
+    return this.state.loading ? (
+      <Loader visible={this.state.loading} />
+    ) : (
       <View style={{ flex: 1 }}>
         <ScrollView style={{ backgroundColor: "white" }}>
           <TouchableWithoutFeedback
