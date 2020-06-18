@@ -39,7 +39,7 @@ class WishListItem extends React.Component {
             <Text style={styles.price}>
               {`\u20b9 ${item.price}/-`}
               <Text style={styles.actualPrice}>
-                {`\t \u20b9${item.price + item.price * 0.2}`}
+                {`\t \u20b9${item.actualPrice}`}
               </Text>
             </Text>
             <View style={styles.bottomPart}>

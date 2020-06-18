@@ -27,7 +27,7 @@ const Card = ({ item, removeFromCart, addToWishlist }) => (
           {`\u20b9 ${item.price}/-`}
 
           <Text style={styles.actualPrice}>
-            {`\t \u20b9${item.price + item.price * 0.2}`}
+            {`\t \u20b9${item.actualPrice}`}
           </Text>
         </Text>
       </View>
