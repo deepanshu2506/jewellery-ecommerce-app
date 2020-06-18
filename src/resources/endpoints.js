@@ -12,6 +12,7 @@ export const productByTypeApi = (type) => {
 };
 
 export const getProductApi = (id) => `${host}/api/products/${id}`;
+export const getProductPage = (id) => `${host}/product/${id}`;
 
 export const getSearchApi = (keyword) => {
   return `${host}/api/products/search?keywords=${keyword}`;

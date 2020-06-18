@@ -6,8 +6,9 @@ import {
   Animated,
   Dimensions,
   Alert,
+  Share,
 } from "react-native";
-import { Surface, IconButton, Text, Button } from "react-native-paper";
+import { Surface, Text, Button } from "react-native-paper";
 import { Rating } from "react-native-ratings";
 
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
@@ -19,7 +20,7 @@ import { PinchGestureHandler, State } from "react-native-gesture-handler";
 import DescriptionView from "../Components/itemDetailsScreen/DescriptionView";
 import CartButton from "../Components/utility/AddToCartButton";
 import { get } from "../resources/Requests";
-import { getProductApi } from "../resources/endpoints";
+import { getProductApi, getProductPage } from "../resources/endpoints";
 import Loader from "../Components/utility/LoaderDialog";
 const screenWidth = Math.round(Dimensions.get("window").width);
 const { width } = Dimensions.get("window");
@@ -59,6 +60,27 @@ export default class ItemDetailsScreen extends React.Component {
         toValue: 1,
         useNativeDriver: true,
       }).start();
+    }
+  };
+
+  _shareItem = async () => {
+    try {
+      const result = await Share.share({
+        message: `${this.state.item.title}\n${getProductPage(
+          this.state.item._id
+        )}`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
     }
   };
 
@@ -143,8 +165,10 @@ export default class ItemDetailsScreen extends React.Component {
                 justifyContent: "flex-end",
               }}
             >
-              <IconButton icon="share" color={primaryColor} />
-              <IconButton icon="heart-outline" color={primaryColor} />
+              <Button icon="share" onPress={this._shareItem}>
+                Share
+              </Button>
+              {/* <IconButton icon="share" color={primaryColor} /> */}
             </View>
           </View>
           <Text style={styles.productTitle}>{item.title}</Text>
