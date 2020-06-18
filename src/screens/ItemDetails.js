@@ -5,8 +5,10 @@ import {
   ScrollView,
   Animated,
   Dimensions,
+  Alert,
+  Share,
 } from "react-native";
-import { Surface, IconButton, Text, Button } from "react-native-paper";
+import { Surface, Text, Button } from "react-native-paper";
 import { Rating } from "react-native-ratings";
 
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
@@ -17,7 +19,9 @@ import DetailsSwitcher from "../Components/itemDetailsScreen/detailsSwitcher";
 import { PinchGestureHandler, State } from "react-native-gesture-handler";
 import DescriptionView from "../Components/itemDetailsScreen/DescriptionView";
 import CartButton from "../Components/utility/AddToCartButton";
-
+import { get } from "../resources/Requests";
+import { getProductApi, getProductPage } from "../resources/endpoints";
+import Loader from "../Components/utility/LoaderDialog";
 const screenWidth = Math.round(Dimensions.get("window").width);
 const { width } = Dimensions.get("window");
 
@@ -25,8 +29,18 @@ const toCurrencyString = (number) => {
   return `\u20B9 ${number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}`;
 };
 export default class ItemDetailsScreen extends React.Component {
-  state = { imageViewerVisible: false };
+  state = { imageViewerVisible: false, loading: true, item: {} };
+  async componentDidMount() {
+    try {
+      const item = await get(getProductApi(this.props?.route.params.itemId));
 
+      this.setState({ item, loading: false });
+    } catch (err) {
+      console.log(err);
+      Alert("something went wrong");
+      this.props.navigation.goBack();
+    }
+  }
   scale = new Animated.Value(1);
 
   onZoomEvent = Animated.event(
@@ -49,9 +63,32 @@ export default class ItemDetailsScreen extends React.Component {
     }
   };
 
+  _shareItem = async () => {
+    try {
+      const result = await Share.share({
+        message: `${this.state.item.title}\n${getProductPage(
+          this.state.item._id
+        )}`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   render() {
-    const item = this.props?.route.params.item;
-    return (
+    const { item } = this.state;
+    return this.state.loading ? (
+      <Loader visible={this.state.loading} />
+    ) : (
       <View style={{ flex: 1 }}>
         <ScrollView style={{ backgroundColor: "white" }}>
           <TouchableWithoutFeedback
@@ -128,8 +165,10 @@ export default class ItemDetailsScreen extends React.Component {
                 justifyContent: "flex-end",
               }}
             >
-              <IconButton icon="share" color={primaryColor} />
-              <IconButton icon="heart-outline" color={primaryColor} />
+              <Button icon="share" onPress={this._shareItem}>
+                Share
+              </Button>
+              {/* <IconButton icon="share" color={primaryColor} /> */}
             </View>
           </View>
           <Text style={styles.productTitle}>{item.title}</Text>

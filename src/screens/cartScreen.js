@@ -17,6 +17,8 @@ import { ordersApiUrl } from "../resources/endpoints";
 import { RAZORPAY_API_KEY as RazorPayApiKey } from "../../env.json";
 import { verifyPayments } from "../resources/payments";
 import { post } from "../resources/Requests";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import PriceBreakup from "../Components/cartScreen/PriceBreakUp";
 
 const getFormattedAddress = (address) => {
   let addressText = `${address.line1}, ${address.line2}, ${address.line3}, ${address.city}, ${address.state}- ${address.pincode}`;
@@ -107,29 +109,44 @@ class CartScreen extends Component {
     });
     return total;
   };
+  calcTaxes = () => {
+    const subTotal = this._calcTotalAmount();
+    const taxes = subTotal * 0.03;
+    const total = subTotal + taxes;
+    return { subTotal, taxes, total };
+  };
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <Loader visible={this.state.loading} />
         {this._hasItems() ? (
           <View style={{ flex: 1, backgroundColor: "#eee" }}>
-            <ScrollView style={{ borderWidth: 1 }}>
-              {this.props.isAddressPresent && (
-                <AddressCard
-                  userName={this.props.userName}
-                  address={this.props.currentAddress}
-                  onChangeClick={this._onAddressChange}
-                />
-              )}
+            <FlatList
+              data={this.props.cart}
+              renderItem={({ item }) => <CartItem item={item} />}
+              ref={(item) => {
+                this.list = item;
+              }}
+              ListHeaderComponent={() => (
+                <View>
+                  {this.props.isAddressPresent && (
+                    <AddressCard
+                      userName={this.props.userName}
+                      address={this.props.currentAddress}
+                      onChangeClick={this._onAddressChange}
+                    />
+                  )}
 
-              <Text style={styles.totalAmount}>
-                Total ({this._getTotalItems()}):{" "}
-                {`  \u20B9 ${this._calcTotalAmount()}/-`}
-              </Text>
-              {this.props.cart.map((item) => (
-                <CartItem item={item} />
-              ))}
-            </ScrollView>
+                  <Text style={styles.totalAmount}>
+                    Total ({this._getTotalItems()}):{" "}
+                    {`  \u20B9 ${this._calcTotalAmount()}/-`}
+                  </Text>
+                </View>
+              )}
+              ListFooterComponent={() => (
+                <PriceBreakup prices={this.calcTaxes()} />
+              )}
+            />
           </View>
         ) : (
           <EmptyCart />
@@ -141,7 +158,15 @@ class CartScreen extends Component {
             <Text style={styles.price}>
               {`\u20B9 ${this._calcTotalAmount()}/-`}
             </Text>
-            <Text style={styles.paysecurely}>pay Securely</Text>
+            <View style={{ justifyContent: "flex-end" }}>
+              <TouchableOpacity
+                onPress={() => {
+                  this.list.scrollToEnd();
+                }}
+              >
+                <Text style={styles.priceBreakup}>Price-Breakup</Text>
+              </TouchableOpacity>
+            </View>
           </View>
           <Button
             disabled={!this._hasItems()}
@@ -200,10 +225,12 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     marginLeft: 5,
   },
-  paysecurely: {
+  priceBreakup: {
     color: "white",
     alignSelf: "flex-end",
     marginLeft: 10,
+    textDecorationStyle: "dashed",
+    textDecorationLine: "underline",
   },
   addToCartButton: {
     flexDirection: "row",
