@@ -16,7 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 class WishListItem extends React.Component {
   _openItem = () => {
     this.props.navigation.navigate("itemDetails", {
-      item: this.props.item,
+      itemId: this.props.item._id,
     });
   };
 
