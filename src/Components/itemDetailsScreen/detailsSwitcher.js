@@ -19,11 +19,15 @@ export default class DetailsSwitcher extends Component {
         <DataTable style={{ alignContent: "center" }}>
           <DataTable.Row>
             <DataTable.Cell>Weight</DataTable.Cell>
-            <DataTable.Cell>{`${this.props.item.weight} g`}</DataTable.Cell>
+            <DataTable.Cell>{`${this.props.selectedSize.weight} g`}</DataTable.Cell>
           </DataTable.Row>
           <DataTable.Row>
             <DataTable.Cell>Size</DataTable.Cell>
-            <DataTable.Cell>{this.props.item.size}</DataTable.Cell>
+            <DataTable.Cell>{this.props.selectedSize.size}</DataTable.Cell>
+          </DataTable.Row>
+          <DataTable.Row>
+            <DataTable.Cell>Gold Purity</DataTable.Cell>
+            <DataTable.Cell>{this.props.item.gold.subtype}</DataTable.Cell>
           </DataTable.Row>
           <DataTable.Row>
             <DataTable.Cell>Gender</DataTable.Cell>
@@ -69,25 +73,41 @@ export default class DetailsSwitcher extends Component {
                 VALUE
               </DataTable.Title>
             </DataTable.Header>
-            {this.props.item.materials.map((material) => (
-              <DataTable.Row>
-                <DataTable.Cell>{material.materialType.name}</DataTable.Cell>
+            <DataTable.Row>
+              <DataTable.Cell>{`gold-${this.props.item.gold.subtype}`}</DataTable.Cell>
 
-                <DataTable.Cell>{`Rs.${material.materialType.price}`}</DataTable.Cell>
-                <DataTable.Cell>{`${material.weight} g`}</DataTable.Cell>
-                <DataTable.Cell>
-                  {`Rs.${(
-                    material.materialType.price * material.weight
-                  ).toFixed(2)}`}
-                </DataTable.Cell>
-              </DataTable.Row>
-            ))}
+              <DataTable.Cell>{`Rs.${this.props.item.gold.price}`}</DataTable.Cell>
+              <DataTable.Cell>{`${this.props.selectedSize.weight} g`}</DataTable.Cell>
+              <DataTable.Cell>
+                {`Rs.${(
+                  this.props.item.gold.price * this.props.selectedSize.weight
+                ).toFixed(2)}`}
+              </DataTable.Cell>
+            </DataTable.Row>
+            {this.props.item.materials.map(
+              (material) =>
+                material.weight > 0 && (
+                  <DataTable.Row>
+                    <DataTable.Cell>
+                      {material.materialType.name}
+                    </DataTable.Cell>
+
+                    <DataTable.Cell>{`Rs.${material.materialType.price}`}</DataTable.Cell>
+                    <DataTable.Cell>{`${material.weight} g`}</DataTable.Cell>
+                    <DataTable.Cell>
+                      {`Rs.${(
+                        material.materialType.price * material.weight
+                      ).toFixed(2)}`}
+                    </DataTable.Cell>
+                  </DataTable.Row>
+                )
+            )}
             <DataTable.Row>
               <DataTable.Cell>Making</DataTable.Cell>
               <DataTable.Cell>{`Rs.${this.props.item.makingCharges}`}</DataTable.Cell>
-              <DataTable.Cell>{`${this.props.item.weight} g`}</DataTable.Cell>
+              <DataTable.Cell>{`${this.props.selectedSize.weight} g`}</DataTable.Cell>
               <DataTable.Cell>{`Rs.${(
-                this.props.item.makingCharges * this.props.item.weight
+                this.props.item.makingCharges * this.props.selectedSize.weight
               ).toFixed(2)}`}</DataTable.Cell>
             </DataTable.Row>
             <Divider style={{ backgroundColor: "red" }} />
@@ -100,7 +120,7 @@ export default class DetailsSwitcher extends Component {
               <DataTable.Cell>
                 {" "}
                 <Text style={{ fontWeight: "bold" }}>
-                  {`Rs.${(+this.props.item.actualPrice).toFixed(2)}`}
+                  {`Rs.${(+this.props.selectedSize.actualPrice).toFixed(2)}`}
                 </Text>
               </DataTable.Cell>
             </DataTable.Row>
@@ -114,7 +134,7 @@ export default class DetailsSwitcher extends Component {
                 <DataTable.Cell style={{ borderBottomWidth: 2 }}>
                   <Text style={{ fontWeight: "bold" }}>
                     {`Rs.${(
-                      this.props.item.actualPrice *
+                      this.props.selectedSize.actualPrice *
                       (this.props.item.discount / 100)
                     ).toFixed(2)}`}
                   </Text>
@@ -129,7 +149,7 @@ export default class DetailsSwitcher extends Component {
               </DataTable.Cell>
               <DataTable.Cell style={{ borderBottomWidth: 2 }}>
                 <Text style={{ fontWeight: "bold" }}>
-                  {`Rs.${this.props.item.price}`}
+                  {`Rs.${this.props.selectedSize.price.toFixed(2)}`}
                 </Text>
               </DataTable.Cell>
             </DataTable.Row>

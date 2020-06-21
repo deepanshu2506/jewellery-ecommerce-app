@@ -197,7 +197,7 @@ export default class ItemDetailsScreen extends React.Component {
             />
           </View>
           <DescriptionView description={item.description} />
-          <DetailsSwitcher item={item} />
+          <DetailsSwitcher item={item} selectedSize={this.state.selectedSize} />
         </ScrollView>
         <Surface style={styles.priceView}>
           <View style={{ flexDirection: "row" }}>
