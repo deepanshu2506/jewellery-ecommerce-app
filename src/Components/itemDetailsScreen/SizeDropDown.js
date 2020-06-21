@@ -34,8 +34,7 @@ export default class SizeDropDown extends Component {
       </View>
     );
   }
-  renderOption(settings) {
-    const { item, getLabel } = settings;
+  renderHeader() {
     return (
       <View
         style={{
@@ -46,21 +45,40 @@ export default class SizeDropDown extends Component {
         }}
       >
         <View style={{ flexDirection: "row" }}>
-          <Text style={{ flex: 1, color: primaryColor }}>{getLabel(item)}</Text>
-          <Text style={{ color: secondaryColor }}>{`${toCurrencyString(
-            item.price
-          )}`}</Text>
-        </View>
-        {/* <View style={styles.innerContainer}>
+          <Text style={{ flex: 1, color: primaryColor, fontWeight: "bold" }}>
+            Size
+          </Text>
           <Text
             style={{
-              color: item.color,
-              alignSelf: "flex-start",
+              color: secondaryColor,
+              marginRight: 50,
+              fontWeight: "bold",
             }}
           >
-            {getLabel(item)}
+            Price
           </Text>
-        </View> */}
+        </View>
+      </View>
+    );
+  }
+  renderOption(settings) {
+    const { item, getLabel } = settings;
+    return (
+      <View
+        style={{
+          paddingVertical: 15,
+          paddingLeft: 20,
+          paddingHorizontal: 10,
+          borderBottomColor: "#eee",
+          borderBottomWidth: 1,
+        }}
+      >
+        <View style={{ flexDirection: "row" }}>
+          <Text style={{ flex: 1, color: primaryColor }}>{getLabel(item)}</Text>
+          <Text
+            style={{ color: secondaryColor, marginRight: 10 }}
+          >{`${toCurrencyString(item.price)}`}</Text>
+        </View>
       </View>
     );
   }
@@ -80,6 +98,7 @@ export default class SizeDropDown extends Component {
           fieldTemplate={this.renderField}
           optionTemplate={this.renderOption}
           maxHeight={350}
+          headerTemplate={this.renderHeader}
           value={this.props.selectedSize}
           onValueChange={(value) => this.props.onSizeChange(value)}
         />

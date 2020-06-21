@@ -110,7 +110,7 @@ export default class DetailsSwitcher extends Component {
                 this.props.item.makingCharges * this.props.selectedSize.weight
               ).toFixed(2)}`}</DataTable.Cell>
             </DataTable.Row>
-            <Divider style={{ backgroundColor: "red" }} />
+            <Divider style={{ backgroundColor: "#eee", height: 1.5 }} />
             <DataTable.Row>
               <DataTable.Cell></DataTable.Cell>
               <DataTable.Cell></DataTable.Cell>
