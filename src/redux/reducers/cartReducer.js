@@ -1,4 +1,9 @@
-import { ADD_ITEM, REMOVE_ITEM, SET_CART } from "../actions/cartActions";
+import {
+  ADD_ITEM,
+  REMOVE_ITEM,
+  SET_CART,
+  REDUCE_ITEM,
+} from "../actions/cartActions";
 import _ from "lodash";
 
 const populate = (items) => {
@@ -26,10 +31,11 @@ export const cartReducer = (state = [], action) => {
         (item) =>
           item._id == action.payload._id && item.size == action.payload.size
       );
-      console.log(cartItem);
+
       if (cartItem) {
         cartItem.quantity++;
-        return state;
+
+        return [...state];
       } else {
         console.log("here");
         cartItem = { ...action.payload, quantity: 1 };
@@ -37,11 +43,26 @@ export const cartReducer = (state = [], action) => {
       }
     case REMOVE_ITEM:
       const cart = _.filter(state, (item) => {
-        return !(item._id == action.payload.itemId,
-        item.size == action.payload.selectedSize);
+        return !(
+          item._id == action.payload.itemId &&
+          item.size == action.payload.selectedSize
+        );
       });
-      console.log(cart);
       return cart;
+
+    case REDUCE_ITEM:
+      let cartItemIndex = _.findIndex(
+        state,
+        (item) =>
+          item._id == action.payload._id && item.size == action.payload.size
+      );
+      console.log(cartItemIndex);
+      if (state[cartItemIndex].quantity > 1) {
+        state[cartItemIndex].quantity--;
+        return [...state];
+      } else {
+        return state;
+      }
 
     case SET_CART:
       const cartItems = populate(action.payload);
