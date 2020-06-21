@@ -129,7 +129,7 @@ export default class DetailsSwitcher extends Component {
               </DataTable.Cell>
               <DataTable.Cell style={{ borderBottomWidth: 2 }}>
                 <Text style={{ fontWeight: "bold" }}>
-                  {`Rs.${this.props.item.price.toFixed(2)}`}
+                  {`Rs.${this.props.item.price}`}
                 </Text>
               </DataTable.Cell>
             </DataTable.Row>

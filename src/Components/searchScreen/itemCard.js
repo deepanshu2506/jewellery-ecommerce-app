@@ -100,7 +100,7 @@ class ItemCard extends React.Component {
             onPress={this.toggleWishList}
             color={this.state.wishListed ? Colors.red500 : Colors.black}
           />
-          <CartButton title="Add To Cart" item={this.props.data} />
+          {/* <CartButton title="Add To Cart" item={this.props.data} /> */}
         </Surface>
       </View>
     );
