@@ -38,7 +38,7 @@ const Card = ({ item, removeFromCart, addToWishlist }) => (
         color={secondaryColor}
         style={{ width: "35%" }}
         onPress={() => {
-          removeFromCart(item._id);
+          removeFromCart(item._id, item.size);
         }}
       >
         Remove
@@ -48,7 +48,7 @@ const Card = ({ item, removeFromCart, addToWishlist }) => (
         style={{ width: "45%" }}
         onPress={() => {
           addToWishlist(item);
-          removeFromCart(item._id);
+          removeFromCart(item._id, item.size);
         }}
       >
         Save to wishlist
@@ -95,8 +95,8 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  removeFromCart: (id) => {
-    dispatch(removeFromCart(id));
+  removeFromCart: (id, size) => {
+    dispatch(removeFromCart(id, size));
   },
   addToWishlist: (item) => {
     dispatch(add(item));

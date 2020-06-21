@@ -13,9 +13,10 @@ const addToCart = ({
   item,
   title,
   inWishList = false,
+  selectedSize,
 }) => {
   const _onPress = () => {
-    addToCart(item);
+    addToCart(item, selectedSize);
     if (inWishList) {
       removeFromWishList(item);
     }
@@ -43,8 +44,8 @@ const addToCart = ({
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addToCart: (data) => {
-    dispatch(addItemToCart(data));
+  addToCart: (data, selectedSize) => {
+    dispatch(addItemToCart(data, selectedSize));
   },
   removeFromWishList: (item) => {
     dispatch(remove(item));

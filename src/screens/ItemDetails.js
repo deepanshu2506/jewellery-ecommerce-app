@@ -208,7 +208,7 @@ export default class ItemDetailsScreen extends React.Component {
               {toCurrencyString(this.state.selectedSize.actualPrice)}
             </Text>
           </View>
-          <CartButton item={item} />
+          <CartButton item={item} selectedSize={this.state.selectedSize.size} />
         </Surface>
       </View>
     );

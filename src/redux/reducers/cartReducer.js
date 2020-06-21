@@ -4,7 +4,10 @@ import _ from "lodash";
 const populate = (items) => {
   const cart = [];
   for (item of items) {
-    let cartItem = _.find(cart, (i) => item._id == i._id);
+    let cartItem = _.find(
+      cart,
+      (i) => item._id == i._id && i.size == item.size
+    );
     if (cartItem) {
       cartItem.quantity++;
     } else {
@@ -18,7 +21,12 @@ const populate = (items) => {
 export const cartReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_ITEM:
-      let cartItem = _.find(state, (item) => item._id == action.payload._id);
+      let cartItem = _.find(
+        state,
+        (item) =>
+          item._id == action.payload._id && item.size == action.payload.size
+      );
+      console.log(cartItem);
       if (cartItem) {
         cartItem.quantity++;
         return state;
@@ -29,8 +37,10 @@ export const cartReducer = (state = [], action) => {
       }
     case REMOVE_ITEM:
       const cart = _.filter(state, (item) => {
-        return item._id != action.payload;
+        return !(item._id == action.payload.itemId,
+        item.size == action.payload.selectedSize);
       });
+      console.log(cart);
       return cart;
 
     case SET_CART:
