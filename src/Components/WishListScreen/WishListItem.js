@@ -1,5 +1,10 @@
 import React from "react";
-import { Surface, Button, TouchableRipple } from "react-native-paper";
+import {
+  Surface,
+  Button,
+  TouchableRipple,
+  IconButton,
+} from "react-native-paper";
 import { View, Text, Image, StyleSheet, Alert, Animated } from "react-native";
 import { connect } from "react-redux";
 import { secondaryColor } from "../../appStyles";
@@ -21,39 +26,41 @@ class WishListItem extends React.Component {
     const { item, removeFromWishList } = this.props;
     return (
       <TouchableRipple onPress={this._openItem}>
-        <Surface
-          style={{
-            width: "100%",
-            flexDirection: "row",
-            marginVertical: 10,
-          }}
-        >
-          <View style={{ width: 120, height: 120 }}>
-            <Image
-              source={{ uri: item.url }}
-              style={{ width: "100%", height: "100%" }}
-            />
-          </View>
-          <View style={{ paddingHorizontal: 10 }}>
-            <Text style={{ fontSize: 16 }}>{item.title}</Text>
-            <Text style={styles.price}>
-              {`\u20b9 ${item.price}/-`}
-              <Text style={styles.actualPrice}>
-                {`\t \u20b9${item.actualPrice}`}
-              </Text>
-            </Text>
-            <View style={styles.bottomPart}>
-              <CartButton title="move" item={item} inWishList={true} />
-              <Button
-                mode="outlined"
-                style={{ marginLeft: 20 }}
-                onPress={() => {
-                  removeFromWishList(item);
-                }}
-              >
-                remove
-              </Button>
+        <Surface>
+          <View
+            style={{
+              width: "100%",
+              flexDirection: "row",
+              marginVertical: 10,
+              alignItems: "center",
+            }}
+          >
+            <View style={{ width: 120, height: 120 }}>
+              <Image
+                source={{ uri: item.url }}
+                style={{ width: "100%", height: "100%" }}
+              />
             </View>
+
+            <View style={{ flex: 1, marginLeft: 20 }}>
+              <Text style={{ fontSize: 16 }}>{item.title}</Text>
+              <Text style={styles.price}>
+                {`\u20b9 ${item.price}/-`}
+                <Text style={styles.actualPrice}>
+                  {`\t \u20b9${item.actualPrice}`}
+                </Text>
+              </Text>
+            </View>
+
+            <IconButton
+              mode="outlined"
+              icon="trash-can"
+              color={secondaryColor}
+              style={{ marginHorizontal: 20 }}
+              onPress={() => {
+                removeFromWishList(item);
+              }}
+            />
           </View>
         </Surface>
       </TouchableRipple>
@@ -70,9 +77,12 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   bottomPart: {
+    flexGrow: 1,
+    borderWidth: 1,
     flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 5,
+    alignContent: "center",
+    justifyContent: "center",
+    // paddingVertical: 5,
   },
 });
 
