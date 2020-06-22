@@ -191,7 +191,7 @@ const mapStateToProps = (state) => ({
   userName: state.user.user.username,
 
   userId: state.user.user._id,
-  cart: state.cart,
+  cart: [...state.cart],
   isAddressPresent: isAddressPresent(state.user.addresses),
   currentAddress: state.user.currentAddress,
 });

@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Surface, Text, Button } from "react-native-paper";
 import { Rating } from "react-native-ratings";
+import { CustomPicker } from "react-native-custom-picker";
 
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
@@ -22,6 +23,7 @@ import CartButton from "../Components/utility/AddToCartButton";
 import { get } from "../resources/Requests";
 import { getProductApi, getProductPage } from "../resources/endpoints";
 import Loader from "../Components/utility/LoaderDialog";
+import SizeDropDown from "../Components/itemDetailsScreen/SizeDropDown";
 const screenWidth = Math.round(Dimensions.get("window").width);
 const { width } = Dimensions.get("window");
 
@@ -29,18 +31,28 @@ const toCurrencyString = (number) => {
   return `\u20B9 ${number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}`;
 };
 export default class ItemDetailsScreen extends React.Component {
-  state = { imageViewerVisible: false, loading: true, item: {} };
+  state = {
+    imageViewerVisible: false,
+    loading: true,
+    item: {},
+    selectedSize: {},
+  };
+
   async componentDidMount() {
     try {
       const item = await get(getProductApi(this.props?.route.params.itemId));
-
-      this.setState({ item, loading: false });
+      console.log(item);
+      this.setState({ item, loading: false, selectedSize: item.sizes[0] });
     } catch (err) {
       console.log(err);
       Alert("something went wrong");
       this.props.navigation.goBack();
     }
   }
+
+  sizeChange = (sizeObject) => {
+    this.setState({ selectedSize: sizeObject });
+  };
   scale = new Animated.Value(1);
 
   onZoomEvent = Animated.event(
@@ -86,6 +98,7 @@ export default class ItemDetailsScreen extends React.Component {
 
   render() {
     const { item } = this.state;
+
     return this.state.loading ? (
       <Loader visible={this.state.loading} />
     ) : (
@@ -171,18 +184,31 @@ export default class ItemDetailsScreen extends React.Component {
               {/* <IconButton icon="share" color={primaryColor} /> */}
             </View>
           </View>
+
           <Text style={styles.productTitle}>{item.title}</Text>
+          <View
+            style={{ flexDirection: "row", alignItems: "center", padding: 10 }}
+          >
+            <Text style={{ fontSize: 16 }}>Size:</Text>
+            <SizeDropDown
+              sizes={item.sizes}
+              onSizeChange={this.sizeChange}
+              selectedSize={this.state.selectedSize}
+            />
+          </View>
           <DescriptionView description={item.description} />
-          <DetailsSwitcher item={item} />
+          <DetailsSwitcher item={item} selectedSize={this.state.selectedSize} />
         </ScrollView>
         <Surface style={styles.priceView}>
           <View style={{ flexDirection: "row" }}>
-            <Text style={styles.price}>{toCurrencyString(item.price)}</Text>
+            <Text style={styles.price}>
+              {toCurrencyString(this.state.selectedSize.price)}
+            </Text>
             <Text style={styles.actualPrice}>
-              {toCurrencyString(item.actualPrice)}
+              {toCurrencyString(this.state.selectedSize.actualPrice)}
             </Text>
           </View>
-          <CartButton item={item} />
+          <CartButton item={item} selectedSize={this.state.selectedSize.size} />
         </Surface>
       </View>
     );

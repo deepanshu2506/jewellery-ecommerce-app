@@ -1588,6 +1588,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.6.tgz#c7f2ac187c1f25aa8c30d11baa8f4398eca3bb84"
   integrity sha512-PpMoeXwPUoldCRKDuSi+zK5rT+sJTW6ri6RdGPkSKRzU77Q1d9IaR0O5IKvBj0XSdL3p+dcOa05gk35aGDffBQ==
 
+"@react-native-community/picker@^1.6.5":
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.6.5.tgz#9489fdb6d0b4b5877491101e0c3185ea9511d1aa"
+  integrity sha512-mwt0sBaFdURJWkq6wFf2BrYh7fzB1CKK4/gx20zmDYDmahvk3CVUQVlkINDDyXE9m0lYZ9V8rBZBBAJy9W3GkQ==
+
 "@react-navigation/core@^5.4.0":
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-5.4.0.tgz#6b4973d48396d28ed3efee582b28807682a5865d"
@@ -6156,6 +6161,11 @@ react-is@^16.12.0, react-is@^16.13.0, react-is@^16.7.0, react-is@^16.8.1, react-
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-native-custom-picker@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-custom-picker/-/react-native-custom-picker-0.4.0.tgz#258896b1eae65f95e4122b4bbdf6bfd68a27d0e3"
+  integrity sha512-zhpt3pEYo/6xH2F0+G//SCo3Q7QddAS8/Xrrwc8Cif/PfaPU15cEMUakBGyJ/5vAv67RtF74WQcGhfA4RS09xg==
 
 react-native-gesture-handler@~1.6.0:
   version "1.6.1"

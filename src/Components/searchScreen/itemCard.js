@@ -20,9 +20,6 @@ import {
   TouchableRipple,
 } from "react-native-paper";
 
-import CartButton from "../utility/AddToCartButton";
-import { secondaryColor } from "../../appStyles";
-
 import { connect } from "react-redux";
 import { add, remove } from "../../redux/actions/wishListActions";
 
@@ -100,7 +97,7 @@ class ItemCard extends React.Component {
             onPress={this.toggleWishList}
             color={this.state.wishListed ? Colors.red500 : Colors.black}
           />
-          <CartButton title="Add To Cart" item={this.props.data} />
+          {/* <CartButton title="Add To Cart" item={this.props.data} /> */}
         </Surface>
       </View>
     );
@@ -129,6 +126,7 @@ const styles = StyleSheet.create({
     width: screenWidth / 2 - 10,
     alignItems: "center",
     elevation: 4,
+    height: 300,
     marginVertical: 5,
   },
   imageView: {
@@ -164,15 +162,12 @@ const styles = StyleSheet.create({
   bestSellerTag: {
     position: "absolute",
     right: 0,
-    top: "75%",
-    // width: 50,
-    // height: 25,
+    top: 150,
 
     justifyContent: "center",
     backgroundColor: "green",
     padding: 3,
     paddingHorizontal: 5,
-    // paddingLeft: 10,
   },
   itemDescription: {
     marginTop: 5,

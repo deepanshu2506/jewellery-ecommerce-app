@@ -15,11 +15,11 @@ const ProductDetails = ({ products }) => {
               <Text style={styles.productName}>{product.id.title}</Text>
               <Text>
                 Size:
-                <Text>{product.id.size}</Text>
+                <Text> {product.size}</Text>
               </Text>
               <Text>
                 Quantity:
-                <Text>{product.quantity}</Text>
+                <Text> {product.quantity}</Text>
               </Text>
               <Text>
                 Price: <Text>{`Rs. ${product.price}/-`}</Text>

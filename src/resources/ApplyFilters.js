@@ -42,13 +42,13 @@ const filterByMaterial = (filters = [], item) => {
       isAnyFilterApplied = true;
       switch (filterName) {
         case "gold":
-          if (item.material == "Gold") return true;
+          if (item.material == "gold") return true;
           break;
         case "diamond":
-          if (item.material == "Diamond") return true;
+          if (item.material == "diamond") return true;
           break;
         case "white gold":
-          if (item.material == "White Gold") return true;
+          if (item.material == "white gold") return true;
           break;
       }
     }
