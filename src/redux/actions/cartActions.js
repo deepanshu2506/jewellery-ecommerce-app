@@ -1,4 +1,8 @@
-import { addToCartUrl, removeFromcartUrl } from "../../resources/endpoints";
+import {
+  addToCartUrl,
+  removeFromcartUrl,
+  decreaseFromCartUrl,
+} from "../../resources/endpoints";
 import { post } from "../../resources/Requests";
 
 export const ADD_ITEM = "ADD_ITEM";
@@ -39,7 +43,7 @@ export const reduceFromCart = (data, selectedSize) => async (dispatch) => {
   if (data.quantity > 1) {
     dispatch(reduce(data, selectedSize));
     const requestBody = { pid: data._id, size: selectedSize };
-    //api call
+    post(decreaseFromCartUrl, requestBody);
   } else {
     dispatch(removeFromCart(data._id, selectedSize));
   }
