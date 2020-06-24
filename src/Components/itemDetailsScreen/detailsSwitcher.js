@@ -48,9 +48,13 @@ export default class DetailsSwitcher extends Component {
             <Text>Materials</Text>
           </View>
           <View style={{ flex: 1 }}>
-            {this.props.item.materials.map((material) => (
-              <Text>{`${material.materialType.name} - ${material.materialType.subtype}`}</Text>
-            ))}
+            <Text>{`gold - ${this.props.item.gold.subtype}`}</Text>
+            {this.props.item.materials.map(
+              (material) =>
+                material.weight > 0 && (
+                  <Text>{`${material.materialType.name} - ${material.materialType.subtype}`}</Text>
+                )
+            )}
           </View>
         </View>
 
