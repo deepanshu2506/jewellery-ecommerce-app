@@ -3,27 +3,26 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Animated,
   Dimensions,
   Alert,
   Share,
 } from "react-native";
 import { Surface, Text, Button } from "react-native-paper";
 import { Rating } from "react-native-ratings";
-import { CustomPicker } from "react-native-custom-picker";
 
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 import { primaryColor, secondaryColor } from "../appStyles";
 
 import DetailsSwitcher from "../Components/itemDetailsScreen/detailsSwitcher";
-import { PinchGestureHandler, State } from "react-native-gesture-handler";
 import DescriptionView from "../Components/itemDetailsScreen/DescriptionView";
+import DiscountBadge from "../Components/itemDetailsScreen/DiscountBadge";
 import CartButton from "../Components/utility/AddToCartButton";
 import { get } from "../resources/Requests";
 import { getProductApi, getProductPage } from "../resources/endpoints";
 import Loader from "../Components/utility/LoaderDialog";
 import SizeDropDown from "../Components/itemDetailsScreen/SizeDropDown";
+import ImageCarousel from "../Components/itemDetailsScreen/ImageCarousel";
 const screenWidth = Math.round(Dimensions.get("window").width);
 const { width } = Dimensions.get("window");
 
@@ -53,27 +52,6 @@ export default class ItemDetailsScreen extends React.Component {
   sizeChange = (sizeObject) => {
     this.setState({ selectedSize: sizeObject });
   };
-  scale = new Animated.Value(1);
-
-  onZoomEvent = Animated.event(
-    [
-      {
-        nativeEvent: { scale: this.scale },
-      },
-    ],
-    {
-      useNativeDriver: true,
-    }
-  );
-
-  onZoomStateChange = (event) => {
-    if (event.nativeEvent.oldState === State.ACTIVE) {
-      Animated.spring(this.scale, {
-        toValue: 1,
-        useNativeDriver: true,
-      }).start();
-    }
-  };
 
   _shareItem = async () => {
     try {
@@ -82,15 +60,6 @@ export default class ItemDetailsScreen extends React.Component {
           this.state.item._id
         )}`,
       });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
     } catch (error) {
       alert(error.message);
     }
@@ -113,44 +82,15 @@ export default class ItemDetailsScreen extends React.Component {
               <View
                 style={{
                   height: "100%",
-                  width: screenWidth,
+                  width: width,
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
                 {item.discount > 0 && (
-                  <View
-                    style={{
-                      backgroundColor: secondaryColor,
-                      padding: 5,
-                      paddingLeft: 10,
-                      position: "absolute",
-                      zIndex: 1,
-                      top: "10%",
-                      right: 0,
-                      paddingRight: 30,
-                    }}
-                  >
-                    <Text style={{ fontSize: 17, color: "white" }}>
-                      {` ${item.discount}% off`}
-                    </Text>
-                  </View>
+                  <DiscountBadge discount={item.discount} />
                 )}
-                <PinchGestureHandler
-                  onGestureEvent={this.onZoomEvent}
-                  onHandlerStateChange={this.onZoomStateChange}
-                >
-                  <Animated.Image
-                    source={{ uri: item.url }}
-                    style={{
-                      width: width,
-                      height: 300,
-                      transform: [{ scale: this.scale }],
-                    }}
-                    resizeMode="contain"
-                  />
-                </PinchGestureHandler>
-                {/* <Image source={img} /> */}
+                <ImageCarousel carouselItems={item.url} />
               </View>
             </Surface>
           </TouchableWithoutFeedback>
@@ -228,7 +168,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   carouselContainer: {
-    // borderWidth: 1,
+    width: width,
     elevation: 2,
     height: 350,
     alignItems: "center",

@@ -67,7 +67,7 @@ class ItemCard extends React.Component {
               <View style={styles.imageView}>
                 <Image
                   style={{ width: "100%", height: "100%" }}
-                  source={{ uri: this.props.data.url }}
+                  source={{ uri: this.props.data.url[0] }}
                 />
               </View>
               <View style={styles.pricePane}>

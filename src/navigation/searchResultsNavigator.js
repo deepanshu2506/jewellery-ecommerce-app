@@ -12,6 +12,7 @@ import MyOrdersScreen from "../screens/MyOrdersScreen";
 
 import { connect } from "react-redux";
 import OrderDetailsScreen from "../screens/orderDetailsScreen";
+import HomePage from "../screens/HomePage";
 
 const Stack = createStackNavigator();
 
@@ -24,7 +25,7 @@ const getCartCount = (cart) => {
 function searchStackNavigator({ cartCount }) {
   return (
     <Stack.Navigator
-      initialRouteName="search"
+      initialRouteName="home"
       screenOptions={{
         header: ({ scene, previous, navigation }) => (
           <CustomAppBar
@@ -36,6 +37,7 @@ function searchStackNavigator({ cartCount }) {
         ),
       }}
     >
+      <Stack.Screen name="home" component={HomePage} />
       <Stack.Screen name="search" component={SearchScreen} />
       <Stack.Screen name="itemDetails" component={ItemDetailsScreen} />
       <Stack.Screen name="filterScreen" component={filterScreen} />
