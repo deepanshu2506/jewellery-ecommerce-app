@@ -66,6 +66,25 @@ const CustomDrawerComponent = (props) => {
         </View>
         <Drawer.Section style={styles.drawerSection}>
           <DrawerItem
+            label="Home"
+            onPress={() => {
+              navigation.navigate("home");
+              navigation.closeDrawer();
+            }}
+            icon={({ color, size }) => (
+              <MaterialCommunityIcons
+                name="home"
+                color={secondaryColor}
+                size={size}
+              />
+            )}
+            style={styles.navItem}
+            labelStyle={styles.navText}
+            activeTintColor={secondaryColor}
+          />
+        </Drawer.Section>
+        <Drawer.Section style={styles.drawerSection}>
+          <DrawerItem
             label="Rings"
             onPress={navigationHandler(navigation, "ring")}
             icon={({ color, size }) => (
@@ -94,8 +113,37 @@ const CustomDrawerComponent = (props) => {
             labelStyle={styles.navText}
           />
           <DrawerItem
+            label="Bangle"
+            onPress={navigationHandler(navigation, "bangle")}
+            icon={({ color, size }) => (
+              <MaterialCommunityIcons
+                name="ring"
+                color={secondaryColor}
+                size={size}
+                activeTintColor={secondaryColor}
+              />
+            )}
+            style={styles.navItem}
+            labelStyle={styles.navText}
+          />
+
+          <DrawerItem
             label="Bracelets"
             onPress={navigationHandler(navigation, "bracelet")}
+            icon={({ color, size }) => (
+              <MaterialCommunityIcons
+                name="ring"
+                color={secondaryColor}
+                size={size}
+                activeTintColor={secondaryColor}
+              />
+            )}
+            style={styles.navItem}
+            labelStyle={styles.navText}
+          />
+          <DrawerItem
+            label="Necklace"
+            onPress={navigationHandler(navigation, "necklace")}
             icon={({ color, size }) => (
               <MaterialCommunityIcons
                 name="ring"
