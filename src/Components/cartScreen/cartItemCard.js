@@ -19,7 +19,7 @@ const Card = ({ item, removeFromCart, addToWishlist, addToCart, reduce }) => {
       <View style={{ flexDirection: "row" }}>
         <View style={styles.topPart}>
           <View style={styles.imageView}>
-            <Image source={{ uri: item.url }} style={styles.img} />
+            <Image source={{ uri: item.url[0] }} style={styles.img} />
           </View>
         </View>
         <View style={styles.detailsContainer}>

@@ -16,8 +16,9 @@ import { Surface } from "react-native-paper";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 
 import { primaryColor, secondaryColor } from "../../appStyles";
+import ZoomHandler from "./ZoomHandler";
 
-import img from "../../res/earring1.jpg";
+// import img from "../../res/earring1.jpg";
 
 const screenWidth = Math.round(Dimensions.get("window").width);
 
@@ -27,7 +28,8 @@ export default class ImageCarousel extends Component {
   _renderItem = ({ item, index }, parallexProps) => {
     return (
       <View style={{ height: "100%" }}>
-        <Image source={img} style={{ width: "100%", height: "100%" }} />
+        <ZoomHandler source={{ uri: item }} />
+        {/* <Image source={img} style={{ width: "100%", height: "100%" }} /> */}
       </View>
     );
   };
@@ -68,7 +70,8 @@ const styles = StyleSheet.create({
   },
   carouselContainer: {
     // borderWidth: 1,
-    elevation: 2,
+    // elevation: 2,
+    width: "100%",
     height: 350,
     alignItems: "center",
   },

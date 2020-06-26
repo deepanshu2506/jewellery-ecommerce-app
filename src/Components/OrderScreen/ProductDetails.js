@@ -33,7 +33,7 @@ const ProductDetails = ({ products }) => {
                     height: "100%",
                   }}
                   source={{
-                    uri: product.id.url,
+                    uri: product.id.url[0],
                   }}
                 />
               </View>

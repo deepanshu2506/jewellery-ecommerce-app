@@ -3,27 +3,26 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Animated,
+  // Animated,
   Dimensions,
   Alert,
   Share,
 } from "react-native";
 import { Surface, Text, Button } from "react-native-paper";
 import { Rating } from "react-native-ratings";
-import { CustomPicker } from "react-native-custom-picker";
 
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 import { primaryColor, secondaryColor } from "../appStyles";
 
 import DetailsSwitcher from "../Components/itemDetailsScreen/detailsSwitcher";
-import { PinchGestureHandler, State } from "react-native-gesture-handler";
 import DescriptionView from "../Components/itemDetailsScreen/DescriptionView";
 import CartButton from "../Components/utility/AddToCartButton";
 import { get } from "../resources/Requests";
 import { getProductApi, getProductPage } from "../resources/endpoints";
 import Loader from "../Components/utility/LoaderDialog";
 import SizeDropDown from "../Components/itemDetailsScreen/SizeDropDown";
+import ImageCarousel from "../Components/itemDetailsScreen/ImageCarousel";
 const screenWidth = Math.round(Dimensions.get("window").width);
 const { width } = Dimensions.get("window");
 
@@ -52,27 +51,6 @@ export default class ItemDetailsScreen extends React.Component {
 
   sizeChange = (sizeObject) => {
     this.setState({ selectedSize: sizeObject });
-  };
-  scale = new Animated.Value(1);
-
-  onZoomEvent = Animated.event(
-    [
-      {
-        nativeEvent: { scale: this.scale },
-      },
-    ],
-    {
-      useNativeDriver: true,
-    }
-  );
-
-  onZoomStateChange = (event) => {
-    if (event.nativeEvent.oldState === State.ACTIVE) {
-      Animated.spring(this.scale, {
-        toValue: 1,
-        useNativeDriver: true,
-      }).start();
-    }
   };
 
   _shareItem = async () => {
@@ -113,7 +91,7 @@ export default class ItemDetailsScreen extends React.Component {
               <View
                 style={{
                   height: "100%",
-                  width: screenWidth,
+                  width: width,
                   alignItems: "center",
                   justifyContent: "center",
                 }}
@@ -136,20 +114,8 @@ export default class ItemDetailsScreen extends React.Component {
                     </Text>
                   </View>
                 )}
-                <PinchGestureHandler
-                  onGestureEvent={this.onZoomEvent}
-                  onHandlerStateChange={this.onZoomStateChange}
-                >
-                  <Animated.Image
-                    source={{ uri: item.url }}
-                    style={{
-                      width: width,
-                      height: 300,
-                      transform: [{ scale: this.scale }],
-                    }}
-                    resizeMode="contain"
-                  />
-                </PinchGestureHandler>
+
+                <ImageCarousel carouselItems={item.url} />
                 {/* <Image source={img} /> */}
               </View>
             </Surface>
@@ -228,7 +194,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   carouselContainer: {
-    // borderWidth: 1,
+    width: width,
     elevation: 2,
     height: 350,
     alignItems: "center",

@@ -37,7 +37,7 @@ class WishListItem extends React.Component {
           >
             <View style={{ width: 120, height: 120 }}>
               <Image
-                source={{ uri: item.url }}
+                source={{ uri: item.url[0] }}
                 style={{ width: "100%", height: "100%" }}
               />
             </View>
