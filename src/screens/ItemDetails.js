@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  // Animated,
   Dimensions,
   Alert,
   Share,
@@ -17,6 +16,7 @@ import { primaryColor, secondaryColor } from "../appStyles";
 
 import DetailsSwitcher from "../Components/itemDetailsScreen/detailsSwitcher";
 import DescriptionView from "../Components/itemDetailsScreen/DescriptionView";
+import DiscountBadge from "../Components/itemDetailsScreen/DiscountBadge";
 import CartButton from "../Components/utility/AddToCartButton";
 import { get } from "../resources/Requests";
 import { getProductApi, getProductPage } from "../resources/endpoints";
@@ -60,15 +60,6 @@ export default class ItemDetailsScreen extends React.Component {
           this.state.item._id
         )}`,
       });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
     } catch (error) {
       alert(error.message);
     }
@@ -97,26 +88,9 @@ export default class ItemDetailsScreen extends React.Component {
                 }}
               >
                 {item.discount > 0 && (
-                  <View
-                    style={{
-                      backgroundColor: secondaryColor,
-                      padding: 5,
-                      paddingLeft: 10,
-                      position: "absolute",
-                      zIndex: 1,
-                      top: "10%",
-                      right: 0,
-                      paddingRight: 30,
-                    }}
-                  >
-                    <Text style={{ fontSize: 17, color: "white" }}>
-                      {` ${item.discount}% off`}
-                    </Text>
-                  </View>
+                  <DiscountBadge discount={item.discount} />
                 )}
-
                 <ImageCarousel carouselItems={item.url} />
-                {/* <Image source={img} /> */}
               </View>
             </Surface>
           </TouchableWithoutFeedback>
