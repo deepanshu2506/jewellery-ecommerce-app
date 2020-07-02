@@ -9,6 +9,7 @@ import ItemDetailsScreen from "../screens/ItemDetails";
 import filterScreen from "../screens/filterScreen";
 import WishListScreen from "../screens/wishListScreen";
 import MyOrdersScreen from "../screens/MyOrdersScreen";
+import CustomJewelleryScreen from "../screens/CustomJewellery";
 
 import { connect } from "react-redux";
 import OrderDetailsScreen from "../screens/orderDetailsScreen";
@@ -25,7 +26,7 @@ const getCartCount = (cart) => {
 function searchStackNavigator({ cartCount }) {
   return (
     <Stack.Navigator
-      initialRouteName="home"
+      initialRouteName="custom-jewellery"
       screenOptions={{
         header: ({ scene, previous, navigation }) => (
           <CustomAppBar
@@ -44,6 +45,7 @@ function searchStackNavigator({ cartCount }) {
       <Stack.Screen name="wishlist" component={WishListScreen} />
       <Stack.Screen name="orders" component={MyOrdersScreen} />
       <Stack.Screen name="order-details" component={OrderDetailsScreen} />
+      <Stack.Screen name="custom-jewellery" component={CustomJewelleryScreen} />
     </Stack.Navigator>
   );
 }
