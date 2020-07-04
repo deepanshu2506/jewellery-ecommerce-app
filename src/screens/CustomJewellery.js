@@ -1,19 +1,27 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
-import {} from "react-native-paper";
-import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
+import { View, StyleSheet, Image } from "react-native";
+import { Text, Headline, Title, TouchableRipple } from "react-native-paper";
+import {
+  ProgressSteps,
+  ProgressStep,
+} from "../Components/utility/ProgressSteps/index";
 import { secondaryColor, primaryColor } from "../appStyles";
 
+import img from "../res/necklace.png";
+
 export default class CustomJewellery extends Component {
+  state = { selectedItemIndex: -1 };
   ProgressStepsProps = {
     activeStepIconBorderColor: secondaryColor,
     progressBarColor: secondaryColor,
     completedProgressBarColor: primaryColor,
-    labelFontSize: 20,
     completedStepIconColor: primaryColor,
     activeLabelColor: secondaryColor,
     completedLabelColor: primaryColor,
+    disabledStepIconColor: "#999",
+    disabledStepIconBorderColor: "#999",
   };
+
   render() {
     return (
       <View
@@ -27,17 +35,50 @@ export default class CustomJewellery extends Component {
             scrollable={true}
             label="Select Design"
             nextBtnText="Customize"
+            nextBtnStyle={styles.nextBtnStyle}
+            nextBtnTextStyle={styles.nextBtnTextStyle}
+            prevBtnStyle={styles.prevBtnStyle}
+            prevBtnTextStyle={styles.prevBtnTextStyle}
           >
-            <View style={{ alignItems: "center" }}>
-              <Text style={{ fontSize: 20 }}>
-                This is the content within step 1!
-              </Text>
+            <View style={{ paddingHorizontal: 5 }}>
+              <Title style={{ alignSelf: "center", marginBottom: 10 }}>
+                SELECT DESIGN
+              </Title>
+              <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+                {[1, 2, 3, 4, 5].map((item, index) => (
+                  <View
+                    style={[
+                      styles.designCard,
+                      this.state.selectedItemIndex == index &&
+                        styles.selectedCard,
+                    ]}
+                  >
+                    <TouchableRipple
+                      rippleColor={primaryColor}
+                      onPress={() =>
+                        this.setState({ selectedItemIndex: index })
+                      }
+                    >
+                      <View style={styles.cardView}>
+                        <View style={styles.imageView}>
+                          <Image style={styles.image} source={img} />
+                        </View>
+                        <Text style={styles.designName}>Design Name</Text>
+                      </View>
+                    </TouchableRipple>
+                  </View>
+                ))}
+              </View>
             </View>
           </ProgressStep>
           <ProgressStep
             label="customize"
             previousBtnText="Change Design"
-            nextBtnText="Review"
+            nextBtnText="Review Design"
+            nextBtnStyle={styles.nextBtnStyle}
+            nextBtnTextStyle={styles.nextBtnTextStyle}
+            previousBtnStyle={styles.prevBtnStyle}
+            previousBtnTextStyle={styles.prevBtnTextStyle}
           >
             <View style={{ alignItems: "center" }}>
               <Text>This is the content within step 2!</Text>
@@ -46,7 +87,11 @@ export default class CustomJewellery extends Component {
           <ProgressStep
             label="Review"
             previousBtnText="Customize"
-            nextBtnText="AddToCart"
+            finishBtnText="Add To Cart"
+            nextBtnTextStyle={styles.nextBtnTextStyle}
+            nextBtnStyle={styles.nextBtnStyle}
+            previousBtnStyle={styles.prevBtnStyle}
+            previousBtnTextStyle={styles.prevBtnTextStyle}
           >
             <View style={{ alignItems: "center" }}>
               <Text>This is the content within step 3!</Text>
@@ -57,3 +102,36 @@ export default class CustomJewellery extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  nextBtnStyle: {
+    backgroundColor: secondaryColor,
+    borderRadius: 5,
+    padding: 10,
+  },
+  nextBtnTextStyle: { color: "white" },
+  prevBtnStyle: {
+    backgroundColor: secondaryColor,
+    borderRadius: 5,
+    padding: 10,
+  },
+  prevBtnTextStyle: { color: "white" },
+
+  designCard: {
+    height: 220,
+    borderWidth: 1,
+    borderColor: "#eee",
+    borderRadius: 8,
+    width: "47.5%",
+    margin: 5,
+  },
+  selectedCard: { borderColor: secondaryColor, borderWidth: 1.5 },
+  cardView: { alignItems: "center", padding: 5 },
+  imageView: { width: "70%", height: 150 },
+  image: { width: "100%", height: "100%" },
+  designName: {
+    alignSelf: "flex-start",
+    fontSize: 19,
+    marginTop: 5,
+  },
+});
