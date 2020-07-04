@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { times } from 'lodash';
-import PropTypes from 'prop-types';
-import StepIcon from './StepIcon';
+import React, { Component } from "react";
+import { View, BackHandler } from "react-native";
+import { times } from "lodash";
+import PropTypes from "prop-types";
+import StepIcon from "./StepIcon";
 
 class ProgressSteps extends Component {
   state = {
@@ -12,6 +12,7 @@ class ProgressSteps extends Component {
 
   componentDidMount() {
     this.setState({ stepCount: React.Children.count(this.props.children) });
+    BackHandler.addEventListener("hardwareBackPress", this._handleBackPress);
   }
 
   componentDidUpdate(prevProps) {
@@ -19,6 +20,13 @@ class ProgressSteps extends Component {
       this.setActiveStep(this.props.activeStep);
     }
   }
+  _handleBackPress = () => {
+    if (this.state.activeStep != 0) {
+      this.setActiveStep(this.state.activeStep - 1);
+      return true;
+    }
+    return false;
+  };
 
   getChildProps() {
     return { ...this.props, ...this.state };
@@ -28,9 +36,13 @@ class ProgressSteps extends Component {
     let step = [];
 
     times(this.state.stepCount, (i) => {
-      const isCompletedStep = this.props.isComplete ? true : i < this.state.activeStep;
+      const isCompletedStep = this.props.isComplete
+        ? true
+        : i < this.state.activeStep;
 
-      const isActiveStep = this.props.isComplete ? false : i === this.state.activeStep;
+      const isActiveStep = this.props.isComplete
+        ? false
+        : i === this.state.activeStep;
 
       step.push(
         <View key={i}>
@@ -67,10 +79,10 @@ class ProgressSteps extends Component {
   render() {
     const styles = {
       stepIcons: {
-        position: 'relative',
-        justifyContent: 'space-evenly',
-        alignSelf: 'center',
-        flexDirection: 'row',
+        position: "relative",
+        justifyContent: "space-evenly",
+        alignSelf: "center",
+        flexDirection: "row",
         top: this.props.topOffset,
         marginBottom: this.props.marginBottom,
       },
