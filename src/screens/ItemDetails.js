@@ -21,7 +21,7 @@ import CartButton from "../Components/utility/AddToCartButton";
 import { get } from "../resources/Requests";
 import { getProductApi, getProductPage } from "../resources/endpoints";
 import Loader from "../Components/utility/LoaderDialog";
-import SizeDropDown from "../Components/itemDetailsScreen/SizeDropDown";
+import SizeDropDown from "../Components/utility/CustomDropDown";
 import ImageCarousel from "../Components/itemDetailsScreen/ImageCarousel";
 const screenWidth = Math.round(Dimensions.get("window").width);
 const { width } = Dimensions.get("window");
@@ -90,7 +90,9 @@ export default class ItemDetailsScreen extends React.Component {
                 {item.discount > 0 && (
                   <DiscountBadge discount={item.discount} />
                 )}
-                <ImageCarousel carouselItems={item.url} />
+                <ImageCarousel
+                  carouselItems={item.url.map((url) => ({ uri: url }))}
+                />
               </View>
             </Surface>
           </TouchableWithoutFeedback>
@@ -131,7 +133,12 @@ export default class ItemDetailsScreen extends React.Component {
           >
             <Text style={{ fontSize: 16 }}>Size:</Text>
             <SizeDropDown
-              sizes={item.sizes}
+              labelField="size"
+              contentField="price"
+              sizes={item.sizes.map((size) => ({
+                size: size.size,
+                price: toCurrencyString(size.price),
+              }))}
               onSizeChange={this.sizeChange}
               selectedSize={this.state.selectedSize}
             />

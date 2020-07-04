@@ -5,10 +5,7 @@ import { CustomPicker } from "react-native-custom-picker";
 import { secondaryColor, primaryColor } from "../../appStyles";
 import { MaterialCommunityIcons as Icons } from "react-native-vector-icons";
 
-const toCurrencyString = (number) => {
-  return `\u20B9 ${number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}`;
-};
-export default class SizeDropDown extends Component {
+export default class CustomDropDown extends Component {
   renderField(settings) {
     const { selectedItem, defaultText, getLabel, clear } = settings;
     return (
@@ -34,7 +31,7 @@ export default class SizeDropDown extends Component {
       </View>
     );
   }
-  renderHeader() {
+  renderHeader = () => {
     return (
       <View
         style={{
@@ -46,22 +43,24 @@ export default class SizeDropDown extends Component {
       >
         <View style={{ flexDirection: "row" }}>
           <Text style={{ flex: 1, color: primaryColor, fontWeight: "bold" }}>
-            Size
+            {this.props.labelField}
           </Text>
-          <Text
-            style={{
-              color: secondaryColor,
-              marginRight: 50,
-              fontWeight: "bold",
-            }}
-          >
-            Price
-          </Text>
+          {this.props.contentField && (
+            <Text
+              style={{
+                color: secondaryColor,
+                marginRight: 50,
+                fontWeight: "bold",
+              }}
+            >
+              {this.props.contentField}
+            </Text>
+          )}
         </View>
       </View>
     );
-  }
-  renderOption(settings) {
+  };
+  renderOption = (settings) => {
     const { item, getLabel } = settings;
     return (
       <View
@@ -75,13 +74,15 @@ export default class SizeDropDown extends Component {
       >
         <View style={{ flexDirection: "row" }}>
           <Text style={{ flex: 1, color: primaryColor }}>{getLabel(item)}</Text>
-          <Text
-            style={{ color: secondaryColor, marginRight: 10 }}
-          >{`${toCurrencyString(item.price)}`}</Text>
+          {this.props.contentField && (
+            <Text style={{ color: secondaryColor, marginRight: 10 }}>
+              {item[this.props.contentField]}
+            </Text>
+          )}
         </View>
       </View>
     );
-  }
+  };
   render() {
     return (
       <View
@@ -92,7 +93,7 @@ export default class SizeDropDown extends Component {
         }}
       >
         <CustomPicker
-          getLabel={(item) => item.size}
+          getLabel={(item) => item[this.props.labelField]}
           placeholder={"Select Size"}
           options={this.props.sizes}
           fieldTemplate={this.renderField}
