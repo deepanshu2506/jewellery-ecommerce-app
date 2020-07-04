@@ -135,7 +135,7 @@ export default class ItemDetailsScreen extends React.Component {
             <SizeDropDown
               labelField="size"
               contentField="price"
-              sizes={item.sizes.map((size) => ({
+              data={item.sizes.map((size) => ({
                 size: size.size,
                 price: toCurrencyString(size.price),
               }))}

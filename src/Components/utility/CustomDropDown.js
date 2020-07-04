@@ -95,7 +95,7 @@ export default class CustomDropDown extends Component {
         <CustomPicker
           getLabel={(item) => item[this.props.labelField]}
           placeholder={"Select Size"}
-          options={this.props.sizes}
+          options={this.props.data}
           fieldTemplate={this.renderField}
           optionTemplate={this.renderOption}
           maxHeight={350}
