@@ -20,15 +20,13 @@ import ZoomHandler from "./ZoomHandler";
 
 // import img from "../../res/earring1.jpg";
 
-const screenWidth = Math.round(Dimensions.get("window").width);
-
 export default class ImageCarousel extends Component {
   state = { activeIndex: 0 };
 
   _renderItem = ({ item, index }, parallexProps) => {
     return (
       <View style={{ height: "100%" }}>
-        <ZoomHandler source={{ uri: item }} />
+        <ZoomHandler source={item} />
         {/* <Image source={img} style={{ width: "100%", height: "100%" }} /> */}
       </View>
     );
@@ -36,7 +34,7 @@ export default class ImageCarousel extends Component {
 
   render() {
     return (
-      <Surface style={styles.carouselContainer}>
+      <View>
         <Carousel
           ref={(c) => {
             this._carousel = c;
@@ -44,13 +42,10 @@ export default class ImageCarousel extends Component {
           containerCustomStyle={styles.carousel}
           data={this.props.carouselItems}
           renderItem={this._renderItem}
-          sliderWidth={300}
-          loop={true}
-          itemWidth={300}
+          sliderWidth={350}
+          itemWidth={350}
           onBeforeSnapToItem={(index) => this.setState({ activeIndex: index })}
           lockScrollWhileSnapping
-          autoplay
-          autoplayDelay={1000}
         />
         <Pagination
           dotsLength={this.props.carouselItems.length}
@@ -58,8 +53,9 @@ export default class ImageCarousel extends Component {
           dotStyle={styles.paginationDotStyle}
           inactiveDotOpacity={0.4}
           inactiveDotScale={0.6}
+          containerStyle={{ paddingVertical: 10 }}
         />
-      </Surface>
+      </View>
     );
   }
 }
@@ -72,10 +68,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     // elevation: 2,
     width: "100%",
-    height: 350,
+    height: "100%",
     alignItems: "center",
-  },
-  carousel: {
-    marginTop: 30,
   },
 });
