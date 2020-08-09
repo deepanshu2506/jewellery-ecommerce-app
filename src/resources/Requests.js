@@ -18,6 +18,7 @@ export const get = (api, params = {}, headers = {}) => {
     fetch(url, options)
       .then((res) => res.json())
       .then((res) => {
+        console.log(res);
         if (res.code == 1) {
           resolve(res.data);
         } else {

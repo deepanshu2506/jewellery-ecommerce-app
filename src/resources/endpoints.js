@@ -32,5 +32,7 @@ export const googleLoginApi = host + "/api/googleSignIn";
 export const addTowishListApi = host + "/api/wishlist/add";
 export const removeFromWishListApi = host + "/api/wishlist/delete";
 export const generateInvoice = host + "/api/orders/sendInvoice";
+export const getCustomDesigns = host + "/api/custom/designs";
+export const getDesignData = host + "/api/desi";
 
 export const getOrderDetailsApi = (orderId) => `${host}/api/orders/${orderId}`;

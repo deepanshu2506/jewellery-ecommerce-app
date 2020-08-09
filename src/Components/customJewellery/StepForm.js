@@ -8,12 +8,14 @@ import DesignList from "./DesignList";
 import ImageCarousel from "../itemDetailsScreen/ImageCarousel";
 import img from "../../res/necklace.png";
 import DropDown from "../utility/CustomDropDown";
+import DesignDetails from "./DesignDetails";
 
 const { width } = Dimensions.get("window");
 
 export default class StepForm extends Component {
   state = {
-    selectedDesignIndex: -1,
+    selectedDesignIndex: "",
+    itemImages: [],
     errors: { designSelectError: false },
   };
 
@@ -27,18 +29,19 @@ export default class StepForm extends Component {
     disabledStepIconColor: "#999",
     disabledStepIconBorderColor: "#999",
     labelColor: "#999",
-    activeStep: 1,
+    activeStep: 0,
   };
 
-  _selectDesign = (index) => {
+  _selectDesign = (id, images) => {
     this.setState({
-      selectedDesignIndex: index,
+      selectedDesignIndex: id,
+      itemImages: images,
       errors: { designSelectError: false },
     });
   };
 
   _blockDesign = () => {
-    if (this.state.selectedDesignIndex == -1) {
+    if (this.state.selectedDesignIndex == "") {
       this.setState({ errors: { designSelectError: true } });
       Alert.alert("Error", "No design is Selected");
     }
@@ -71,78 +74,10 @@ export default class StepForm extends Component {
           previousBtnStyle={styles.prevBtnStyle}
           previousBtnTextStyle={styles.prevBtnTextStyle}
         >
-          <View style={{ paddingHorizontal: 10 }}>
-            <Title style={{ alignSelf: "center" }}>CUSTOMIZE</Title>
-            <View style={{ width: "100%" }}>
-              <Surface style={styles.carouselContainer}>
-                <ImageCarousel carouselItems={[img, img]} />
-              </Surface>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 16 }}>Size:</Text>
-              <DropDown
-                labelField="size"
-                data={[1, 2, 3, 4].map((size) => ({
-                  size: size,
-                }))}
-                onSizeChange={this.sizeChange}
-                selectedSize={this.state.selectedSize}
-              />
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 16 }}>Size:</Text>
-              <DropDown
-                labelField="size"
-                data={[1, 2, 3, 4].map((size) => ({
-                  size: size,
-                }))}
-                onSizeChange={this.sizeChange}
-                selectedSize={this.state.selectedSize}
-              />
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 16 }}>Size:</Text>
-              <DropDown
-                labelField="size"
-                data={[1, 2, 3, 4].map((size) => ({
-                  size: size,
-                }))}
-                onSizeChange={this.sizeChange}
-                selectedSize={this.state.selectedSize}
-              />
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 16 }}>Size:</Text>
-              <DropDown
-                labelField="size"
-                data={[1, 2, 3, 4].map((size) => ({
-                  size: size,
-                }))}
-                onSizeChange={this.sizeChange}
-                selectedSize={this.state.selectedSize}
-              />
-            </View>
-          </View>
+          <DesignDetails
+            designId={this.state.selectedDesignIndex}
+            itemImages={this.state.itemImages}
+          />
         </ProgressStep>
         <ProgressStep
           label="Review"

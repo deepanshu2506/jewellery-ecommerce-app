@@ -4,29 +4,50 @@ import { Text, Title, TouchableRipple } from "react-native-paper";
 import { secondaryColor, primaryColor } from "../../appStyles";
 
 import img from "../../res/necklace.png";
+import Loader from "../utility/LoaderDialog";
+import { get } from "../../resources/Requests";
+import { getCustomDesigns } from "../../resources/endpoints";
 
 export default class DesignList extends Component {
+  state = { loading: false, designList: [] };
+  async componentDidMount() {
+    this.setState({ loading: true });
+    try {
+      const designs = await get(getCustomDesigns);
+      console.log(designs);
+      this.setState({ loading: false, designList: designs });
+    } catch (err) {
+      alert(err);
+      this.setState({ loading: false });
+    }
+  }
+
   render() {
-    return (
+    return !this.state.loading ? (
       <View style={{ paddingHorizontal: 5 }}>
         <Title style={{ alignSelf: "center", marginBottom: 10 }}>
           SELECT DESIGN
         </Title>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-          {[1, 2, 3, 4, 5].map((item, index) => (
+          {this.state.designList.map((item, index) => (
             <View
               style={[
                 styles.designCard,
-                this.props.selectedItem == index && styles.selectedCard,
+                this.props.selectedItem == item._id && styles.selectedCard,
               ]}
             >
               <TouchableRipple
                 rippleColor={primaryColor}
-                onPress={() => this.props.onDesignSelect(index)}
+                onPress={() => this.props.onDesignSelect(item._id, item.images)}
               >
                 <View style={styles.cardView}>
                   <View style={styles.imageView}>
-                    <Image style={styles.image} source={img} />
+                    <Image
+                      style={styles.image}
+                      source={
+                        item.images.length > 0 ? { uri: item.images[0] } : img
+                      }
+                    />
                   </View>
                   <Text style={styles.designName}>Design Name</Text>
                 </View>
@@ -35,6 +56,8 @@ export default class DesignList extends Component {
           ))}
         </View>
       </View>
+    ) : (
+      <Loader />
     );
   }
 }
