@@ -7,17 +7,24 @@ import img from "../../res/necklace.png";
 import DropDown from "../utility/CustomDropDown";
 import Loader from "../utility/LoaderDialog";
 import { get } from "../../resources/Requests";
+import { getGemCategories } from "../../resources/endpoints";
 
 const { width } = Dimensions.get("window");
 
 export default class DesignDetails extends Component {
-  state = { selectedSize: "", loading: false };
-  //   componentDidMount() {
-  //     try {
-  //       const designData = get();
-  //     }
-  //   }
+  state = { selectedSize: "", gemData: {}, loading: true };
+  async componentDidMount() {
+    try {
+      const gemData = await get(getGemCategories);
+      console.log(gemData);
+      this.setState({ gemData, loading: false });
+    } catch (err) {
+      alert(err);
+      this.setState({ loading: false });
+    }
+  }
   render() {
+    console.log(this.state.gemData);
     return !this.state.loading ? (
       <View style={{ paddingHorizontal: 10 }}>
         <Title style={{ alignSelf: "center" }}>CUSTOMIZE</Title>
@@ -32,70 +39,26 @@ export default class DesignDetails extends Component {
             />
           </Surface>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>Size:</Text>
-          <DropDown
-            labelField="size"
-            data={[1, 2, 3, 4].map((size) => ({
-              size: size,
-            }))}
-            onSizeChange={this.sizeChange}
-            selectedSize={this.state.selectedSize}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>Size:</Text>
-          <DropDown
-            labelField="size"
-            data={[1, 2, 3, 4].map((size) => ({
-              size: size,
-            }))}
-            onSizeChange={this.sizeChange}
-            selectedSize={this.state.selectedSize}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>Size:</Text>
-          <DropDown
-            labelField="size"
-            data={[1, 2, 3, 4].map((size) => ({
-              size: size,
-            }))}
-            onSizeChange={this.sizeChange}
-            selectedSize={this.state.selectedSize}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>Size:</Text>
-          <DropDown
-            labelField="size"
-            data={[1, 2, 3, 4].map((size) => ({
-              size: size,
-            }))}
-            onSizeChange={this.sizeChange}
-            selectedSize={this.state.selectedSize}
-          />
-        </View>
+        {Object.keys(this.state.gemData).map((key) => (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <View style={{ width: 60 }}>
+              <Text style={{ fontSize: 16 }}>{`${key}:`}</Text>
+            </View>
+            <DropDown
+              labelField={key}
+              data={this.state.gemData[key].map((item) => ({
+                [key]: item,
+              }))}
+              onSizeChange={this.sizeChange}
+              selectedSize={this.state.selectedSize}
+            />
+          </View>
+        ))}
       </View>
     ) : (
       <Loader />
