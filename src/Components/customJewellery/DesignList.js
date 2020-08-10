@@ -49,7 +49,7 @@ export default class DesignList extends Component {
                       }
                     />
                   </View>
-                  <Text style={styles.designName}>Design Name</Text>
+                  <Text style={styles.designName}>{item.name}</Text>
                 </View>
               </TouchableRipple>
             </View>
@@ -57,7 +57,7 @@ export default class DesignList extends Component {
         </View>
       </View>
     ) : (
-      <Loader />
+      <Loader visible={this.state.loading} />
     );
   }
 }

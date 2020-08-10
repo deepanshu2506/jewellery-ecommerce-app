@@ -32,6 +32,7 @@ export default class DesignDetails extends Component {
     loading: true,
     diamondFilters: {},
     diamonds: [],
+    ajaxLoading: false,
   };
   async componentDidMount() {
     try {
@@ -55,10 +56,17 @@ export default class DesignDetails extends Component {
   };
   searchDiamonds = async () => {
     try {
-      console.log(this.state.diamondFilters);
+      this.setState({ ajaxLoading: true });
       const diamonds = await get(searchDiamondsApi, this.state.diamondFilters);
 
-      this.setState({ loading: false, diamonds });
+      this.setState({ ajaxLoading: false, diamonds }, () => {
+        console.log(this.scrollPosition);
+        this.props.scrollViewRef.current.scrollTo({
+          x: this.scrollPosition,
+          y: this.scrollPosition,
+          animated: true,
+        });
+      });
     } catch (err) {
       this.setState({ loading: false });
     }
@@ -71,11 +79,13 @@ export default class DesignDetails extends Component {
           {
             marginVertical: 10,
             padding: 10,
-            elevation: 2,
+            // elevation: 2,
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: "#ccc",
           },
           this.props.selectedDiamond == diamond._id && {
             borderColor: secondaryColor,
-            borderWidth: 1,
           },
         ]}
         key={diamond._id}
@@ -103,7 +113,15 @@ export default class DesignDetails extends Component {
                 style={{ color: "#777" }}
               >{`Polish: ${diamond.polish}`}</Text>
             </View>
-            <View>
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text
+                style={{ fontSize: 20, marginBottom: 10 }}
+              >{`Rs.${diamond.netValue}/-`}</Text>
               <Button
                 mode="contained"
                 color={secondaryColor}
@@ -119,9 +137,9 @@ export default class DesignDetails extends Component {
     );
   };
   render() {
-    console.log(this.state.diamonds.length);
     return !this.state.loading ? (
       <View style={{ paddingHorizontal: 10 }}>
+        <Loader visible={this.state.ajaxLoading} />
         <Title style={{ alignSelf: "center" }}>CUSTOMIZE</Title>
         <View style={{ width: "100%" }}>
           <Surface style={styles.carouselContainer}>
@@ -165,6 +183,9 @@ export default class DesignDetails extends Component {
           color={secondaryColor}
           labelStyle={{ color: "white" }}
           onPress={this.searchDiamonds}
+          onLayout={(event) => {
+            this.scrollPosition = event.nativeEvent.layout.y;
+          }}
         >
           Search Diamonds
         </Button>
@@ -177,7 +198,7 @@ export default class DesignDetails extends Component {
         {/* {this.state.diamonds.map((diamond) => } */}
       </View>
     ) : (
-      <Loader />
+      <Loader visible={this.state.loading} />
     );
   }
 }

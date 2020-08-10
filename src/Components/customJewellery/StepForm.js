@@ -7,6 +7,7 @@ import { secondaryColor, primaryColor } from "../../appStyles";
 import DesignList from "./DesignList";
 
 import DesignDetails from "./DesignDetails";
+import ReviewDesign from "./ReviewDesign";
 
 const { width } = Dimensions.get("window");
 
@@ -38,6 +39,7 @@ export default class StepForm extends Component {
       errors: { designSelectError: false },
     });
   };
+  gemselectRef = React.createRef();
 
   _selectDiamond = (id) => {
     this.setState({ selectedDiamond: id, errors: { gemSelectError: false } });
@@ -88,6 +90,7 @@ export default class StepForm extends Component {
           previousBtnStyle={styles.prevBtnStyle}
           previousBtnTextStyle={styles.prevBtnTextStyle}
           onNext={this._blockGem}
+          ref={this.gemselectRef}
         >
           <DesignDetails
             designId={this.state.selectedDesignIndex}
@@ -95,6 +98,7 @@ export default class StepForm extends Component {
             onSelect={this._selectDiamond}
             selectedDiamond={this.state.selectedDiamond}
             clearGemSelection={this._clearGemSelection}
+            scrollViewRef={this.gemselectRef}
           />
         </ProgressStep>
         <ProgressStep
@@ -106,11 +110,11 @@ export default class StepForm extends Component {
           previousBtnStyle={styles.prevBtnStyle}
           previousBtnTextStyle={styles.prevBtnTextStyle}
         >
-          <View style={{ paddingHorizontal: 10 }}>
-            <View style={{ width: "100%" }}>
-              <Text>fslkg</Text>
-            </View>
-          </View>
+          <ReviewDesign
+            designId={this.state.selectedDesignIndex}
+            itemImages={this.state.itemImages}
+            gemId={this.state.selectedDiamond}
+          />
         </ProgressStep>
       </ProgressSteps>
     );
