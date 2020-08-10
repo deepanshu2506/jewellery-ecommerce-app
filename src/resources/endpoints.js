@@ -34,5 +34,6 @@ export const removeFromWishListApi = host + "/api/wishlist/delete";
 export const generateInvoice = host + "/api/orders/sendInvoice";
 export const getCustomDesigns = host + "/api/custom/designs";
 export const getGemCategories = host + "/api/custom/gemDetails";
+export const searchDiamondsApi = host + "/api/custom/searchDiamonds";
 
 export const getOrderDetailsApi = (orderId) => `${host}/api/orders/${orderId}`;

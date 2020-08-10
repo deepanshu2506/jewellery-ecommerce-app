@@ -5,9 +5,7 @@ import { ProgressSteps, ProgressStep } from "../utility/ProgressSteps/index";
 import { secondaryColor, primaryColor } from "../../appStyles";
 
 import DesignList from "./DesignList";
-import ImageCarousel from "../itemDetailsScreen/ImageCarousel";
-import img from "../../res/necklace.png";
-import DropDown from "../utility/CustomDropDown";
+
 import DesignDetails from "./DesignDetails";
 
 const { width } = Dimensions.get("window");
@@ -15,8 +13,9 @@ const { width } = Dimensions.get("window");
 export default class StepForm extends Component {
   state = {
     selectedDesignIndex: "",
+    selectedDiamond: "",
     itemImages: [],
-    errors: { designSelectError: false },
+    errors: { designSelectError: false, gemSelectError: false },
   };
 
   ProgressStepsProps = {
@@ -40,11 +39,25 @@ export default class StepForm extends Component {
     });
   };
 
+  _selectDiamond = (id) => {
+    this.setState({ selectedDiamond: id, errors: { gemSelectError: false } });
+  };
+
   _blockDesign = () => {
     if (this.state.selectedDesignIndex == "") {
       this.setState({ errors: { designSelectError: true } });
       Alert.alert("Error", "No design is Selected");
     }
+  };
+
+  _blockGem = () => {
+    if (this.state.selectedDiamond == "") {
+      this.setState({ errors: { gemSelectError: true } });
+      Alert.alert("Error", "No gem is Selected");
+    }
+  };
+  _clearGemSelection = () => {
+    this.setState({ selectedDiamond: "" });
   };
   render() {
     return (
@@ -69,14 +82,19 @@ export default class StepForm extends Component {
           label="customize"
           previousBtnText="Change Design"
           nextBtnText="Review Design"
+          errors={this.state.errors.gemSelectError}
           nextBtnStyle={styles.nextBtnStyle}
           nextBtnTextStyle={styles.nextBtnTextStyle}
           previousBtnStyle={styles.prevBtnStyle}
           previousBtnTextStyle={styles.prevBtnTextStyle}
+          onNext={this._blockGem}
         >
           <DesignDetails
             designId={this.state.selectedDesignIndex}
             itemImages={this.state.itemImages}
+            onSelect={this._selectDiamond}
+            selectedDiamond={this.state.selectedDiamond}
+            clearGemSelection={this._clearGemSelection}
           />
         </ProgressStep>
         <ProgressStep
