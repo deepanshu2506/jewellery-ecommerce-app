@@ -36,4 +36,7 @@ export const getCustomDesigns = host + "/api/custom/designs";
 export const getGemCategories = host + "/api/custom/gemDetails";
 export const searchDiamondsApi = host + "/api/custom/searchDiamonds";
 
+export const getCustomProductDetailsApi = (designId, gemId) =>
+  `${host}/api/custom/design/${designId}/diamond/${gemId}`;
+
 export const getOrderDetailsApi = (orderId) => `${host}/api/orders/${orderId}`;
